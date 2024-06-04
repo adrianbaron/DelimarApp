@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "4071498044",
+    "firebase_url": "https://delmarapp-cfeed-default-rtdb.firebaseio.com",
+    "project_id": "delmarapp-cfeed",
+    "storage_bucket": "delmarapp-cfeed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:4071498044:android:6333025b1bbf6c89befe39",
+        "android_client_info": {
+          "package_name": "com.unicesar.app_delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "4071498044-dugm8h8l3n3f9k89d5qk8gq11pj96tgn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unicesar.app_delivery",
+            "certificate_hash": "b93fd7bef6fd5794769c955db797fad589adb3c3"
+          }
+        },
+        {
+          "client_id": "4071498044-hi5kh5q1et6botaem6r09vm7sjhhll69.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpxYSX66syMn3nfom10BeDEU-hH1P2acQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "4071498044-hi5kh5q1et6botaem6r09vm7sjhhll69.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
