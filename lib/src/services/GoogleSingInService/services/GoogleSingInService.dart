@@ -8,25 +8,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class DefaultGoogleSignInService extends GoolgleSignInService {
-  final String _path = "users/";
+  final RealtimeDataBaseService _realtimeDataBaseService;
+  String _path = "users/";
 
-  //DEPENDENCIA
-  final RealtimeDataBaseService _realTimeDataBaseService;
-
-  DefaultGoogleSignInService({RealtimeDataBaseService? realTimeDataBaseService})
-      : _realTimeDataBaseService =
-            realTimeDataBaseService ?? DefaultRealtimeDatabaseService();
-
-  @override
-  Future<bool> isUserInDatabase({required String uid}) async {
-    final fullPath = _path + uid;
-    try {
-      final result = await _realTimeDataBaseService.getData(path: fullPath);
-      return result.isNotEmpty;
-    } on Failure catch (f) {
-      return false;
-    }
-  }
+  // Dependencies
+  DefaultGoogleSignInService({RealtimeDataBaseService? realtimeDataBaseService})
+      : _realtimeDataBaseService =
+            realtimeDataBaseService ?? DefaultRealtimeDatabaseService();
 
   @override
   Future<GoogleSignInUserEntity> signInWithGoogle() async {
@@ -48,5 +36,16 @@ class DefaultGoogleSignInService extends GoolgleSignInService {
         await FirebaseAuth.instance.signInWithCredential(credential);
     return GoogleSignInMapper.mapUserCredential(
         userCredential, googleAuth?.idToken ?? "");
+  }
+
+  @override
+  Future<bool> isUserInDatabase({required String uid}) async {
+    final fullpath = _path + uid;
+    try {
+      final result = await _realtimeDataBaseService.getData(path: fullpath);
+      return result.isNotEmpty;
+    } on Failure catch (f) {
+      return false;
+    }
   }
 }

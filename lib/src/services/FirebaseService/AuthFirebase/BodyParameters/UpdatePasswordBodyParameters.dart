@@ -1,25 +1,27 @@
 import 'dart:convert';
 
-UpdatePasswordBodyParameters updatePasswordBodyParametersFromJson(String str) => UpdatePasswordBodyParameters.fromJson(json.decode(str));
-
-String updatePasswordBodyParametersToJson(UpdatePasswordBodyParameters data) => json.encode(data.toJson());
-
 class UpdatePasswordBodyParameters {
-    String email;
-    String requestType;
+  UpdatePasswordBodyParameters({
+    required this.requestType,
+    required this.email,
+  });
 
-    UpdatePasswordBodyParameters({
-        required this.email,
-        required this.requestType,
-    });
+  String requestType;
+  String email;
 
-    factory UpdatePasswordBodyParameters.fromJson(Map<String, dynamic> json) => UpdatePasswordBodyParameters(
-        email: json["email"],
+  factory UpdatePasswordBodyParameters.fromJson(String str) =>
+      UpdatePasswordBodyParameters.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory UpdatePasswordBodyParameters.fromMap(Map<String, dynamic> json) =>
+      UpdatePasswordBodyParameters(
         requestType: json["requestType"],
-    );
+        email: json["email"],
+      );
 
-    Map<String, dynamic> toJson() => {
-        "email": email,
+  Map<String, dynamic> toMap() => {
         "requestType": requestType,
-    };
+        "email": email,
+      };
 }

@@ -1,16 +1,38 @@
+import 'package:app_delivery/src/colors/colors.dart';
 import 'package:flutter/material.dart';
 
 const borderRadius = BorderRadius.all(Radius.circular(20));
-const boxShadows = [BoxShadow(
-    color: Color.fromRGBO(210, 211, 215, 1.0),
-    offset: Offset(0, 5),
-    blurRadius: 10.0)];
+const boxShadows = [
+  BoxShadow(
+      color: Color.fromRGBO(210, 211, 215, 1.0),
+      offset: Offset(0, 5),
+      blurRadius: 10.0)
+];
+
+BorderSide defaultBorderSide = BorderSide(color: orange);
+
+const BorderSide borderSideTextFieldError = BorderSide(color: Colors.red);
+
+Decoration? defaultTextFieldDecoration = BoxDecoration(
+    borderRadius: const BorderRadius.all(Radius.circular(8)),
+    border: Border(
+        top: defaultBorderSide,
+        left: defaultBorderSide,
+        bottom: defaultBorderSide,
+        right: defaultBorderSide));
+
+const Decoration? errorTextFieldDecoration = BoxDecoration(
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+    border: Border(
+        top: borderSideTextFieldError,
+        left: borderSideTextFieldError,
+        bottom: borderSideTextFieldError,
+        right: borderSideTextFieldError));
 
 Decoration getBoxDecorationWithShadow(
     {BorderRadiusGeometry borderRadius = borderRadius,
     Color containerColor = Colors.white,
-    List<BoxShadow> boxShadows = boxShadows
-    }) {
+    List<BoxShadow> boxShadows = boxShadows}) {
   return BoxDecoration(
       borderRadius: borderRadius, color: containerColor, boxShadow: boxShadows);
 }

@@ -5,13 +5,20 @@ import 'package:app_delivery/src/features/presentacion/StateProviders/LoadingSta
 import 'package:flutter/material.dart';
 
 mixin BaseView {
-  final MainCoordinator coordinator = MainCoordinator();
   final Widget loadingView = const LoadingView();
+  final MainCoordinator coordinator = MainCoordinator();
   final ErrorStateProvider errorStateProvider = ErrorStateProvider();
+  BaseViewStateDelegate? viewStateDelegate;
 }
+
+abstract class BaseViewStateDelegate {
+  void onChange();
+}
+
 mixin BaseViewModel {
-  late LoadingStateProvider loadingState;
-  void initState({required LoadingStateProvider loadingStateProvider});
+  void initState({ required LoadingStateProvider loadingState });
+  // Exposed Properties
+  late LoadingStateProvider loadingStatusState;
 }
 
 

@@ -27,7 +27,7 @@ class FavouriteTabContentView extends StatelessWidget {
         SliverList(
             delegate: SliverChildListDelegate([
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
             child: PlaceListCarrusel(
                 placeList: placeList,
                 isShortedVisualization: false,

@@ -5,7 +5,7 @@ import 'package:app_delivery/src/features/logica/Entidades/User/UserEntity.dart'
 import 'package:app_delivery/src/features/presentacion/StateProviders/ErrorStateProvider.dart';
 import 'package:app_delivery/src/features/presentacion/StateProviders/LoadingStatusStateProvider.dart';
 import 'package:app_delivery/src/features/presentacion/StateProviders/user_state_provider.dart';
-import 'package:app_delivery/src/features/presentacion/profile_detail_page/view/components/avatar_profile_view.dart';
+import 'package:app_delivery/src/features/presentacion/Profile/profile_detail_page/view/components/avatar_profile_view.dart';
 import 'package:app_delivery/src/features/presentacion/widgets/BackBoton/back_button.dart';
 
 import 'package:app_delivery/src/features/presentacion/widgets/Headers/text_view.dart';
@@ -77,7 +77,8 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
 
   PreferredSizeWidget? _appBar({required String text}) {
     return AppBar(
-      title: const TextView(texto: 'Profile', fontSize: 17),
+      title: const TextView(texto: 'Mi informacion', fontSize: 17),
+      centerTitle: true,
       backgroundColor: Colors.white,
       elevation: 0.4,
       leading: Builder(

@@ -8,31 +8,29 @@ import 'package:app_delivery/src/features/data/Interfaces/interfaces.dart';
 import 'package:app_delivery/src/utils/helpers/ResultType/resultType.dart';
 
 abstract class SingInUseCase {
-  Future<Result<SingInEntity, Failure>> execute(
-      {required SingInUseCaseBodyParameters params});
+  Future<Result<SingInEntity, Failure>> execute({ required SignInUseCaseParameters params });
 }
 
-class DefaultSingInUseCase extends SingInUseCase {
-  //DEPENDENCIA
-  final SingInRepository _singInRepository;
-  DefaultSingInUseCase({SingInRepository? singInRepository})
-      : _singInRepository = singInRepository ?? DefaultSingInRepository();
+class DefaultSignInUseCase extends SingInUseCase {
+   
+  // * Dependencies
+  final SingInRepository _signInRepository;
+
+  DefaultSignInUseCase({ SingInRepository? signInRepository }) : _signInRepository = signInRepository ?? DefaultSingInRepository();
+
   @override
-  Future<Result<SingInEntity, Failure>> execute(
-      {required SingInUseCaseBodyParameters params}) {
-    return _singInRepository
-        .singIn(
-            params: SingInBodyParameters(
-                email: params.email, password: params.password))
+  Future<Result<SingInEntity, Failure>> execute({ required SignInUseCaseParameters params }) {
+    return _signInRepository
+        .singIn(params: SingInBodyParameters(email: params.email, password: params.password))
         .then((result) {
       switch (result.status) {
         case ResultStatus.success:
+          // Null Check
           if (result.value == null) {
-            return Result.failure(Failure.fromMessage(
-                message: AppFailureMessages.unExpectedErrorMessage));
+            return Result.failure(
+                Failure.fromMessage(message: AppFailureMessages.unExpectedErrorMessage));
           }
-          var entity = SingInEntity.fromJson(result.value!.toJson());
-          return Result.succes(entity);
+          return Result.succes(SingInEntity.fromJson(result.value!.toJson()));
         case ResultStatus.error:
           return Result.failure(result.error);
       }

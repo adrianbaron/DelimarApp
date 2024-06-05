@@ -21,8 +21,8 @@ class TextFormFieldEmailUpdatePassword extends StatelessWidget {
             hintText: "Email",
             border: OutlineInputBorder(borderSide: BorderSide.none)),
         validator: (value) =>
-            EmailFromValidator.validateEmail(email: value ?? ""),
-            onChanged: (NewValue) => viewModel.email = NewValue,
+            EmailFormValidator.validateEmail(email: value ?? ""),
+        onChanged: (NewValue) => viewModel.email = NewValue,
       ),
     );
   }

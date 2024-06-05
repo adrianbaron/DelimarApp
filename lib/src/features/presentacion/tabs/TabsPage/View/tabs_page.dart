@@ -22,24 +22,23 @@ class TabsPage extends StatefulWidget {
 }
 
 class _TabsPageState extends State<TabsPage> with BaseView {
-  //DEPENDENCIA
-  final TabsPageViewModel viewModel;
-
-  _TabsPageState({TabsPageViewModel? tabsViewModel})
-      : viewModel = tabsViewModel ?? DefaultTabsPageViewModel();
+  // Dependencies
+  final TabsViewModel _viewModel;
+  _TabsPageState({TabsViewModel? tabsViewModel})
+      : _viewModel = tabsViewModel ?? DefaultTabsViewModel();
 
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      viewModel.loadingState.setLoadingState(isLoading: true);
+      _viewModel.loadingStatusState.setLoadingState(isLoading: true);
       final LocationPermissionStatus currentStatus =
-          await viewModel.getPermisionStatus();
+          await _viewModel.getPermissionStatus();
       switch (currentStatus) {
         case LocationPermissionStatus.denied:
           _getCurrentPosition(context);
         default:
-          viewModel.loadingState.setLoadingState(isLoading: false);
+          _viewModel.loadingStatusState.setLoadingState(isLoading: false);
           break;
       }
       _getCurrentPosition(context);
@@ -57,9 +56,9 @@ class _TabsPageState extends State<TabsPage> with BaseView {
 
   @override
   Widget build(BuildContext context) {
-    viewModel.initState(
-        loadingStateProvider: Provider.of<LoadingStateProvider>(context));
-    return viewModel.loadingState.isLoading
+    _viewModel.initState(
+        loadingState: Provider.of<LoadingStateProvider>(context));
+    return _viewModel.loadingStatusState.isLoading
         ? loadingView
         : Scaffold(
             body: widgetOptions.elementAt(_selectedIndex),
@@ -100,11 +99,12 @@ extension PrivateMethods on _TabsPageState {
             color: orange,
             func: () {
               //_closeAlertDialog(context);
-              viewModel.getCurrentPosition().then((result) {
+              _viewModel.getCurrentPosition().then((result) {
                 switch (result.status) {
                   case ResultStatus.success:
                     _closeAlertDialog(context);
-                    viewModel.loadingState.setLoadingState(isLoading: false);
+                    _viewModel.loadingStatusState
+                        .setLoadingState(isLoading: false);
                   case ResultStatus.error:
                     _closeAlertDialog(context);
                     errorStateProvider.setFailure(
@@ -115,7 +115,7 @@ extension PrivateMethods on _TabsPageState {
   }
 
   _closeAlertDialog(BuildContext context) {
-    viewModel.loadingState.setLoadingState(isLoading: false);
+    _viewModel.loadingStatusState.setLoadingState(isLoading: false);
     Navigator.pop(context);
   }
 }

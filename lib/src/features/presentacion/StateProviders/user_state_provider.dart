@@ -53,6 +53,7 @@ class DefaultUserStateProvider extends ChangeNotifier
           if (result.value == null) {
             return Future.error(AppFailureMessages.unExpectedErrorMessage);
           }
+          userData = result.value;
           return result.value!;
         case ResultStatus.error:
           if (userData != null) {

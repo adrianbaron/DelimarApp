@@ -1,6 +1,6 @@
 import 'package:app_delivery/src/Base/APIservice/AppError.dart';
 import 'package:app_delivery/src/features/data/Interfaces/interfaces.dart';
-import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/AuthFirebaseInterface.dart';
+import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/Interfaces/AuthFirebaseInterface.dart';
 import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/Decorable/UpdatePasswordDecorable.dart';
 import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/Services/UpdatePasswordUserService.dart';
 import 'package:app_delivery/src/utils/helpers/ResultType/resultType.dart';

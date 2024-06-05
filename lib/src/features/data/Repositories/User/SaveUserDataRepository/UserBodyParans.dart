@@ -10,7 +10,8 @@ class UserBodyParameters {
       this.photo,
       this.shippingAddress,
       this.billingAddress,
-      this.idToken});
+      this.idToken,
+      this.provider});
 
   String? localId;
   String? role;
@@ -23,6 +24,7 @@ class UserBodyParameters {
   String? shippingAddress;
   String? billingAddress;
   String? idToken;
+  String? provider;
 
   Map<String, dynamic> toMap() => {
         "localId": localId,
@@ -35,6 +37,8 @@ class UserBodyParameters {
         "photo": photo,
         "shippingAddress": shippingAddress,
         "billingAddress": billingAddress,
-        "idToken": billingAddress == null ? null : idToken
+        "idToken": idToken == null ? null : idToken,
+        "provider": provider == null ? null : provider,
+
       };
 }

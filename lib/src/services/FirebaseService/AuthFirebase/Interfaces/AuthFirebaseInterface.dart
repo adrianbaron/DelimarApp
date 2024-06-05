@@ -8,6 +8,7 @@ abstract class BaseFirebaseService {
   static String iniciarSesion = "accounts:signInWithPassword?key=";
   static String updatePasswordEnpoint = "accounts:signInWithCustomToken?key=";
   static String getUserDataEnpoint = "accounts:lookup?key=";
+  static String updateEmailEndpoint = "accounts:update?key=";
 }
 
 abstract class SingUpService extends BaseFirebaseService {
@@ -26,14 +27,25 @@ abstract class SingInService extends BaseFirebaseService {
 
   Future<Map<String, dynamic>> signIn(
       {required Map<String, dynamic> bodyParameters});
+
+  Future<String> getIdToken({required Map<String, dynamic> bodyParameters});
 }
 
 abstract class UpdatePasswordUserService extends BaseFirebaseService {
-  String enpoint = BaseFirebaseService.baseUrl +
+  String endpoint = BaseFirebaseService.baseUrl +
       BaseFirebaseService.updatePasswordEnpoint +
       BaseFirebaseService.adminToken;
-
   Future<Map<String, dynamic>> updatePassword({required String email});
+}
+
+abstract class UpdateEmailUserService extends BaseFirebaseService {
+  String endpoint = BaseFirebaseService.baseUrl +
+      BaseFirebaseService.updateEmailEndpoint +
+      BaseFirebaseService.adminToken;
+  Future<Map<String, dynamic>> updateEmail(
+      {required String oldEmail,
+      required String newEmail,
+      required String password});
 }
 
 abstract class GetUserAuthDataService extends BaseFirebaseService {

@@ -11,85 +11,98 @@ import 'package:app_delivery/src/features/presentacion/widgets/TextFormField/Cus
 import 'package:app_delivery/src/utils/helpers/ResultType/resultType.dart';
 import 'package:flutter/material.dart';
 
-abstract class SingUpViewModelInpunt {
-  late TextEditingController dateControler;
+abstract class SignUpViewModelInput {
+  // Exposed Properties
+  SingUpModel? signUpModel = SingUpModel();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late TextEditingController dateController;
   late DateTime selectedDate;
-  SingUpModel? singUpModel = SingUpModel();
-  GlobalKey<FormState> formkey = GlobalKey<FormState>();
-
-  Future<Result<bool, Failure>> singUp();
-  isFormValidate();
+  // Exposed Methods
+  Future<Result<bool, Failure>> signUp();
+  bool isFormValidate();
 }
 
-abstract class SingUpViewModel extends SingUpViewModelInpunt
+abstract class SignUpViewModel extends SignUpViewModelInput
     with TextFormFieldDelegate, BaseViewModel {}
 
-class DefaultSingUpViewModel extends SingUpViewModel {
-  //DEPENDENCIAS
-  final SingUpUseCase _singUpUseCase;
+class DefaultSignUpViewModel extends SignUpViewModel {
+  // UseCases
+  final SingUpUseCase _signUpUseCase;
   final SaveLocalStorageUseCase _saveLocalStorageUseCase;
 
-  DefaultSingUpViewModel(
-      {SingUpUseCase? singUpUseCase,
+  DefaultSignUpViewModel(
+      {SingUpUseCase? signUpUseCase,
       SaveLocalStorageUseCase? saveLocalStorageUseCase})
-      : _singUpUseCase = singUpUseCase ?? DefaultSingUpUseCase(),
+      : _signUpUseCase = signUpUseCase ?? DefaultSingUpUseCase(),
         _saveLocalStorageUseCase =
             saveLocalStorageUseCase ?? DefaultSaveLocalStorageUseCase();
+
+  // Init
   @override
-  void initState({required LoadingStateProvider loadingStateProvider}) {
-    loadingState = loadingStateProvider;
-    dateControler = TextEditingController();
+  void initState({required LoadingStateProvider loadingState}) {
+    loadingStatusState = loadingState;
+    dateController = TextEditingController();
     selectedDate = DateTime.now();
   }
 
+  // User Actions
   @override
-  isFormValidate() {
-    return formkey.currentState?.validate() ?? false;
-  }
+  Future<Result<bool, Failure>> signUp() async {
+    loadingStatusState.setLoadingState(isLoading: true);
 
-  @override
-  Future<Result<bool, Failure>> singUp() {
-    loadingState.setLoadingState(isLoading: true);
-    return _singUpUseCase
+    return _signUpUseCase
         .execute(
             params: SingUpUseCaseParameters(
-                username: singUpModel?.username ?? "",
-                email: singUpModel?.email ?? "",
-                password: singUpModel?.password ?? "",
-                phone: singUpModel?.phone ?? "",
-                date: singUpModel?.date ?? ""))
+                email: signUpModel?.email ?? "",
+                password: signUpModel?.password ?? "",
+                username: signUpModel?.username ?? "",
+                phone: signUpModel?.phone ?? "",
+                date: signUpModel?.date ?? ""))
         .then((result) {
       switch (result.status) {
         case ResultStatus.success:
           _saveLocalStorageUseCase.execute(
-              parameters: SaveLocalStorageParameters(
+              saveLocalParameteres: SaveLocalStorageParameters(
                   key: LocalStorageKeys.idToken,
-                  value: result.value?.idToken ?? ""));
+                  value: result.value?.localId ?? ""));
 
-          loadingState.setLoadingState(isLoading: false);
+          loadingStatusState.setLoadingState(isLoading: false);
           return Result.succes(true);
         case ResultStatus.error:
-          loadingState.setLoadingState(isLoading: false);
+          loadingStatusState.setLoadingState(isLoading: false);
           return Result.failure(result.error);
       }
     });
   }
 
+  // Utils
   @override
-  onChange(
+  bool isFormValidate() {
+    return formKey.currentState?.validate() ?? false;
+  }
+
+  @override
+  onChanged(
       {required String newValue,
-      required CustonTextFormFieldType custonTextFormFieldType}) {
-    switch (custonTextFormFieldType) {
-      case CustonTextFormFieldType.email:
-        singUpModel?.email = newValue;
-      case CustonTextFormFieldType.password:
-        singUpModel?.password = newValue;
-      case CustonTextFormFieldType.phone:
-        singUpModel?.phone = newValue;
-      case CustonTextFormFieldType.username:
-        singUpModel?.username = newValue;
-      case CustonTextFormFieldType.dataOfBirth:
-        singUpModel?.date = newValue;
+      required CustomTextFormFieldType customTextFormFieldType}) {
+    switch (customTextFormFieldType) {
+      case CustomTextFormFieldType.email:
+        signUpModel?.email = newValue;
+        break;
+      case CustomTextFormFieldType.password:
+        signUpModel?.password = newValue;
+        break;
+      case CustomTextFormFieldType.username:
+        signUpModel?.username = newValue;
+        break;
+      case CustomTextFormFieldType.phone:
+        signUpModel?.phone = newValue;
+        break;
+      case CustomTextFormFieldType.dateOfBirth:
+        signUpModel?.date = newValue;
+        break;
+      default:
+        break;
     }
   }
 }

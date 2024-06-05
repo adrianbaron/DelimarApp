@@ -6,27 +6,27 @@ import 'package:app_delivery/src/features/presentacion/StateProviders/LoadingSta
 import 'package:app_delivery/src/utils/helpers/ResultType/resultType.dart';
 
 abstract class WelcomePageViewModelInput {
-  Future<Result<UserEntity, Failure>> signInWithGoogle();
+  Future<Result<UserEntity,Failure>> signInWithGoogle();
 }
 
-abstract class WelcomePageViewModel extends WelcomePageViewModelInput
-    with BaseViewModel {}
+abstract class WelcomePageViewModel extends WelcomePageViewModelInput with BaseViewModel {}
 
 class DefaultWelcomePageViewModel extends WelcomePageViewModel {
-  //Dependencia
+
+  // Dependencias
   final GoogleSignInUseCase _googleSignInUseCase;
 
-  DefaultWelcomePageViewModel({GoogleSignInUseCase? googleSignInUseCase})
-      : _googleSignInUseCase =
-            googleSignInUseCase ?? DefaultGoogleSignInUseCase();
+  DefaultWelcomePageViewModel({
+    GoogleSignInUseCase? googleSignInUseCase
+  }) : _googleSignInUseCase = googleSignInUseCase ?? DefaultGoogleSignInUseCase();
 
   @override
-  void initState({required LoadingStateProvider loadingStateProvider}) {
-    loadingState = loadingStateProvider;
+  Future<Result<UserEntity,Failure>> signInWithGoogle() {
+    return _googleSignInUseCase.execute();
   }
 
   @override
-  Future<Result<UserEntity, Failure>> signInWithGoogle() {
-    return _googleSignInUseCase.execute();
+  void initState({required LoadingStateProvider loadingState}) {
+    loadingStatusState = loadingState;
   }
 }

@@ -2,7 +2,7 @@ import 'package:app_delivery/src/features/logica/CasosDeUso/Auth/UpdatePasswordU
 
 abstract class ForgotPasswordViewModelInput {
   late String email;
-  Future<void> updatePassword();
+  Future<void> updatePassword({required String email});
 }
 
 abstract class ForgotPasswordViewModel extends ForgotPasswordViewModelInput {}
@@ -15,7 +15,7 @@ class DefaultForgotPasswordViewModel extends ForgotPasswordViewModel {
       : _updatePasswordUseCase =
             updatePasswordUseCase ?? DefaultUpdatePasswordUseCase();
   @override
-  Future<void> updatePassword() {
+  Future<void> updatePassword({required String email}) {
     return _updatePasswordUseCase.execute(email: email);
   }
 }

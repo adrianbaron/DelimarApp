@@ -6,7 +6,7 @@ abstract class UpdatePasswordUseCase {
 }
 
 class DefaultUpdatePasswordUseCase extends UpdatePasswordUseCase {
-  //DEPENDENCIAS
+  // * Dependencies
   final UpdatePasswordRepository _updatePasswordRepository;
 
   DefaultUpdatePasswordUseCase(

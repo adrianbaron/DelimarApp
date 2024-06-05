@@ -1,3 +1,4 @@
+import 'package:app_delivery/src/Base/Views/BaseView.dart';
 import 'package:app_delivery/src/colors/colors.dart';
 import 'package:app_delivery/src/features/logica/Entidades/User/UserEntity.dart';
 import 'package:app_delivery/src/features/presentacion/StateProviders/user_state_provider.dart';
@@ -23,16 +24,16 @@ class TextFieldsProfileDetailView extends StatelessWidget
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
-          CustonTextFormField(
-              textFormFieldType: CustonTextFormFieldType.username,
+          CustomTextFormField(
+              textFormFieldType: CustomTextFormFieldType.username,
               hintext: "Nombre de usuario",
               delegate: this,
               decoration: _decoration,
               initialValue: (context).getUserData()?.username,
               icon: Icon(Icons.person_outlined, color: orange)),
           const Divider(),
-          CustonTextFormField(
-              textFormFieldType: CustonTextFormFieldType.phone,
+          CustomTextFormField(
+              textFormFieldType: CustomTextFormFieldType.phone,
               hintext: "Celular",
               delegate: this,
               decoration: _decoration,
@@ -40,32 +41,14 @@ class TextFieldsProfileDetailView extends StatelessWidget
               icon: Icon(Icons.phone_iphone_outlined, color: orange)),
           const Divider(),
           const SizedBox(height: 16),
-          ListTile(
-            leading: Icon(Icons.email_outlined, color: orange),
-            title: Text(
-              "Cambiar correo",
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            ),
-            trailing: Icon(
-              Icons.chevron_right,
-              color: gris,
-            ),
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.lock_outlined, color: orange),
-            title: Text(
-              "Cambiar constraseña",
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            ),
-            trailing: Icon(
-              Icons.chevron_right,
-              color: gris,
-            ),
-          ),
-          Divider(),
+          /////
+          userData?.provider == UserAuthProvider.emailAndPassword
+              ? _ChangeEmailView()
+              : Container(),
+          userData?.provider == UserAuthProvider.emailAndPassword
+              ? _ChangePasswordView()
+              : Container(),
+          ////////
           ListTile(
             leading: Icon(Icons.credit_card_outlined, color: orange),
             title: Text(
@@ -97,20 +80,71 @@ class TextFieldsProfileDetailView extends StatelessWidget
     );
   }
 
+
+  
   @override
-  onChange(
-      {required String newValue,
-      required CustonTextFormFieldType custonTextFormFieldType}) {
-    switch (custonTextFormFieldType) {
-      case CustonTextFormFieldType.username:
+  onChanged({required String newValue, required CustomTextFormFieldType customTextFormFieldType}) {
+    switch(customTextFormFieldType){
+      
+      case CustomTextFormFieldType.username:
         userData?.username = newValue;
         delegate.userDataChanged(newUser: userData);
-
-      case CustonTextFormFieldType.phone:
+      case CustomTextFormFieldType.phone:
         userData?.phone = newValue;
         delegate.userDataChanged(newUser: userData);
       default:
         break;
+      
+      
     }
+  }
+}
+
+class _ChangeEmailView extends StatelessWidget with BaseView {
+  _ChangeEmailView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListTile(
+          leading: Icon(Icons.email_outlined, color: orange),
+          title: Text(
+            "Cambiar correo",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+          ),
+          trailing: Icon(
+            Icons.chevron_right,
+            color: gris,
+          ),
+          onTap: () => coordinator.showEditEmailPage(context: context),
+        ),
+        Divider(),
+      ],
+    );
+  }
+}
+
+class _ChangePasswordView extends StatelessWidget with BaseView {
+  _ChangePasswordView({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListTile(
+          leading: Icon(Icons.lock_outlined, color: orange),
+          title: Text(
+            "Cambiar constraseña",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+          ),
+          trailing: Icon(
+            Icons.chevron_right,
+            color: gris,
+          ),
+          onTap: () => coordinator.showEditPasswordPage(context: context),
+        ),
+        const Divider(),
+      ],
+    );
   }
 }

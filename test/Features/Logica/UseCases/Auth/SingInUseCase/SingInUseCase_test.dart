@@ -16,12 +16,12 @@ abstract class _Constants {
 
 void main() {
   //GIVEN
-  final SingInUseCase sut = DefaultSingInUseCase();
+  final SingInUseCase sut = DefaultSignInUseCase();
 
   group("Test sucess response to SingInUseCase", () {
     test("Test sucess singIn features with correct email password", () async {
       //GIVEN
-      final SingInUseCaseBodyParameters _params = SingInUseCaseBodyParameters(
+      final SignInUseCaseParameters _params = SignInUseCaseParameters(
           email: _Constants.correctEmail, password: _Constants.correctPass);
 
       //
@@ -42,7 +42,7 @@ void main() {
   group("Failure response to singInUseCase", () {
     test("Email no valido", () async {
       //GIVEN
-      final SingInUseCaseBodyParameters _params = SingInUseCaseBodyParameters(
+      final SignInUseCaseParameters _params = SignInUseCaseParameters(
           email: _Constants.wrongEmail, password: _Constants.wrongPass);
 
       try {
@@ -56,7 +56,7 @@ void main() {
 
     test("Contraseña no valida", () async {
       //GIVEN
-      final SingInUseCaseBodyParameters _params = SingInUseCaseBodyParameters(
+      final SignInUseCaseParameters _params = SignInUseCaseParameters(
           email: _Constants.correctEmail, password: _Constants.wrongPass);
 
       try {

@@ -14,9 +14,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class RoutePath {
+class RoutesPath {
   static String welcomePath = 'welcome';
   static String tabPath = 'tabs';
+  static String signUpPath = 'singUp';
 }
 
 class MainCoordinator {
@@ -40,19 +41,20 @@ class MainCoordinator {
 
   Future<String?> star() {
     return _isUserLogged().then((value) {
-      return value == null ? RoutePath.welcomePath : RoutePath.tabPath;
+      return value == null ? RoutesPath.welcomePath : RoutesPath.tabPath;
     });
   }
 
   Future<String?> _isUserLogged() async {
     var idToken = await _fetchLocalStorageUseCase.execute(
-        parameters: FetchLocalStorageParameters(key: LocalStorageKeys.idToken));
+        fetchLocalParameteres:
+            FetchLocalStorageParameters(key: LocalStorageKeys.idToken));
     userUid = idToken ?? "";
     return idToken;
   }
 
   showTabsPage({required BuildContext context}) {
-    Navigator.pushNamed(context, RoutePath.tabPath);
+    Navigator.pushNamed(context, RoutesPath.tabPath);
   }
 
   showPopularPlacesListView(
@@ -77,6 +79,10 @@ class MainCoordinator {
             transitionDuration: const Duration(seconds: 0)));
   }
 
+  showSignUpPage({required BuildContext context}) {
+    Navigator.pushNamed(context, RoutesPath.signUpPath);
+  }
+
   showCollectionsDetailPage(
       {required BuildContext context,
       required CollectionDetailEntity collection}) {
@@ -99,5 +105,13 @@ class MainCoordinator {
         PageRouteBuilder(
             pageBuilder: (_, __, ___) => PlaceDetailPage(),
             transitionDuration: const Duration(seconds: 0)));
+  }
+
+  showEditEmailPage({required BuildContext context}) {
+    Navigator.pushNamed(context, 'edit-email');
+  }
+
+  showEditPasswordPage({required BuildContext context}) {
+    Navigator.pushNamed(context, 'edit-password');
   }
 }

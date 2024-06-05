@@ -3,29 +3,26 @@ import 'package:app_delivery/src/features/logica/CasosDeUso/LocalStorage/local_S
 import 'package:app_delivery/src/features/data/Interfaces/interfaces.dart';
 
 abstract class FetchLocalStorageUseCase {
-  Future<String?> execute({required FetchLocalStorageParameters parameters});
+  Future<String?> execute({ required FetchLocalStorageParameters fetchLocalParameteres });
   Future<List<String>> fetchRecentSearches();
 }
 
 class DefaultFetchLocalStorageUseCase extends FetchLocalStorageUseCase {
-  //dependencia
-  final FetchLocalStorageRepository _fetchLocalStorageRepository;
 
-  DefaultFetchLocalStorageUseCase(
-      {FetchLocalStorageRepository? fetchLocalStorageRepository})
-      : _fetchLocalStorageRepository =
-            fetchLocalStorageRepository ?? DefaultFetchLocalStorageRepository();
+  // * Dependencies
+  final FetchLocalStorageRepository _fetchLocalStorageRepository;
+  
+  DefaultFetchLocalStorageUseCase({ FetchLocalStorageRepository? fetchLocalStorageRepository })
+      : _fetchLocalStorageRepository = fetchLocalStorageRepository ?? DefaultFetchLocalStorageRepository();
+
   @override
-  Future<String?> execute(
-      {required FetchLocalStorageParameters parameters}) async {
-    return await _fetchLocalStorageRepository.fetchInLocalStorage(
-        key: parameters.key);
+  Future<String?> execute({ required FetchLocalStorageParameters fetchLocalParameteres }) async {
+    return await _fetchLocalStorageRepository.fetchInLocalStorage(key: fetchLocalParameteres.key);
   }
 
   @override
   Future<List<String>> fetchRecentSearches() async {
-    final recentSearches =
-        await _fetchLocalStorageRepository.fetchRecentSearches();
+    final recentSearches = await _fetchLocalStorageRepository.fetchRecentSearches();
     return recentSearches ?? [];
   }
 }

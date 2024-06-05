@@ -38,6 +38,7 @@ class MyAppUserState extends StatelessWidget with BaseView {
           if (snapshot.hasData) {
             Provider.of<DefaultUserStateProvider>(context).fetchUserData(
                 localId: MainCoordinator.sharedInstance?.userUid ?? "");
+            print("por aca llegue");
             return MyApp(initialRoute: snapshot.data);
           } else {
             // Mientras se carga
@@ -61,7 +62,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
           primaryColor: orange,
-          appBarTheme: const AppBarTheme(iconTheme: IconThemeData(color: Colors.black))),
+          appBarTheme:
+              const AppBarTheme(iconTheme: IconThemeData(color: Colors.black))),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

@@ -28,7 +28,7 @@ class _WelcomePageState extends State<WelcomePage> with BaseView {
   Widget build(BuildContext context) {
     //
     viewModel.initState(
-        loadingStateProvider: Provider.of<LoadingStateProvider>(context));
+        loadingState: Provider.of<LoadingStateProvider>(context));
     return Scaffold(
       body: Stack(children: [
         Container(
@@ -91,14 +91,14 @@ class _WelcomePageState extends State<WelcomePage> with BaseView {
 
 extension UserActions on _WelcomePageState {
   _signInWithGoogleTapped(BuildContext context) {
-    viewModel.loadingState.setLoadingState(isLoading: true);
+    viewModel.loadingStatusState.setLoadingState(isLoading: true);
 
     viewModel.signInWithGoogle().then((result) {
       switch (result.status) {
         case ResultStatus.success:
           coordinator.showTabsPage(context: context);
         case ResultStatus.error:
-          viewModel.loadingState.setLoadingState(isLoading: true);
+          viewModel.loadingStatusState.setLoadingState(isLoading: true);
           if (result.error == null) {
             return;
           }

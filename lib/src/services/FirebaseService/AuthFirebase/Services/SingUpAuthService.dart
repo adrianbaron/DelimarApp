@@ -1,4 +1,4 @@
-import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/AuthFirebaseInterface.dart';
+import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/Interfaces/AuthFirebaseInterface.dart';
 
 class DefaultSingUpService extends SingUpService {
   @override

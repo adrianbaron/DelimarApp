@@ -1,13 +1,14 @@
-import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/AuthFirebaseInterface.dart';
+import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/Interfaces/AuthFirebaseInterface.dart';
 import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/BodyParameters/UpdatePasswordBodyParameters.dart';
 
 class DefaultUpdatePasswordUserService extends UpdatePasswordUserService {
   final String _requestType = "PASSWORD_RESET";
+
   @override
-  Future<Map<String, dynamic>> updatePassword({required String email}) {
-    final _params =
-        UpdatePasswordBodyParameters(email: email, requestType: _requestType);
+  Future<Map<String, dynamic>> updatePassword({required String email}) async {
+    final params =
+        UpdatePasswordBodyParameters(requestType: _requestType, email: email);
     return apiService.getDataFromPostRequest(
-        bodyParameters: _params.toJson(), url: enpoint);
+        bodyParameters: params.toMap(), url: endpoint);
   }
 }

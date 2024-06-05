@@ -24,17 +24,19 @@ class DefaultSaveUserDataUseCase extends SaveUserDataUseCase {
   Future<Result<UserEntity, Failure>> execute(
       {required SaveUserDataUseCaseParameters parameters}) {
     UserBodyParameters _parameters = UserBodyParameters(
-        localId: parameters.localId,
-        role: parameters.role?.toShortString(),
-        username: parameters.username,
-        email: parameters.email,
-        phone: parameters.phone,
-        dateOfBirth: parameters.dateOfBirth,
-        startDate: parameters.startDate,
-        photo: parameters.photo,
-        shippingAddress: parameters.shippingAddress,
-        billingAddress: parameters.billingAddress,
-        idToken: parameters.idToken);
+      localId: parameters.localId,
+      role: parameters.role?.toShortString(),
+      username: parameters.username,
+      email: parameters.email,
+      phone: parameters.phone,
+      dateOfBirth: parameters.dateOfBirth,
+      startDate: parameters.startDate,
+      photo: parameters.photo,
+      shippingAddress: parameters.shippingAddress,
+      billingAddress: parameters.billingAddress,
+      idToken: parameters.idToken,
+      provider: parameters.provider,
+    );
 
     return _saveUserDataRepository
         .saveUserData(params: _parameters)

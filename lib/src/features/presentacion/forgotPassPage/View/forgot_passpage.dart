@@ -15,10 +15,10 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   //DEPENDENCIAS
-  final ForgotPasswordViewModel _forgotPasswordViewModel;
+  final ForgotPasswordViewModel viewModel;
 
   _ForgotPasswordState({ForgotPasswordViewModel? forgotPasswordViewModel})
-      : _forgotPasswordViewModel =
+      : viewModel =
             forgotPasswordViewModel ?? DefaultForgotPasswordViewModel();
 
   @override
@@ -49,7 +49,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         fontSize: 15.0)),
               ),
               TextFormFieldEmailUpdatePassword(
-                  viewModel: _forgotPasswordViewModel),
+                  viewModel: viewModel),
               //_buttonSend(context)
               createButton(
                   context: context,
@@ -66,7 +66,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
 extension UserActions on _ForgotPasswordState {
   void _ctaButtonTapped(BuildContext context) {
-    _forgotPasswordViewModel.updatePassword().then((value) {
+    viewModel.updatePassword(email: viewModel.email).then((value) {
       showAlertDialog(
           context,
           const AssetImage("assets/inicio.png"),

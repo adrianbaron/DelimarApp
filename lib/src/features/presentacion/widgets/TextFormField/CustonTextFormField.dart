@@ -3,86 +3,89 @@ import 'package:app_delivery/src/utils/helpers/Validators/form_validator.dart';
 import 'package:flutter/material.dart';
 
 mixin TextFormFieldDelegate {
-  onChange(
-      {required String newValue,
-      required CustonTextFormFieldType custonTextFormFieldType});
+  onChanged({ required String newValue,
+              required CustomTextFormFieldType customTextFormFieldType });
 }
 
-enum CustonTextFormFieldType { email, password, phone, username, dataOfBirth }
+enum CustomTextFormFieldType {
+  email, password, phone, username, dateOfBirth,
+  nameInTheCard, cardNumber, monthAndYearInCard, cvc, country
+}
 
-class CustonTextFormField extends StatelessWidget {
-  final CustonTextFormFieldType textFormFieldType;
-  final String hintext;
+class CustomTextFormField extends StatelessWidget {
+
   final TextFormFieldDelegate delegate;
-  final TextEditingController? _controler;
+  final CustomTextFormFieldType textFormFieldType;
+  final String hintext;
+  final TextEditingController? _controller;
   final Decoration? _decoration;
   final String? _initialValue;
   final Widget? _icon;
-  CustonTextFormField(
-      {super.key,
-      required this.textFormFieldType,
-      required this.hintext,
-      required this.delegate,
-      TextEditingController? controler,
-      Decoration? decoration,
-      String? initialValue,
-      Widget? icon
-      
-      })
-      : _controler = controler, _decoration = decoration,_initialValue = initialValue, _icon = icon;
+
+  CustomTextFormField({ required this.delegate,
+                        required this.textFormFieldType,
+                        required this.hintext,
+                        TextEditingController? controller,
+                        Decoration? decoration,
+                        String? initialValue,
+                        Widget? icon })
+      : _controller = controller,
+        _decoration = decoration,
+        _initialValue = initialValue,
+        _icon = icon;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 10.0),
-      padding: const EdgeInsets.only(left: 20.0),
-      decoration:_decoration ?? BoxDecoration(
-          color: bgInputs, borderRadius: BorderRadius.circular(40.0)),
-      child: TextFormField(
-        controller: _controler,
-        initialValue: _initialValue,
-        keyboardType: getKeyboardType(textFormFieldType: textFormFieldType),
-        obscureText: textFormFieldType == CustonTextFormFieldType.password
-            ? true
-            : false,
-        decoration: InputDecoration(
-          icon: _icon,
-            hintText: hintext,
-            border: const OutlineInputBorder(borderSide: BorderSide.none)),
-        onChanged: (newValue) => delegate.onChange(
-            newValue: newValue, custonTextFormFieldType: textFormFieldType),
-        validator: (value) {
-          switch (textFormFieldType) {
-            case CustonTextFormFieldType.email:
-              return EmailFromValidator.validateEmail(email: value ?? "");
-            case CustonTextFormFieldType.password:
-              return PasswordFormValidator.validatePassword(
-                  password: value ?? "");
-            case CustonTextFormFieldType.phone:
-              return DefaultFormValidator.validateIsNotEmpy(value: value ?? "");
-            case CustonTextFormFieldType.username:
-              return DefaultFormValidator.validateIsNotEmpy(value: value ?? "");
-            case CustonTextFormFieldType.dataOfBirth:
-              return DefaultFormValidator.validateIsNotEmpy(value: value ?? "");
-          }
-        },
-      ),
-    );
+        margin: const EdgeInsets.only(top: 10.0),
+        padding: const EdgeInsets.only(left: 4.0),
+        decoration: _decoration ?? BoxDecoration(
+            color: bgInputs,
+            borderRadius: BorderRadius.circular(40.0)),
+        child: TextFormField(
+          initialValue: _initialValue,
+          controller: _controller,
+          keyboardType: getKeyboardType(textFormFieldType: textFormFieldType),
+          obscureText: textFormFieldType == CustomTextFormFieldType.password ? true : false,
+          decoration: InputDecoration(
+              icon: _icon,
+              hintText: hintext,
+              border: const OutlineInputBorder(borderSide: BorderSide.none)
+          ),
+          onChanged: (newValue) => delegate.onChanged(newValue: newValue, customTextFormFieldType: textFormFieldType),
+          validator: (value) {
+                switch (textFormFieldType) {
+                  case CustomTextFormFieldType.email:
+                    return EmailFormValidator.validateEmail(email: value ?? '');
+                  case CustomTextFormFieldType.password:
+                    return PasswordFormValidator.validatePassword(password: value ?? '');
+                  case CustomTextFormFieldType.username:
+                    return DefaultFormValidator.validateIsNotEmpty(value: value ?? '');
+                  case CustomTextFormFieldType.phone:
+                    return DefaultFormValidator.validateIsNotEmpty(value: value ?? '');
+                  default:
+                    return null;
+                }
+          },
+        ));
   }
 
-  TextInputType? getKeyboardType(
-      {required CustonTextFormFieldType textFormFieldType}) {
-    switch (textFormFieldType) {
-      case CustonTextFormFieldType.email:
-        return TextInputType.emailAddress;
-      case CustonTextFormFieldType.password:
-        return TextInputType.visiblePassword;
-      case CustonTextFormFieldType.phone:
-        return TextInputType.phone;
-      case CustonTextFormFieldType.username:
-        return TextInputType.text;
-      case CustonTextFormFieldType.dataOfBirth:
-        return TextInputType.datetime;
-    }
+  TextInputType? getKeyboardType({ required CustomTextFormFieldType textFormFieldType }) {
+     switch (textFormFieldType) {
+       case CustomTextFormFieldType.email:
+         return TextInputType.emailAddress;
+       case CustomTextFormFieldType.password:
+         return TextInputType.visiblePassword;
+       case CustomTextFormFieldType.username:
+         return TextInputType.text;
+       case CustomTextFormFieldType.phone:
+         return TextInputType.phone;
+       case CustomTextFormFieldType.cardNumber:
+         return TextInputType.number;
+       case CustomTextFormFieldType.cvc:
+         return TextInputType.number;
+       default:
+         return TextInputType.text;
+     }
   }
 }

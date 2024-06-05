@@ -32,6 +32,13 @@ abstract class UpdatePasswordRepository {
       {required String email});
 }
 
+abstract class UpdateEmailRepository {
+  Future<dynamic> updateEmail(
+      {required String oldEmail,
+      required String newEmail,
+      required String password});
+}
+
 abstract class UserAuthDataRepository {
   Future<Result<UserAuthDataDecorable, Failure>> getUserAuthData(
       {required GetUserDataBodyParameters parameters});
@@ -57,7 +64,7 @@ abstract class SaveLocalStorageRepository {
 }
 
 abstract class FetchLocalStorageRepository {
-  Future<String?> fetchInLocalStorage({ required String key });
+  Future<String?> fetchInLocalStorage({required String key});
   Future<List<String>?> fetchRecentSearches();
 }
 

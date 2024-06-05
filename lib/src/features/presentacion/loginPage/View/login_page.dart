@@ -19,11 +19,16 @@ class LoginPage extends StatelessWidget with BaseView {
   @override
   Widget build(BuildContext context) {
     _viewModel.initState(
-        loadingStateProvider: Provider.of<LoadingStateProvider>(context));
+        loadingState: Provider.of<LoadingStateProvider>(context));
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.white));
+    
+     // * Inicializamos el ViewModel
+    _viewModel.initState(loadingState: Provider.of<LoadingStateProvider>(context));
 
-    return _viewModel.loadingState.isLoading
+    
+
+    return _viewModel.loadingStatusState.isLoading
         ? loadingView
         : Scaffold(
             body: CustomScrollView(
@@ -54,7 +59,7 @@ class LoginPage extends StatelessWidget with BaseView {
                           padding: const EdgeInsets.all(20.0),
                           child: Center(
                             child: Form(
-                              key: _viewModel.formkey,
+                              key: _viewModel.formKey,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               child: Column(
@@ -71,14 +76,14 @@ class LoginPage extends StatelessWidget with BaseView {
                                           fontWeight: FontWeight.w500,
                                           fontSize: 15.0)),
                                   //Texfield
-                                  CustonTextFormField(
+                                  CustomTextFormField(
                                       textFormFieldType:
-                                          CustonTextFormFieldType.email,
+                                          CustomTextFormFieldType.email,
                                       hintext: "Email",
                                       delegate: _viewModel),
-                                  CustonTextFormField(
+                                  CustomTextFormField(
                                       textFormFieldType:
-                                          CustonTextFormFieldType.password,
+                                          CustomTextFormFieldType.password,
                                       hintext: "Password",
                                       delegate: _viewModel),
 
@@ -118,8 +123,7 @@ class LoginPage extends StatelessWidget with BaseView {
                                                   fontSize: 15.0)),
                                           GestureDetector(
                                             onTap: () {
-                                              Navigator.pushNamed(
-                                                  context, 'singUp');
+                                              coordinator.showSignUpPage(context: context);
                                             },
                                             child: Container(
                                               margin:
@@ -151,61 +155,6 @@ class LoginPage extends StatelessWidget with BaseView {
   }
 }
 
-Widget _emailInput() {
-  return Container(
-    margin: const EdgeInsets.only(top: 40.0),
-    padding: const EdgeInsets.only(left: 20.0),
-    decoration: BoxDecoration(
-        color: const Color.fromRGBO(142, 142, 147, 1.2),
-        borderRadius: BorderRadius.circular(30.0)),
-    child: const TextField(
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-          hintText: 'Correo',
-          border: OutlineInputBorder(borderSide: BorderSide.none)),
-    ),
-  );
-}
-
-Widget _PasswordInput() {
-  return Container(
-    margin: const EdgeInsets.only(top: 15.0),
-    padding: const EdgeInsets.only(left: 20.0),
-    decoration: BoxDecoration(
-        color: const Color.fromRGBO(142, 142, 147, 1.2),
-        borderRadius: BorderRadius.circular(30.0)),
-    child: const TextField(
-      obscureText: true,
-      decoration: InputDecoration(
-          hintText: 'Contraseña',
-          border: OutlineInputBorder(borderSide: BorderSide.none)),
-    ),
-  );
-}
-
-Widget _buttonLogin(BuildContext context) {
-  return Container(
-    width: 350.0,
-    height: 45.0,
-    margin: const EdgeInsets.only(top: 30.0),
-    child: ElevatedButton(
-        onPressed: () {
-          Navigator.pushNamed(context, 'tabs');
-        },
-        style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(Colors.orangeAccent),
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-                side: const BorderSide(color: Colors.orangeAccent),
-              ),
-            )),
-        child: const Text('Iniciar sesion',
-            style: TextStyle(color: Colors.white, fontSize: 17.0))),
-  );
-}
 
 extension UserActions on LoginPage {
   void _ctaButtonTapped(BuildContext context) {

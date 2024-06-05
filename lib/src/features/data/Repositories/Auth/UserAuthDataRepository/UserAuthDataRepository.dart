@@ -2,7 +2,7 @@ import 'package:app_delivery/src/Base/APIservice/AppError.dart';
 import 'package:app_delivery/src/features/data/Decorables/Auth/UserAuthData/UserAuthDataDecorable.dart';
 import 'package:app_delivery/src/features/data/Repositories/Auth/UserAuthDataRepository/UserAuthDataRepositoryBodyParameters.dart';
 import 'package:app_delivery/src/features/data/Interfaces/interfaces.dart';
-import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/AuthFirebaseInterface.dart';
+import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/Interfaces/AuthFirebaseInterface.dart';
 import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/Services/GetUserAuthDataService.dart';
 import 'package:app_delivery/src/utils/helpers/ResultType/resultType.dart';
 

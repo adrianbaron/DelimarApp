@@ -16,42 +16,56 @@ abstract class GoogleSignInUseCase {
 }
 
 class DefaultGoogleSignInUseCase extends GoogleSignInUseCase {
-  //Dependencia
-  final GoolgleSignInService _goolgleSignInService;
-  final SaveLocalStorageUseCase _localStorageUseCase;
+
+  // Dependencies
+  final GoolgleSignInService _googleSignInService;
+  final SaveLocalStorageUseCase _saveLocalStorageUseCase;
   final SaveUserDataUseCase _saveUserDataUseCase;
 
-  DefaultGoogleSignInUseCase(
-      {GoolgleSignInService? goolgleSignInService,
-      SaveLocalStorageUseCase? localStorageUseCase,
-      SaveUserDataUseCase? saveUserDataUseCase})
-      : _goolgleSignInService =
-            goolgleSignInService ?? DefaultGoogleSignInService(),
-        _localStorageUseCase =
-            localStorageUseCase ?? DefaultSaveLocalStorageUseCase(),
-        _saveUserDataUseCase =
-            saveUserDataUseCase ?? DefaultSaveUserDataUseCase();
+  DefaultGoogleSignInUseCase({
+    GoolgleSignInService? googleSignInService,
+    SaveLocalStorageUseCase? saveLocalStorageUseCase,
+    SaveUserDataUseCase? saveUserDataUseCase
+  }) : _googleSignInService = googleSignInService ?? DefaultGoogleSignInService(),
+       _saveLocalStorageUseCase = saveLocalStorageUseCase ?? DefaultSaveLocalStorageUseCase(),
+        _saveUserDataUseCase = saveUserDataUseCase ?? DefaultSaveUserDataUseCase();
 
   @override
   Future<Result<UserEntity, Failure>> execute() async {
-    //Hacer el google signIn
-    final user = await _goolgleSignInService.signInWithGoogle();
-    //Mantenser sesion
-    _localStorageUseCase.execute(
-        parameters: SaveLocalStorageParameters(
-            key: LocalStorageKeys.idToken, value: user.idToken ?? ""));
-    final isUserInDataBase =
-        await _goolgleSignInService.isUserInDatabase(uid: user.uid ?? "");
-    if (isUserInDataBase) {
-      return Result.succes(_mapUserEntity(user: user));
+    final user = await _googleSignInService.signInWithGoogle();
+    _saveLocalStorageUseCase.execute(saveLocalParameteres: SaveLocalStorageParameters(key: LocalStorageKeys.idToken,
+                                                                                      value: user.uid ?? ""));
+
+    final isUserInDatabase = await _googleSignInService.isUserInDatabase(uid: user.uid ?? "");
+    if (isUserInDatabase) {
+      return Result.succes(mapUserEntity(user:user));
     } else {
-      return _saveUserInDataBase(user: user);
+      return _saveUserDataInDataBase(user: user);
     }
   }
 }
 
-extension Mapper on DefaultGoogleSignInUseCase {
-  UserEntity _mapUserEntity({required GoogleSignInUserEntity user}) {
+extension on DefaultGoogleSignInUseCase {
+  Future<Result<UserEntity, Failure>> _saveUserDataInDataBase({ required GoogleSignInUserEntity user }) {
+
+    SaveUserDataUseCaseParameters _params = SaveUserDataUseCaseParameters(
+        localId: user.uid,
+        role: UserRole.user,
+        username: user.displayName,
+        email: user.email,
+        phone: user.phoneNumber,
+        dateOfBirth: "",
+        startDate: DateHelpers.getStarDate(),
+        photo: user.photoURL,
+        shippingAddress: '',
+        billingAddress: '',
+        idToken: user.idToken,
+        provider: UserAuthProvider.google);
+
+    return _saveUserDataUseCase.execute(parameters: _params);
+  }
+
+  UserEntity mapUserEntity({ required GoogleSignInUserEntity user }) {
     return UserEntity(
         localId: user.uid,
         role: UserRole.user.toShortString(),
@@ -61,28 +75,10 @@ extension Mapper on DefaultGoogleSignInUseCase {
         dateOfBirth: "",
         startDate: DateHelpers.getStarDate(),
         photo: user.photoURL,
-        shippingAddress: "",
-        billingAddress: "",
-        idToken: user.idToken);
-  }
-}
-
-extension PrivateMethods on DefaultGoogleSignInUseCase {
-  Future<Result<UserEntity, Failure>> _saveUserInDataBase(
-      {required GoogleSignInUserEntity user}) {
-    final SaveUserDataUseCaseParameters params = SaveUserDataUseCaseParameters(
-        localId: user.uid,
-        role: UserRole.user,
-        username: user.displayName,
-        email: user.email,
-        phone: user.phoneNumber,
-        dateOfBirth: "",
-        startDate: DateHelpers.getStarDate(),
-        photo: user.photoURL,
-        shippingAddress: "",
-        billingAddress: "",
-        idToken: user.idToken);
-
-    return _saveUserDataUseCase.execute(parameters: params);
+        shippingAddress: '',
+        billingAddress: '',
+        idToken: user.refreshToken,
+        provider: UserAuthProvider.google
+    );
   }
 }

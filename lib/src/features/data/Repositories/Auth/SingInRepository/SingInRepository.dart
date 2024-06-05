@@ -1,7 +1,7 @@
 import 'package:app_delivery/src/Base/APIservice/AppError.dart';
 import 'package:app_delivery/src/features/data/Repositories/Auth/SingInRepository/SingInBodyParameters.dart';
 import 'package:app_delivery/src/features/data/Interfaces/interfaces.dart';
-import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/AuthFirebaseInterface.dart';
+import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/Interfaces/AuthFirebaseInterface.dart';
 import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/Decorable/SingInDecorable.dart';
 import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/Services/SingInAuthService.dart';
 import 'package:app_delivery/src/utils/helpers/ResultType/resultType.dart';

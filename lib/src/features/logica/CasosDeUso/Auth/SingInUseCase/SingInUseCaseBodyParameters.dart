@@ -1,5 +1,8 @@
-class SingInUseCaseBodyParameters {
-  SingInUseCaseBodyParameters({required this.email, required this.password});
+class SignInUseCaseParameters {
+  SignInUseCaseParameters({
+    required this.email,
+    required this.password,
+  });
 
   final String email;
   final String password;

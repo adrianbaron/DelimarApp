@@ -5,28 +5,35 @@ import 'package:app_delivery/src/features/presentacion/StateProviders/LoadingSta
 import 'package:app_delivery/src/services/GeolocationService/Entities/GeolocationServiceEntities.dart';
 import 'package:app_delivery/src/utils/helpers/ResultType/resultType.dart';
 
-abstract class TabsPageViewModelInput {
-  Future<Result<bool, Failure>> getCurrentPosition();
-  Future<LocationPermissionStatus> getPermisionStatus();
+
+
+abstract class TabsViewModelInput {
+  // Exposed Methods
+  Future<Result<bool,Failure>> getCurrentPosition();
+  Future<LocationPermissionStatus> getPermissionStatus();
 }
 
-abstract class TabsPageViewModel extends TabsPageViewModelInput
-    with BaseViewModel {}
+mixin TabsViewModelOutput {}
 
-class DefaultTabsPageViewModel extends TabsPageViewModel {
-  //DEPENDENCIAS
+// Crear ViewModel
+abstract class TabsViewModel extends TabsViewModelInput with TabsViewModelOutput, BaseViewModel {}
+
+class DefaultTabsViewModel extends TabsViewModel {
+  // Dependencies
   final GeolocationUseCase _geolocationUseCase;
 
-  DefaultTabsPageViewModel({GeolocationUseCase? geolocationUseCase})
+  DefaultTabsViewModel({ GeolocationUseCase? geolocationUseCase })
       : _geolocationUseCase = geolocationUseCase ?? DefaultGeolocationUseCase();
+
   @override
-  void initState({required LoadingStateProvider loadingStateProvider}) {
-    loadingState = loadingStateProvider;
+  void initState({ required LoadingStateProvider loadingState }) {
+    loadingStatusState = loadingState;
   }
 
   @override
   Future<Result<bool, Failure>> getCurrentPosition() async {
-    return await _geolocationUseCase.getCurrentPosition().then((result) {
+
+    return await _geolocationUseCase.getCurrentPosition().then( (result) {
       switch (result.status) {
         case ResultStatus.success:
           return Result.succes(true);
@@ -36,8 +43,8 @@ class DefaultTabsPageViewModel extends TabsPageViewModel {
     });
   }
 
-  @override
-  Future<LocationPermissionStatus> getPermisionStatus() {
-    return _geolocationUseCase.getPermisionStatus();
+  Future<LocationPermissionStatus> getPermissionStatus() async {
+    return await _geolocationUseCase.getPermisionStatus();
   }
 }
+

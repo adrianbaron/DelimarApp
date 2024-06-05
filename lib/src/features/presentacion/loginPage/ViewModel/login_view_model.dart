@@ -8,81 +8,111 @@ import 'package:app_delivery/src/features/logica/CasosDeUso/LocalStorage/local_S
 import 'package:app_delivery/src/features/presentacion/StateProviders/LoadingStatusStateProvider.dart';
 import 'package:app_delivery/src/features/presentacion/loginPage/Model/login_model.dart';
 import 'package:app_delivery/src/features/presentacion/widgets/TextFormField/CustonTextFormField.dart';
+
 import 'package:app_delivery/src/utils/helpers/ResultType/resultType.dart';
 import 'package:flutter/material.dart';
 
+// * Métodos y propiedades a exponer en la View
 abstract class LoginViewModelInput {
-  GlobalKey<FormState> formkey = GlobalKey<FormState>();
-  LoginModel? loginModel = LoginModel(email: "", password: "");
+  // Exposed properties
+  late GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  LoginModel? loginModel = LoginModel(email: '', password: '');
+  // Exposed Methods
   Future<Result<bool, Failure>> login(
       {required String email, required String password});
   bool isFormValidate();
 }
 
+// * LoginViewModel
 abstract class LoginViewModel extends LoginViewModelInput
     with TextFormFieldDelegate, BaseViewModel {}
 
 class DefaultLoginViewModel extends LoginViewModel {
-  //DEPENDENCIAS
-  //USE CASES
-  final SingInUseCase _singInUseCase;
+  // * Dependencies
+  // * UseCases
+  final SingInUseCase _signInUseCase;
   final SaveLocalStorageUseCase _saveLocalStorageUseCase;
 
+  // * Constructor
   DefaultLoginViewModel(
-      {SingInUseCase? singInUseCase,
+      {SingInUseCase? signInUseCase,
       SaveLocalStorageUseCase? saveLocalStorageUseCase})
-      : _singInUseCase = singInUseCase ?? DefaultSingInUseCase(),
+      : _signInUseCase = signInUseCase ?? DefaultSignInUseCase(),
         _saveLocalStorageUseCase =
             saveLocalStorageUseCase ?? DefaultSaveLocalStorageUseCase();
+
+  // * Init State
   @override
-  void initState({required LoadingStateProvider loadingStateProvider}) {
-    loadingState = loadingStateProvider;
+  void initState({required LoadingStateProvider loadingState}) {
+    loadingStatusState = loadingState;
   }
 
-  @override
-  bool isFormValidate() {
-    return formkey.currentState?.validate() ?? false;
-  }
-
+  // User Actions
   @override
   Future<Result<bool, Failure>> login(
       {required String email, required String password}) {
-    loadingState.setLoadingState(isLoading: true);
-    return _singInUseCase
+    loadingStatusState.setLoadingState(isLoading: true);
+
+    return _signInUseCase
         .execute(
-            params:
-                SingInUseCaseBodyParameters(email: email, password: password))
+            params: SignInUseCaseParameters(email: email, password: password))
         .then((result) {
       switch (result.status) {
         case ResultStatus.success:
-          loadingState.setLoadingState(isLoading: false);
           _saveLocalStorageUseCase.execute(
-              parameters: SaveLocalStorageParameters(
+              saveLocalParameteres: SaveLocalStorageParameters(
                   key: LocalStorageKeys.idToken,
-                  value: result.value?.idToken ?? ""));
+                  value: result.value?.localId ?? ""));
+          loadingStatusState.setLoadingState(isLoading: false);
           return Result.succes(true);
         case ResultStatus.error:
-          loadingState.setLoadingState(isLoading: false);
+          loadingStatusState.setLoadingState(isLoading: false);
           return Result.failure(result.error);
       }
     });
   }
 
+  // Utils
   @override
-  onChange(
+  bool isFormValidate() {
+    return formKey.currentState?.validate() ?? false;
+  }
+
+  @override
+  onChanged(
       {required String newValue,
-      required CustonTextFormFieldType custonTextFormFieldType}) {
-    switch (custonTextFormFieldType) {
-      case CustonTextFormFieldType.email:
+      required CustomTextFormFieldType customTextFormFieldType}) {
+    switch (customTextFormFieldType) {
+      case CustomTextFormFieldType.email:
         loginModel?.email = newValue;
-      case CustonTextFormFieldType.password:
+        break;
+      case CustomTextFormFieldType.password:
         loginModel?.password = newValue;
-      case CustonTextFormFieldType.phone:
-      // TO
-      case CustonTextFormFieldType.username:
-      // TO
-      case CustonTextFormFieldType.dataOfBirth:
-      // TO
+        break;
+      case CustomTextFormFieldType.username:
+        // TODO: Handle this case.
+        break;
+      case CustomTextFormFieldType.phone:
+        // TODO: Handle this case.
+        break;
+      case CustomTextFormFieldType.dateOfBirth:
+        // TODO: Handle this case.
+        break;
+      case CustomTextFormFieldType.nameInTheCard:
+        // TODO: Handle this case.
+        break;
+      case CustomTextFormFieldType.cardNumber:
+        // TODO: Handle this case.
+        break;
+      case CustomTextFormFieldType.monthAndYearInCard:
+        // TODO: Handle this case.
+        break;
+      case CustomTextFormFieldType.cvc:
+        // TODO: Handle this case.
+        break;
+      case CustomTextFormFieldType.country:
+        // TODO: Handle this case.
+        break;
     }
   }
 }

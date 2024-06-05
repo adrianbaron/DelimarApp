@@ -65,7 +65,9 @@ extension on DefaultSingUpUseCase {
         photo: UserPhotoHelper.defaultUserPhoto,
         shippingAddress: "",
         billingAddress: "",
-        idToken: entity.idToken);
+        idToken: entity.idToken,
+        provider: UserAuthProvider.emailAndPassword
+        );
 
     return _saveUserDataUseCase.execute(parameters: _params).then((result) {
       switch (result.status) {

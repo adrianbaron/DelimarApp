@@ -1,4 +1,3 @@
-import 'package:app_delivery/src/colors/colors.dart';
 import 'package:app_delivery/src/utils/styles/box_decoration_shadow.dart';
 import 'package:flutter/material.dart';
 
