@@ -14,12 +14,16 @@ import 'package:app_delivery/src/utils/helpers/ResultType/resultType.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../logica/CasosDeUso/DeliveryAddress/delivery_address_use_case.dart';
+import '../../logica/Entidades/DeliveryAddress/delivery_address_entity.dart';
+
 mixin FavouritePageChangeStateDelegate {
   placeFromFavouritesRemoved();
 }
 
 class DefaultUserStateProvider extends ChangeNotifier
     with FavouritesCardViewDelegate {
+  // Exposed Properties
   UserEntity? userData;
 
   // Dependencies
@@ -27,6 +31,7 @@ class DefaultUserStateProvider extends ChangeNotifier
   final SaveUserDataUseCase _saveUserDataUseCase;
   final FavouritesPlacesUseCase _favouritesPlacesUseCase;
   final PaymentMethodsUseCase _paymentMethodsUseCase;
+  final DeliveryAddressUseCase _deliveryAddressUseCase;
 
   // Delegates
   FavouritePageChangeStateDelegate? favouritePageChangeStateDelegate;
@@ -35,7 +40,8 @@ class DefaultUserStateProvider extends ChangeNotifier
       {FetchUserDataUseCase? fetchUserDataUseCase,
       FavouritesPlacesUseCase? favouritesPlacesUseCase,
       SaveUserDataUseCase? saveUserDataUseCase,
-      PaymentMethodsUseCase? paymentMethodsUseCase})
+      PaymentMethodsUseCase? paymentMethodsUseCase,
+      DeliveryAddressUseCase? deliveryAddressUseCase})
       : _fetchUserDataUseCase =
             fetchUserDataUseCase ?? DefaultFetchUserDataUseCase(),
         _saveUserDataUseCase =
@@ -43,7 +49,9 @@ class DefaultUserStateProvider extends ChangeNotifier
         _favouritesPlacesUseCase =
             favouritesPlacesUseCase ?? DefaultFavouritesPlacesUseCase(),
         _paymentMethodsUseCase =
-            paymentMethodsUseCase ?? DefaultPaymentMethodsUseCase();
+            paymentMethodsUseCase ?? DefaultPaymentMethodsUseCase(),
+        _deliveryAddressUseCase =
+            deliveryAddressUseCase ?? DefaultDeliveryAddressUseCase();
 
   @override
   favouriteIconTapped(bool isTapped, String placeId) async {
@@ -57,12 +65,10 @@ class DefaultUserStateProvider extends ChangeNotifier
   }
 }
 
-//USER DATA
+// UserData
 extension UserData on DefaultUserStateProvider {
   fetchUserData({required String localId}) async {
     userData = await _fetchUserDataUseCase.execute(localId: localId);
-    // Aquí puedes imprimir el campo username
-    print('Username desde la base de datos: ${userData?.username}');
   }
 
   Future<UserEntity> updateUserData({required UserEntity user}) async {
@@ -77,20 +83,14 @@ extension UserData on DefaultUserStateProvider {
           userData = result.value;
           return result.value!;
         case ResultStatus.error:
-          if (userData != null) {
-            print('Username desde la base de datos: ${userData?.username}');
-          } else {
-            print('No se encontraron datos de usuario');
-          }
           return Future.error(AppFailureMessages.unExpectedErrorMessage);
       }
     });
   }
 }
 
-//FAVORITOS
-
-extension Favorites on DefaultUserStateProvider {
+// Favourites
+extension Favourites on DefaultUserStateProvider {
   Future<List<PlaceListDetailEntity>> fetchUserFavouritePlaces() async {
     var placeList = await _favouritesPlacesUseCase.fetchFavouritesPlaces(
         localId: userData?.localId ?? "");
@@ -98,7 +98,7 @@ extension Favorites on DefaultUserStateProvider {
   }
 }
 
-//PAYMENTS METHODS
+// PaymentMethods
 extension PaymentMethods on DefaultUserStateProvider {
   Future<PaymentMethodsEntity?> getPaymentMethods() {
     return _paymentMethodsUseCase.getPaymentMethods(
@@ -153,20 +153,105 @@ extension PaymentMethods on DefaultUserStateProvider {
   }
 }
 
-//
-extension DefaultUserStateProviderExtension on BuildContext {
+// DeliveryAddress
+extension DeliveryAddress on DefaultUserStateProvider {
+  Future<DeliveryAddressListEntity?> getDeliveryAddressList() {
+    return _deliveryAddressUseCase.getDeliveryAddressList(
+        localId: userData?.localId ?? "");
+  }
 
-  //USERDATA
+  Future<DeliveryAddressListEntity?> addDeliveryAddress(
+      {required DeliveryAddressEntity deliveryAddressEntity}) async {
+    var deliveryAddressList = await getDeliveryAddressList();
+    deliveryAddressList?.deliveryAddressList.add(deliveryAddressEntity);
+
+    if (deliveryAddressList == null) {
+      return Future.error(Failure.fromMessage(
+          message: AppFailureMessages.unExpectedErrorMessage));
+    }
+    return _saveDeliveryAddress(parameters: deliveryAddressList);
+  }
+
+  Future<DeliveryAddressListEntity?> editDeliveryAddress(
+      {required DeliveryAddressEntity deliveryAddressEntity}) async {
+    var deliveryAddressList = await getDeliveryAddressList();
+    int? idx = deliveryAddressList?.deliveryAddressList
+        .indexWhere((item) => item.id == deliveryAddressEntity.id);
+
+    if (idx != -1 && idx != null && deliveryAddressList != null) {
+      deliveryAddressList.deliveryAddressList[idx] = deliveryAddressEntity;
+      return _saveDeliveryAddress(parameters: deliveryAddressList);
+    } else {
+      return Future.error(Failure.fromMessage(
+          message: AppFailureMessages.unExpectedErrorMessage));
+    }
+  }
+
+  Future<DeliveryAddressListEntity?> deleteDeliveryAddress(
+      {required DeliveryAddressEntity deliveryAddressEntity}) async {
+    var deliveryAddressList = await getDeliveryAddressList();
+    int? idx = deliveryAddressList?.deliveryAddressList
+        .indexWhere((item) => item.id == deliveryAddressEntity.id);
+    if (idx != -1 && idx != null && deliveryAddressList != null) {
+      deliveryAddressList.deliveryAddressList.removeAt(idx);
+      return _saveDeliveryAddress(parameters: deliveryAddressList);
+    } else {
+      return Future.error(Failure.fromMessage(
+          message: AppFailureMessages.unExpectedErrorMessage));
+    }
+  }
+
+  Future<DeliveryAddressListEntity?> _saveDeliveryAddress(
+      {required DeliveryAddressListEntity parameters}) {
+    return _deliveryAddressUseCase.saveDeliveryAddressList(
+        localId: userData?.localId ?? "", parameters: parameters);
+  }
+}
+
+// BuildContext
+extension DefaultUserStateProviderExtension on BuildContext {
+  // Provider
   DefaultUserStateProvider getDefaultUserStateProvider() =>
       Provider.of<DefaultUserStateProvider>(this);
+  // UserData
   UserEntity? getUserData() =>
-      Provider.of<DefaultUserStateProvider>(this).userData;
+      Provider.of<DefaultUserStateProvider>(this, listen: false).userData;
   Future<UserEntity> updateUserData({required UserEntity user}) =>
-      Provider.of<DefaultUserStateProvider>(this).updateUserData(user: user);
+      Provider.of<DefaultUserStateProvider>(this, listen: false)
+          .updateUserData(user: user);
+  // Favourites
+  Future<List<PlaceListDetailEntity>> fetchUserFavouritePlaces() =>
+      Provider.of<DefaultUserStateProvider>(this, listen: false)
+          .fetchUserFavouritePlaces();
+  // PaymentMethods
+  Future<PaymentMethodsEntity?> getPaymentMethods() =>
+      Provider.of<DefaultUserStateProvider>(this).getPaymentMethods();
+  Future<PaymentMethodsEntity?> addPaymentMethod(
+          {required PaymentMethodEntity paymentMethod}) =>
+      Provider.of<DefaultUserStateProvider>(this, listen: false)
+          .addPaymentMethod(paymentMethod: paymentMethod);
+  Future<PaymentMethodsEntity?> editPaymentMethod(
+          {required PaymentMethodEntity paymentMethod}) =>
+      Provider.of<DefaultUserStateProvider>(this, listen: false)
+          .editPaymentMethod(paymentMethod: paymentMethod);
+  Future<PaymentMethodsEntity?> deletePaymentMethod(
+          {required PaymentMethodEntity paymentMethod}) =>
+      Provider.of<DefaultUserStateProvider>(this, listen: false)
+          .deletePaymentMethod(paymentMethod: paymentMethod);
 
-  //PAYMENTSMETHODS
-  Future<PaymentMethodsEntity?> getPaymentMethods() => Provider.of<DefaultUserStateProvider>(this).getPaymentMethods();
-  Future<PaymentMethodsEntity?> addPaymentMethod({ required PaymentMethodEntity paymentMethod }) => Provider.of<DefaultUserStateProvider>(this, listen: false).addPaymentMethod(paymentMethod: paymentMethod);
-  Future<PaymentMethodsEntity?> editPaymentMethod({ required PaymentMethodEntity paymentMethod }) => Provider.of<DefaultUserStateProvider>(this, listen: false).editPaymentMethod(paymentMethod: paymentMethod);
-  Future<PaymentMethodsEntity?> deletePaymentMethod({ required PaymentMethodEntity paymentMethod }) => Provider.of<DefaultUserStateProvider>(this, listen: false).deletePaymentMethod(paymentMethod: paymentMethod);
+  // Delivery Address
+  Future<DeliveryAddressListEntity?> getDeliveryAddressList() =>
+      Provider.of<DefaultUserStateProvider>(this).getDeliveryAddressList();
+  Future<DeliveryAddressListEntity?> addDeliveryAddress(
+          {required DeliveryAddressEntity deliveryAddressEntity}) =>
+      Provider.of<DefaultUserStateProvider>(this, listen: false)
+          .addDeliveryAddress(deliveryAddressEntity: deliveryAddressEntity);
+  Future<DeliveryAddressListEntity?> editDeliveryAddress(
+          {required DeliveryAddressEntity deliveryAddressEntity}) =>
+      Provider.of<DefaultUserStateProvider>(this, listen: false)
+          .editDeliveryAddress(deliveryAddressEntity: deliveryAddressEntity);
+  Future<DeliveryAddressListEntity?> deleteDeliveryAddress(
+          {required DeliveryAddressEntity deliveryAddressEntity}) =>
+      Provider.of<DefaultUserStateProvider>(this, listen: false)
+          .deleteDeliveryAddress(deliveryAddressEntity: deliveryAddressEntity);
 }

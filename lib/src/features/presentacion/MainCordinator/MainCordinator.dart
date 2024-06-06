@@ -11,12 +11,16 @@ import 'package:app_delivery/src/features/presentacion/Collection_detail_page/Vi
 import 'package:app_delivery/src/features/presentacion/Collection_detail_page/collection_detail_page.dart';
 import 'package:app_delivery/src/features/presentacion/PopularPlacesListView/popular_places_list_view.dart';
 import 'package:app_delivery/src/features/presentacion/Profile/AddEditCardPage/add_edit_card_page.dart';
+import 'package:app_delivery/src/features/presentacion/Profile/AddEditDeliveryAddressPage/add_edit_delivery_address_page.dart';
 import 'package:app_delivery/src/features/presentacion/Profile/AddEditPaypalAccountPage/add_edit_paypal_account_page.dart';
+import 'package:app_delivery/src/features/presentacion/Profile/ChangeDeliveryAddressPage/change_delivery_address_page.dart';
 import 'package:app_delivery/src/features/presentacion/collectionPage/View/collection_page.dart';
 import 'package:app_delivery/src/features/presentacion/places_detail_page/View/place_detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import '../../logica/Entidades/DeliveryAddress/delivery_address_entity.dart';
 
 class RoutesPath {
   static String welcomePath = 'welcome';
@@ -52,13 +56,7 @@ class MainCoordinator {
     });
   }
 
-  Future<String?> _isUserLogged() async {
-    var idToken = await _fetchLocalStorageUseCase.execute(
-        fetchLocalParameteres:
-            FetchLocalStorageParameters(key: LocalStorageKeys.idToken));
-    userUid = idToken ?? "";
-    return idToken;
-  }
+ 
 
   showTabsPage({required BuildContext context}) {
     Navigator.pushNamed(context, RoutesPath.tabPath);
@@ -114,13 +112,9 @@ class MainCoordinator {
             transitionDuration: const Duration(seconds: 0)));
   }
 
-  showEditEmailPage({required BuildContext context}) {
-    Navigator.pushNamed(context, 'edit-email');
-  }
+  
 
-  showEditPasswordPage({required BuildContext context}) {
-    Navigator.pushNamed(context, 'edit-password');
-  }
+  
 
     showChangePaymentsMethodsPage({ required BuildContext context }) {
     Navigator.pushNamed(context, RoutesPath.changePaymentMethodsPath);
@@ -129,14 +123,10 @@ class MainCoordinator {
 
 
 
+
   
   
-    _pushPage({ required BuildContext context,
-              required Widget page }) {
-    Navigator.push(context, PageRouteBuilder(pageBuilder: (_,__,___) => page,
-            transitionDuration: const Duration(seconds: 0)
-        ));
-  }
+   
   
 }
 
@@ -173,6 +163,39 @@ extension PaymentMethodsNavigation on MainCoordinator {
         page: AddEditPaypalAccountPage(isEditing: isForEditing,
                                        paymentMethod: paymentMethod,
                                        viewStateDelegate: viewStateDelegate));
+  }
+}
+
+extension DeliveryAddressNavigation on MainCoordinator {
+  showChangeDeliveryAddress({ required BuildContext context }) {
+    _pushPage(context: context, page: const ChangeDeliveryAddressPage());
+  }
+
+  showAddEditDeliveryAddress({ required BuildContext context,
+                               required bool? isForEditing,
+                               DeliveryAddressEntity? deliveryAddressEntity,
+                               required BaseViewStateDelegate? viewStateDelegate }) {
+    _pushPage(context: context, page: AddEditDeliveryAddressPage(deliveryAddressEntity: deliveryAddressEntity,
+                                                                 viewStateDelegate: viewStateDelegate,
+                                                                 isEditing: isForEditing));
+  }
+}
+
+
+extension PrivateMethods on MainCoordinator {
+   Future<String?> _isUserLogged() async {
+    var idToken = await _fetchLocalStorageUseCase.execute(
+        fetchLocalParameteres:
+            FetchLocalStorageParameters(key: LocalStorageKeys.idToken));
+    userUid = idToken ?? "";
+    return idToken;
+  }
+
+  _pushPage({ required BuildContext context,
+              required Widget page }) {
+    Navigator.push(context, PageRouteBuilder(pageBuilder: (_,__,___) => page,
+            transitionDuration: const Duration(seconds: 0)
+        ));
   }
 }
  

@@ -89,29 +89,7 @@ class DefaultLoginViewModel extends LoginViewModel {
       case CustomTextFormFieldType.password:
         loginModel?.password = newValue;
         break;
-      case CustomTextFormFieldType.username:
-        // TODO: Handle this case.
-        break;
-      case CustomTextFormFieldType.phone:
-        // TODO: Handle this case.
-        break;
-      case CustomTextFormFieldType.dateOfBirth:
-        // TODO: Handle this case.
-        break;
-      case CustomTextFormFieldType.nameInTheCard:
-        // TODO: Handle this case.
-        break;
-      case CustomTextFormFieldType.cardNumber:
-        // TODO: Handle this case.
-        break;
-      case CustomTextFormFieldType.monthAndYearInCard:
-        // TODO: Handle this case.
-        break;
-      case CustomTextFormFieldType.cvc:
-        // TODO: Handle this case.
-        break;
-      case CustomTextFormFieldType.country:
-        // TODO: Handle this case.
+      default:
         break;
     }
   }

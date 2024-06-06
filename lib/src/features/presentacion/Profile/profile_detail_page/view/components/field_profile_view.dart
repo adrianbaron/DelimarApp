@@ -1,6 +1,7 @@
 import 'package:app_delivery/src/Base/Views/BaseView.dart';
 import 'package:app_delivery/src/colors/colors.dart';
 import 'package:app_delivery/src/features/logica/Entidades/User/UserEntity.dart';
+import 'package:app_delivery/src/features/presentacion/MainCordinator/MainCordinator.dart';
 import 'package:app_delivery/src/features/presentacion/StateProviders/user_state_provider.dart';
 import 'package:app_delivery/src/features/presentacion/widgets/TextFormField/CustonTextFormField.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +77,9 @@ class TextFieldsProfileDetailView extends StatelessWidget
               Icons.chevron_right,
               color: gris,
             ),
-            
+            onTap: () {
+              coordinator.showChangeDeliveryAddress(context: context);
+            },
           ),
           const Divider()
         ],
