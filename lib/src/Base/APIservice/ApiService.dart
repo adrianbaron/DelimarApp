@@ -95,7 +95,7 @@ class DefaultApiService extends ApiService {
         var jsonData = jsonDecode(response.body);
         // Null Check
         if (jsonData == null) {
-          throw Failure.fromMessage(message: _Exceptions.formatException);
+          throw Failure.fromMessage(message: _Exceptions.httpException);
         } else {
           return jsonData;
         }

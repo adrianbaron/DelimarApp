@@ -20,7 +20,7 @@ class EmailAndPasswordTextFieldCardView extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: getBoxDecorationWithShadow(),
+      decoration: getBoxDecorationWithShadows(),
       width: getScreenWidth(context: context),
       margin: const EdgeInsets.only(left: 16, right: 16),
       padding: const EdgeInsets.all(16),

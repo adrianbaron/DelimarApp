@@ -48,7 +48,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage>
                           left: 15,
                           right: 15),
                       padding: const EdgeInsets.only(bottom: 32),
-                      decoration: getBoxDecorationWithShadow(),
+                      decoration: getBoxDecorationWithShadows(),
                       width: getScreenWidth(context: context),
                       child: Column(
                         children: [

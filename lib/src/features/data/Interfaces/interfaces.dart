@@ -4,10 +4,14 @@ import 'package:app_delivery/src/Base/APIservice/AppError.dart';
 import 'package:app_delivery/src/Managers/PlacesdManager/decorables/place_list_decorable.dart';
 import 'package:app_delivery/src/features/data/Decorables/Auth/UserAuthData/UserAuthDataDecorable.dart';
 import 'package:app_delivery/src/features/data/Decorables/Collections/CollectionsDecorable.dart';
+import 'package:app_delivery/src/features/data/Decorables/DeliveryAddress/deliver_address_decodable.dart';
+import 'package:app_delivery/src/features/data/Decorables/PaymentMethods/payments_methods_decodable.dart';
 import 'package:app_delivery/src/features/data/Decorables/User/UserDecorable.dart';
 import 'package:app_delivery/src/features/data/Repositories/Auth/SingInRepository/SingInBodyParameters.dart';
 import 'package:app_delivery/src/features/data/Repositories/Auth/SingUpRepository/singUpRepositoriParams.dart';
 import 'package:app_delivery/src/features/data/Repositories/Auth/UserAuthDataRepository/UserAuthDataRepositoryBodyParameters.dart';
+import 'package:app_delivery/src/features/data/Repositories/DeliveryAddress/DeliveryAddressBodyParameters/delivery_address_body_parameters.dart';
+import 'package:app_delivery/src/features/data/Repositories/PaymentsMethods/BodyParameters/payments_methods_body_parameters.dart';
 import 'package:app_delivery/src/features/data/Repositories/User/SaveUserDataRepository/UserBodyParans.dart';
 import 'package:app_delivery/src/features/logica/Entidades/Places/place_list_entity.dart';
 import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/Decorable/SingInDecorable.dart';
@@ -92,4 +96,18 @@ abstract class PlaceListRepository {
 // * Places Repositories
 abstract class PlaceDetailRepository {
   Future<void> savePlaceDetail({required PlaceListDetailEntity placeDetail});
+}
+
+// * Payment Methods Repositories
+abstract class PaymentMethodsRepository {
+  Future<PaymentMethodsDecodable> getPaymentMethods({required String localId});
+  Future<PaymentMethodsDecodable> savePaymentMethods(
+      {required String localId,
+      required PaymentMethodsBodyParameters bodyParameters});
+}
+// * Delivery Address Repositories
+abstract class DeliveryAddressRepository {
+  Future<DeliveryAddressListDecodable> getDeliveryAddressList({ required String localId });
+  Future<DeliveryAddressListDecodable> saveDeliveryAddressList({ required String localId,
+                                                                 required DeliveryAddressListBodyParameters bodyParameters });
 }

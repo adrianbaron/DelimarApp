@@ -2,6 +2,12 @@ import 'package:app_delivery/src/Base/APIservice/ApiService.dart';
 import 'package:app_delivery/src/Base/APIservice/AppError.dart';
 import 'package:app_delivery/src/services/FirebaseService/RealTimeDataBaseService/Interfaces/interfaces.dart';
 
+abstract class RealtimeDatabaseExceptions {
+  static const String socketExceptionMessage = "No Internet connection 😑";
+  static const String httpException = "Couldn't find the path 😱";
+  static const String formatException = "Bad response format 👎";
+}
+
 class DefaultRealtimeDatabaseService extends RealtimeDataBaseService {
   final ApiService _apiService;
 
@@ -10,18 +16,25 @@ class DefaultRealtimeDatabaseService extends RealtimeDataBaseService {
 
   @override
   Future<Map<String, dynamic>> getData({required String path}) async {
-    print("Entramos al metodo getData de RealtimeDatabaseService");
     var endpoint = baseUrl + path + endUrl;
-    print('URL: $endpoint');
+    print(endpoint);
     try {
       final result = await _apiService.getDataFromGetRequest(url: endpoint);
-      
-      //print('Resultado: $result');
       return result;
-      
     } on Failure catch (f) {
-      //print('Error en getData: ${f.error}');
-      return f.error;
+      switch (f.message) {
+        case RealtimeDatabaseExceptions.httpException:
+          return Future.error(Failure.fromMessage(
+              message: RealtimeDatabaseExceptions.httpException));
+        case RealtimeDatabaseExceptions.formatException:
+          return Future.error(Failure.fromMessage(
+              message: RealtimeDatabaseExceptions.formatException));
+        case RealtimeDatabaseExceptions.socketExceptionMessage:
+          return Future.error(Failure.fromMessage(
+              message: RealtimeDatabaseExceptions.socketExceptionMessage));
+        default:
+          return f.error;
+      }
     }
   }
 
@@ -35,7 +48,19 @@ class DefaultRealtimeDatabaseService extends RealtimeDataBaseService {
           bodyParameters: bodyParameters, url: endpoint);
       return result;
     } on Failure catch (f) {
-      return f.error;
+      switch (f.message) {
+        case RealtimeDatabaseExceptions.httpException:
+          return Future.error(Failure.fromMessage(
+              message: RealtimeDatabaseExceptions.httpException));
+        case RealtimeDatabaseExceptions.formatException:
+          return Future.error(Failure.fromMessage(
+              message: RealtimeDatabaseExceptions.formatException));
+        case RealtimeDatabaseExceptions.socketExceptionMessage:
+          return Future.error(Failure.fromMessage(
+              message: RealtimeDatabaseExceptions.socketExceptionMessage));
+        default:
+          return f.error;
+      }
     }
   }
 
@@ -49,7 +74,19 @@ class DefaultRealtimeDatabaseService extends RealtimeDataBaseService {
           bodyParameters: bodyParameters, url: endpoint);
       return result;
     } on Failure catch (f) {
-      return f.error;
+      switch (f.message) {
+        case RealtimeDatabaseExceptions.httpException:
+          return Future.error(Failure.fromMessage(
+              message: RealtimeDatabaseExceptions.httpException));
+        case RealtimeDatabaseExceptions.formatException:
+          return Future.error(Failure.fromMessage(
+              message: RealtimeDatabaseExceptions.formatException));
+        case RealtimeDatabaseExceptions.socketExceptionMessage:
+          return Future.error(Failure.fromMessage(
+              message: RealtimeDatabaseExceptions.socketExceptionMessage));
+        default:
+          return f.error;
+      }
     }
   }
 }

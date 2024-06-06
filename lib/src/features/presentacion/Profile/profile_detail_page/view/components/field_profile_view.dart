@@ -10,7 +10,7 @@ mixin TextFieldProfileDetailViewDelegate {
 }
 
 class TextFieldsProfileDetailView extends StatelessWidget
-    with TextFormFieldDelegate {
+    with TextFormFieldDelegate, BaseView {
   Decoration? _decoration;
   final UserEntity? userData;
   final TextFieldProfileDetailViewDelegate delegate;
@@ -60,11 +60,14 @@ class TextFieldsProfileDetailView extends StatelessWidget
               Icons.chevron_right,
               color: gris,
             ),
+            onTap: () {
+              coordinator.showChangePaymentsMethodsPage(context: context);
+            },
           ),
-          Divider(),
+          const Divider(),
           ListTile(
             leading: Icon(Icons.delivery_dining_outlined, color: orange),
-            title: Text(
+            title: const Text(
               "Cambiar direccion",
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
@@ -73,19 +76,19 @@ class TextFieldsProfileDetailView extends StatelessWidget
               Icons.chevron_right,
               color: gris,
             ),
+            
           ),
-          Divider()
+          const Divider()
         ],
       ),
     );
   }
 
-
-  
   @override
-  onChanged({required String newValue, required CustomTextFormFieldType customTextFormFieldType}) {
-    switch(customTextFormFieldType){
-      
+  onChanged(
+      {required String newValue,
+      required CustomTextFormFieldType customTextFormFieldType}) {
+    switch (customTextFormFieldType) {
       case CustomTextFormFieldType.username:
         userData?.username = newValue;
         delegate.userDataChanged(newUser: userData);
@@ -94,8 +97,6 @@ class TextFieldsProfileDetailView extends StatelessWidget
         delegate.userDataChanged(newUser: userData);
       default:
         break;
-      
-      
     }
   }
 }

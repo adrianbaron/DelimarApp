@@ -1,3 +1,4 @@
+import 'package:app_delivery/src/features/presentacion/Profile/ChangePaymentsMethodsPage/change_payments_methods_page.dart';
 import 'package:app_delivery/src/features/presentacion/Profile/EditEmailPage/edit_email_page.dart';
 import 'package:app_delivery/src/features/presentacion/Profile/EditPasswordPage/edit_password_page.dart';
 import 'package:app_delivery/src/features/presentacion/SingUpPage/View/sing_up_page.dart';
@@ -25,4 +26,5 @@ final routes = <String, WidgetBuilder>{
   'profile-detail': (BuildContext context) => ProfileDetailPage(),
   'edit-email': (BuildContext context) => EditEmailPage(),
   'edit-password': (BuildContext context) => EditPasswordPage(),
+  'change-payments-methods': (BuildContext context) => ChangePaymentsMethodsPage(),
 };

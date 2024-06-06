@@ -38,7 +38,7 @@ class _FavouritesCardViewState extends State<FavouritesCardView> with BaseView {
         margin: const EdgeInsets.only(top: 16),
         height: 140,
         padding: const EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 0),
-        decoration: getBoxDecorationWithShadow(),
+        decoration: getBoxDecorationWithShadows(),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

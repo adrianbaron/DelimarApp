@@ -1,8 +1,9 @@
-import 'package:app_delivery/src/colors/colors.dart';
 import 'package:flutter/material.dart';
+import '../../Colors/Colors.dart';
 
-const borderRadius = BorderRadius.all(Radius.circular(20));
-const boxShadows = [
+// Constants
+const _defectBorderRadius = BorderRadius.all(Radius.circular(20));
+const _defectBoxShadowObject = [
   BoxShadow(
       color: Color.fromRGBO(210, 211, 215, 1.0),
       offset: Offset(0, 5),
@@ -14,12 +15,20 @@ BorderSide defaultBorderSide = BorderSide(color: orange);
 const BorderSide borderSideTextFieldError = BorderSide(color: Colors.red);
 
 Decoration? defaultTextFieldDecoration = BoxDecoration(
-    borderRadius: const BorderRadius.all(Radius.circular(8)),
+    borderRadius: BorderRadius.all(Radius.circular(8)),
     border: Border(
         top: defaultBorderSide,
         left: defaultBorderSide,
         bottom: defaultBorderSide,
         right: defaultBorderSide));
+
+const Decoration? borderSideNoneDecoration =
+    BoxDecoration(border: Border(bottom: BorderSide.none));
+
+Decoration? borderSideNoneGrayBackgroundDecoration = BoxDecoration(
+    color: bgGrey,
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+    border: Border(bottom: BorderSide.none));
 
 const Decoration? errorTextFieldDecoration = BoxDecoration(
     borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -29,10 +38,10 @@ const Decoration? errorTextFieldDecoration = BoxDecoration(
         bottom: borderSideTextFieldError,
         right: borderSideTextFieldError));
 
-Decoration getBoxDecorationWithShadow(
-    {BorderRadiusGeometry borderRadius = borderRadius,
+BoxDecoration getBoxDecorationWithShadows(
+    {BorderRadiusGeometry borderRadius = _defectBorderRadius,
     Color containerColor = Colors.white,
-    List<BoxShadow> boxShadows = boxShadows}) {
+    List<BoxShadow> boxShadows = _defectBoxShadowObject}) {
   return BoxDecoration(
       borderRadius: borderRadius, color: containerColor, boxShadow: boxShadows);
 }

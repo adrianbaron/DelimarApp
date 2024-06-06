@@ -14,7 +14,7 @@ class AvatarProfileView extends StatelessWidget {
         Container(
           width: 142,
           height: 142,
-          decoration: getBoxDecorationWithShadow(
+          decoration: getBoxDecorationWithShadows(
               borderRadius: BorderRadius.circular(65)),
           child: CircleAvatar(
             backgroundImage: NetworkImage(backgroundimage),

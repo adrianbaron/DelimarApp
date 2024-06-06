@@ -11,7 +11,7 @@ mixin BaseView {
   BaseViewStateDelegate? viewStateDelegate;
 }
 
-abstract class BaseViewStateDelegate {
+mixin BaseViewStateDelegate {
   void onChange();
 }
 

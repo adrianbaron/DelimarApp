@@ -1,13 +1,17 @@
 import 'package:app_delivery/src/Base/Constants/LocalStorageKey.dart';
+import 'package:app_delivery/src/Base/Views/BaseView.dart';
 import 'package:app_delivery/src/features/logica/CasosDeUso/LocalStorage/FetchLocalStorageUseCase.dart';
 import 'package:app_delivery/src/features/logica/CasosDeUso/LocalStorage/SaveLocalStorageUseCase.dart';
 import 'package:app_delivery/src/features/logica/CasosDeUso/LocalStorage/local_Storage_UseCase_Parameters.dart';
 import 'package:app_delivery/src/features/logica/CasosDeUso/User/ValidatedCurrentUserUseCase/ValidatedCurrentUserUseCase.dart';
 import 'package:app_delivery/src/features/logica/Entidades/Collections/collections_entity.dart';
+import 'package:app_delivery/src/features/logica/Entidades/PaymentsMethods/payments_methods_entity.dart';
 import 'package:app_delivery/src/features/logica/Entidades/Places/place_list_entity.dart';
 import 'package:app_delivery/src/features/presentacion/Collection_detail_page/ViewModel/collections_detail_page_view_model.dart';
 import 'package:app_delivery/src/features/presentacion/Collection_detail_page/collection_detail_page.dart';
 import 'package:app_delivery/src/features/presentacion/PopularPlacesListView/popular_places_list_view.dart';
+import 'package:app_delivery/src/features/presentacion/Profile/AddEditCardPage/add_edit_card_page.dart';
+import 'package:app_delivery/src/features/presentacion/Profile/AddEditPaypalAccountPage/add_edit_paypal_account_page.dart';
 import 'package:app_delivery/src/features/presentacion/collectionPage/View/collection_page.dart';
 import 'package:app_delivery/src/features/presentacion/places_detail_page/View/place_detail_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +22,9 @@ class RoutesPath {
   static String welcomePath = 'welcome';
   static String tabPath = 'tabs';
   static String signUpPath = 'singUp';
+  static String changePaymentMethodsPath = "change-payments-methods";
+  static String editPasswordPath = "edit-password";
+  static String editEmailPath = "edit-email";
 }
 
 class MainCoordinator {
@@ -114,4 +121,58 @@ class MainCoordinator {
   showEditPasswordPage({required BuildContext context}) {
     Navigator.pushNamed(context, 'edit-password');
   }
+
+    showChangePaymentsMethodsPage({ required BuildContext context }) {
+    Navigator.pushNamed(context, RoutesPath.changePaymentMethodsPath);
+  }
+
+
+
+
+  
+  
+    _pushPage({ required BuildContext context,
+              required Widget page }) {
+    Navigator.push(context, PageRouteBuilder(pageBuilder: (_,__,___) => page,
+            transitionDuration: const Duration(seconds: 0)
+        ));
+  }
+  
 }
+
+extension PaymentMethodsNavigation on MainCoordinator {
+  showEditPasswordPage({ required BuildContext context }) {
+    Navigator.pushNamed(context, RoutesPath.editPasswordPath);
+  }
+
+  showEditEmailPage({ required BuildContext context }) {
+    Navigator.pushNamed(context, RoutesPath.editEmailPath);
+  }
+
+  showChangePaymentsMethodsPage({ required BuildContext context }) {
+    Navigator.pushNamed(context, RoutesPath.changePaymentMethodsPath);
+  }
+
+  showAddEditCardPage({ required BuildContext context,
+                        bool? isForEditing,
+                        bool? isForCreateAVisaCard,
+                        PaymentMethodEntity? paymentMethod,
+                        BaseViewStateDelegate? viewStateDelegate }) {
+    _pushPage(context: context,
+        page: AddEditCardPage(isEditing: isForEditing,
+            isForCreateAVisaCard: isForCreateAVisaCard,
+            paymentMethod: paymentMethod,
+            viewStateDelegate: viewStateDelegate));
+  }
+
+  showAddEditPaypalAccountPage({ required BuildContext context,
+                                 bool? isForEditing,
+                                PaymentMethodEntity? paymentMethod,
+                                BaseViewStateDelegate? viewStateDelegate }) {
+    _pushPage(context: context,
+        page: AddEditPaypalAccountPage(isEditing: isForEditing,
+                                       paymentMethod: paymentMethod,
+                                       viewStateDelegate: viewStateDelegate));
+  }
+}
+ 
