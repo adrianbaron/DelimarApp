@@ -27,7 +27,7 @@ class NoveltyPlacesVerticalCardView extends StatelessWidget with BaseView {
               borderRadius: BorderRadius.circular(20),
               child: Image(
                   width: 210.0,
-                  height: 250.0,
+                  height: 200.0,
                   fit: BoxFit.cover,
                   image: NetworkImage(placeListDetailEntity.imgs?.first ??
                       DefaultCardImageUrlHelper.defaultCardImageUrl)),

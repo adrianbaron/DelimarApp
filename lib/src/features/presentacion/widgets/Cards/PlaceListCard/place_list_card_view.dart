@@ -28,7 +28,7 @@ class PlaceListCardView extends StatelessWidget with BaseView {
             Container(
               height: 125,
               child: SizedBox(
-                height: 105,
+                height: 130,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -124,7 +124,7 @@ class RightContentPlaceListCardView extends StatelessWidget {
                     offset: const Offset(50, -20),
                     child: SizedBox(
                       width: 103.0,
-                      height: 50.0,
+                      height: 10.0,
                       child: hasFreeDelivery
                           ? createElevatedButton(
                               func: () {},
