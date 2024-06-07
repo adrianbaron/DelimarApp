@@ -18,7 +18,7 @@ class FlexibleSpaceBarContentView extends StatelessWidget {
         children: [
           Image(
               width: double.infinity,
-              height: getScreenHeight(context: context, multiplier: 0.42),
+              height: getScreenHeight(context: context, multiplier: 0.48),
               fit: BoxFit.fill,
               image: NetworkImage(viewModel.place.imgs.first)),
           Container(

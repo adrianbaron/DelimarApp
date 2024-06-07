@@ -16,7 +16,7 @@ class AppBarView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       backgroundColor: orange,
-      expandedHeight: getScreenHeight(context: context, multiplier: 0.35),
+      expandedHeight: getScreenHeight(context: context, multiplier: 0.41),
       flexibleSpace: FlexibleSpaceBarContentView(viewModel: viewModel),
       leading: Builder(builder: (BuildContext context) {
         return const BackButtonView(color: Colors.white);

@@ -3,6 +3,7 @@ import 'package:app_delivery/src/features/logica/Entidades/Places/PlaceList/plac
 import 'package:app_delivery/src/features/presentacion/MainCordinator/MainCordinator.dart';
 import 'package:app_delivery/src/utils/helpers/UserPhoto/userPhotoHelpers.dart';
 import 'package:flutter/material.dart';
+
 class RecentSearchVerticalCardView extends StatelessWidget with BaseView {
   final PlaceDetailEntity placeListDetailEntity;
 
@@ -17,7 +18,7 @@ class RecentSearchVerticalCardView extends StatelessWidget with BaseView {
       },
       child: Container(
         width: 160.0,
-        height: 200,
+        height: 260,
         margin: const EdgeInsets.only(top: 10, right: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,7 +27,7 @@ class RecentSearchVerticalCardView extends StatelessWidget with BaseView {
               borderRadius: BorderRadius.circular(20.0),
               child: Image(
                   width: 160.0,
-                  height: 120.0,
+                  height: 130.0,
                   fit: BoxFit.cover,
                   image: NetworkImage(placeListDetailEntity.imgs?.first ??
                       DefaultCardImageUrlHelper.defaultCardImageUrl)),
@@ -54,7 +55,8 @@ class RecentSearchVerticalCardView extends StatelessWidget with BaseView {
                             fontSize: 13.0))),
                 Container(
                   width: 160.0,
-                  margin: const EdgeInsets.only(top: 5),
+                  height: 1,
+                  margin: const EdgeInsets.only(top: 2),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
