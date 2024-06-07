@@ -6,10 +6,10 @@ import 'package:app_delivery/src/features/logica/CasosDeUso/User/FetchUserDataUs
 import 'package:app_delivery/src/features/logica/CasosDeUso/User/SaveUserDataUseCase/SaveUserDataUseCase.dart';
 import 'package:app_delivery/src/features/logica/CasosDeUso/User/SaveUserDataUseCase/SaveUserDataUseCaseParameters.dart';
 import 'package:app_delivery/src/features/logica/Entidades/PaymentsMethods/payments_methods_entity.dart';
-import 'package:app_delivery/src/features/logica/Entidades/Places/place_list_entity.dart';
+import 'package:app_delivery/src/features/logica/Entidades/Places/PlaceList/place_list_entity.dart';
 import 'package:app_delivery/src/features/logica/Entidades/User/UserEntity.dart';
 import 'package:app_delivery/src/features/presentacion/MainCordinator/MainCordinator.dart';
-import 'package:app_delivery/src/features/presentacion/widgets/Cards/favoriteCard.dart';
+import 'package:app_delivery/src/features/presentacion/widgets/Cards/FavoritesCards/favoriteCard.dart';
 import 'package:app_delivery/src/utils/helpers/ResultType/resultType.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -91,7 +91,7 @@ extension UserData on DefaultUserStateProvider {
 
 // Favourites
 extension Favourites on DefaultUserStateProvider {
-  Future<List<PlaceListDetailEntity>> fetchUserFavouritePlaces() async {
+  Future<List<PlaceDetailEntity>> fetchUserFavouritePlaces() async {
     var placeList = await _favouritesPlacesUseCase.fetchFavouritesPlaces(
         localId: userData?.localId ?? "");
     return placeList.placeList ?? [];
@@ -220,7 +220,7 @@ extension DefaultUserStateProviderExtension on BuildContext {
       Provider.of<DefaultUserStateProvider>(this, listen: false)
           .updateUserData(user: user);
   // Favourites
-  Future<List<PlaceListDetailEntity>> fetchUserFavouritePlaces() =>
+  Future<List<PlaceDetailEntity>> fetchUserFavouritePlaces() =>
       Provider.of<DefaultUserStateProvider>(this, listen: false)
           .fetchUserFavouritePlaces();
   // PaymentMethods

@@ -1,23 +1,21 @@
-import 'package:app_delivery/src/features/data/Interfaces/interfaces.dart';
 import 'package:app_delivery/src/features/data/Repositories/Places/place_list_repository.dart';
-import 'package:app_delivery/src/features/logica/Entidades/Places/place_list_entity.dart';
+import 'package:app_delivery/src/features/logica/Entidades/Places/PlaceList/place_list_entity.dart';
 
 abstract class PlaceListUseCase {
   Future<PlaceListEntity> fetchPlaceList();
   Future<PlaceListEntity> fetchNoveltyPlaceList();
   Future<PlaceListEntity> fetchPopularPlacesList();
-  Future<PlaceListEntity> fetchPlacesListByCategory({required int categoryId});
-  Future<PlaceListEntity> fetchPlacesListByQuery({required String query});
-  Future<PlaceListEntity> fetchPlacesListByRecentSearches(
-      {required List<String> placeIds});
+  Future<PlaceListEntity> fetchPlacesListByCategory({ required int categoryId });
+  Future<PlaceListEntity> fetchPlacesListByQuery({ required String query });
+  Future<PlaceListEntity> fetchPlacesListByRecentSearches({ required List<String> placeIds });
 }
 
 class DefaultPlaceListUseCase extends PlaceListUseCase {
+
   final PlaceListRepository _placeListRepository;
 
-  DefaultPlaceListUseCase({PlaceListRepository? placeListRepository})
-      : _placeListRepository =
-            placeListRepository ?? DefaultPlaceListRepository();
+  DefaultPlaceListUseCase({ PlaceListRepository? placeListRepository })
+          : _placeListRepository = placeListRepository ?? DefaultPlaceListRepository();
 
   @override
   Future<PlaceListEntity> fetchPlaceList() async {
@@ -27,39 +25,31 @@ class DefaultPlaceListUseCase extends PlaceListUseCase {
 
   @override
   Future<PlaceListEntity> fetchNoveltyPlaceList() async {
-    final placeListDecodable =
-        await _placeListRepository.fetchNoveltyPlaceList();
+    final placeListDecodable = await _placeListRepository.fetchNoveltyPlaceList();
     return PlaceListEntity.fromMap(placeListDecodable.toMap());
   }
 
   @override
   Future<PlaceListEntity> fetchPopularPlacesList() async {
-    final placeListDecodable =
-        await _placeListRepository.fetchPopularPlacesList();
+    final placeListDecodable = await _placeListRepository.fetchPopularPlacesList();
     return PlaceListEntity.fromMap(placeListDecodable.toMap());
   }
 
   @override
-  Future<PlaceListEntity> fetchPlacesListByCategory(
-      {required int categoryId}) async {
-    final placeListDecodable = await _placeListRepository
-        .fetchPlacesListByCategory(categoryId: categoryId);
+  Future<PlaceListEntity> fetchPlacesListByCategory({ required int categoryId }) async {
+    final placeListDecodable = await _placeListRepository.fetchPlacesListByCategory(categoryId: categoryId);
     return PlaceListEntity.fromMap(placeListDecodable.toMap());
   }
 
   @override
-  Future<PlaceListEntity> fetchPlacesListByQuery(
-      {required String query}) async {
-    final placeListDecodable =
-        await _placeListRepository.fetchPlacesListByQuery(query: query);
+  Future<PlaceListEntity> fetchPlacesListByQuery({ required String query }) async {
+    final placeListDecodable = await _placeListRepository.fetchPlacesListByQuery(query: query);
     return PlaceListEntity.fromMap(placeListDecodable.toMap());
   }
 
   @override
-  Future<PlaceListEntity> fetchPlacesListByRecentSearches(
-      {required List<String> placeIds}) async {
-    final placeListDecodable = await _placeListRepository
-        .fetchPlacesListByRecentSearches(placeIds: placeIds);
+  Future<PlaceListEntity> fetchPlacesListByRecentSearches({required List<String> placeIds}) async {
+    final placeListDecodable = await _placeListRepository.fetchPlacesListByRecentSearches(placeIds: placeIds);
     return PlaceListEntity.fromMap(placeListDecodable.toMap());
   }
 

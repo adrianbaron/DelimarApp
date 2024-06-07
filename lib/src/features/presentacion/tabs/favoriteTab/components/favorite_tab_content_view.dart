@@ -1,9 +1,9 @@
-import 'package:app_delivery/src/features/logica/Entidades/Places/place_list_entity.dart';
+import 'package:app_delivery/src/features/logica/Entidades/Places/PlaceList/place_list_entity.dart';
 import 'package:app_delivery/src/features/presentacion/widgets/Carrusel/PlaceListCarrusel/place_list_carrusel.dart';
 import 'package:flutter/material.dart';
 
 class FavouriteTabContentView extends StatelessWidget {
-  List<PlaceListDetailEntity> placeList;
+  List<PlaceDetailEntity> placeList;
 
   FavouriteTabContentView({Key? key, required this.placeList})
       : super(key: key);
@@ -28,7 +28,7 @@ class FavouriteTabContentView extends StatelessWidget {
             delegate: SliverChildListDelegate([
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: PlaceListCarrusel(
+            child: PlaceListCarrousel(
                 placeList: placeList,
                 isShortedVisualization: false,
                 carrouselStyle: PlaceListCarrouselStyle.listCards),

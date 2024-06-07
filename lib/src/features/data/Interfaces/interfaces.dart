@@ -13,7 +13,7 @@ import 'package:app_delivery/src/features/data/Repositories/Auth/UserAuthDataRep
 import 'package:app_delivery/src/features/data/Repositories/DeliveryAddress/DeliveryAddressBodyParameters/delivery_address_body_parameters.dart';
 import 'package:app_delivery/src/features/data/Repositories/PaymentsMethods/BodyParameters/payments_methods_body_parameters.dart';
 import 'package:app_delivery/src/features/data/Repositories/User/SaveUserDataRepository/UserBodyParans.dart';
-import 'package:app_delivery/src/features/logica/Entidades/Places/place_list_entity.dart';
+import 'package:app_delivery/src/features/logica/Entidades/Places/PlaceList/place_list_entity.dart';
 import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/Decorable/SingInDecorable.dart';
 import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/Decorable/SingUpDecorable.dart';
 import 'package:app_delivery/src/services/FirebaseService/AuthFirebase/Decorable/UpdatePasswordDecorable.dart';
@@ -23,7 +23,7 @@ import 'package:app_delivery/src/utils/helpers/ResultType/resultType.dart';
 
 abstract class SingInRepository {
   Future<Result<SingInDecorable, Failure>> singIn(
-      {required SingInBodyParameters params});
+      {required SignInBodyParameters params});
 }
 
 abstract class SingUpRepository {
@@ -83,19 +83,19 @@ abstract class CollectionsRepository {
 
 // * Places Repositories
 abstract class PlaceListRepository {
-  Future<PlaceListDecorable> fetchPlaceList();
-  Future<PlaceListDecorable> fetchNoveltyPlaceList();
-  Future<PlaceListDecorable> fetchPopularPlacesList();
-  Future<PlaceListDecorable> fetchPlacesListByCategory(
+  Future<PlaceListDecodable> fetchPlaceList();
+  Future<PlaceListDecodable> fetchNoveltyPlaceList();
+  Future<PlaceListDecodable> fetchPopularPlacesList();
+  Future<PlaceListDecodable> fetchPlacesListByCategory(
       {required int categoryId});
-  Future<PlaceListDecorable> fetchPlacesListByQuery({required String query});
-  Future<PlaceListDecorable> fetchPlacesListByRecentSearches(
+  Future<PlaceListDecodable> fetchPlacesListByQuery({required String query});
+  Future<PlaceListDecodable> fetchPlacesListByRecentSearches(
       {required List<String> placeIds});
 }
 
 // * Places Repositories
 abstract class PlaceDetailRepository {
-  Future<void> savePlaceDetail({required PlaceListDetailEntity placeDetail});
+  Future<void> savePlaceDetail({required PlaceDetailEntity placeDetail});
 }
 
 // * Payment Methods Repositories
@@ -105,9 +105,12 @@ abstract class PaymentMethodsRepository {
       {required String localId,
       required PaymentMethodsBodyParameters bodyParameters});
 }
+
 // * Delivery Address Repositories
 abstract class DeliveryAddressRepository {
-  Future<DeliveryAddressListDecodable> getDeliveryAddressList({ required String localId });
-  Future<DeliveryAddressListDecodable> saveDeliveryAddressList({ required String localId,
-                                                                 required DeliveryAddressListBodyParameters bodyParameters });
+  Future<DeliveryAddressListDecodable> getDeliveryAddressList(
+      {required String localId});
+  Future<DeliveryAddressListDecodable> saveDeliveryAddressList(
+      {required String localId,
+      required DeliveryAddressListBodyParameters bodyParameters});
 }

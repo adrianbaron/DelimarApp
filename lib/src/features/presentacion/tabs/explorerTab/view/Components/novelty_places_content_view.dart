@@ -1,13 +1,11 @@
-
-import 'package:app_delivery/src/features/logica/Entidades/Places/place_list_entity.dart';
+import 'package:app_delivery/src/features/logica/Entidades/Places/PlaceList/place_list_entity.dart';
 import 'package:app_delivery/src/features/presentacion/widgets/Carrusel/VerticalCardCarrusel/vertical_card_carrusel.dart';
 import 'package:app_delivery/src/features/presentacion/widgets/Headers/header_text.dart';
 import 'package:flutter/material.dart';
 
-
 class NoveltyPlacesContentView extends StatelessWidget {
   //
-  List<PlaceListDetailEntity> noveltyPlaces = [];
+  List<PlaceDetailEntity> noveltyPlaces = [];
 
   NoveltyPlacesContentView({super.key, required this.noveltyPlaces});
 
@@ -23,13 +21,10 @@ class NoveltyPlacesContentView extends StatelessWidget {
                 child: headerText(
                     texto: 'Descubre nuevos lugares',
                     color: Colors.black,
-                    fontSize: 30.0),
+                    fontSize: 20.0),
               ),
-              VerticalCardCarrusel(placeList: noveltyPlaces)
+              VerticalCardCarrousel(placeList: noveltyPlaces)
             ],
           );
   }
 }
-
-
-

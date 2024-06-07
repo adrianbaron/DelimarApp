@@ -1,5 +1,6 @@
 import 'package:app_delivery/src/Base/Views/BaseView.dart';
 import 'package:app_delivery/src/features/logica/Entidades/Collections/collections_entity.dart';
+import 'package:app_delivery/src/features/presentacion/MainCordinator/MainCordinator.dart';
 import 'package:app_delivery/src/features/presentacion/widgets/Carrusel/CollectionCarrusel/collections_carrusel.dart';
 import 'package:app_delivery/src/features/presentacion/widgets/Headers/header_view.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class CollectionContentView extends StatelessWidget with BaseView {
                   },
                   child: const HeaderView(
                       textHeader: 'Categorias', textAction: 'Mostrar todo')),
-              CollectionCarruselView(collections: collections)
+              CollectionsCarrousel(collections: collections)
             ],
           );
   }

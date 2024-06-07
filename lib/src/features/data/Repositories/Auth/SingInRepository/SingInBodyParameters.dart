@@ -1,5 +1,5 @@
-class SingInBodyParameters {
-  SingInBodyParameters({
+class SignInBodyParameters {
+  SignInBodyParameters({
     required this.email,
     required this.password,
   });
@@ -8,7 +8,7 @@ class SingInBodyParameters {
   final String password;
 
   Map<String, dynamic> toMap() => {
-    "email" : email,
-    "password" : password
-  };
+        "email": email,
+        "password": password,
+      };
 }

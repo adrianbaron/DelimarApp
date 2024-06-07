@@ -1,8 +1,8 @@
 import 'package:app_delivery/src/Base/Constants/ErrorMessage.dart';
-import 'package:app_delivery/src/features/data/Interfaces/interfaces.dart';
+import 'package:app_delivery/src/Managers/PlacesdManager/decorables/place_list_decorable.dart';
 import 'package:app_delivery/src/features/data/Repositories/Places/PlaceDetail/place_detail_repository.dart';
 import 'package:app_delivery/src/features/logica/CasosDeUso/Places/PlaceList/place_list_use_case.dart';
-import 'package:app_delivery/src/features/logica/Entidades/Places/place_list_entity.dart';
+import 'package:app_delivery/src/features/logica/Entidades/Places/PlaceList/place_list_entity.dart';
 
 abstract class FavouritesPlacesUseCase {
   Future<PlaceListEntity> fetchFavouritesPlaces({required String localId});
@@ -10,6 +10,8 @@ abstract class FavouritesPlacesUseCase {
       {required String placeId,
       required String localId,
       required bool isFavourite});
+  Future<bool> isUserFavouritePlace(
+      {required String localId, required String placeId});
 }
 
 class DefaultFavouritesPlacesUseCase extends FavouritesPlacesUseCase {
@@ -46,7 +48,7 @@ class DefaultFavouritesPlacesUseCase extends FavouritesPlacesUseCase {
     }
   }
 
-  //@override
+  @override
   Future<void> _saveUserInFavourites(
       {required String placeId, required String localId}) async {
     var placeList = await _placeListUseCase.fetchPlaceList();
@@ -56,10 +58,12 @@ class DefaultFavouritesPlacesUseCase extends FavouritesPlacesUseCase {
     if (placeDetail == null) {
       return Future.error(AppFailureMessages.unExpectedErrorMessage);
     }
-    return _placeDetailRepository.savePlaceDetail(placeDetail: placeDetail!);
+
+    return _placeDetailRepository.savePlaceDetail(
+        placeDetail: PlaceDetailDecodable.fromMap(placeDetail.toMap()));
   }
 
-  //@override
+  @override
   Future<void> _removeUserFromFavourites(
       {required String placeId, required String localId}) async {
     var placeList = await _placeListUseCase.fetchPlaceList();
@@ -69,6 +73,20 @@ class DefaultFavouritesPlacesUseCase extends FavouritesPlacesUseCase {
     if (placeDetail == null) {
       return Future.error(AppFailureMessages.unExpectedErrorMessage);
     }
-    return _placeDetailRepository.savePlaceDetail(placeDetail: placeDetail!);
+    return _placeDetailRepository.savePlaceDetail(
+        placeDetail: PlaceDetailDecodable.fromMap(placeDetail.toMap()));
+  }
+
+  @override
+  Future<bool> isUserFavouritePlace(
+      {required String localId, required String placeId}) async {
+    PlaceListEntity places = await fetchFavouritesPlaces(localId: localId);
+    bool isUserFavouritePlace = places.placeList
+            ?.where((place) => place.placeId == placeId)
+            .isNotEmpty ??
+        false;
+    print("isUserFavouritePlace ------");
+    print(isUserFavouritePlace);
+    return isUserFavouritePlace;
   }
 }

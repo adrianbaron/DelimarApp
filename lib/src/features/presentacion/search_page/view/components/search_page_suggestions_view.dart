@@ -1,6 +1,6 @@
 import 'package:app_delivery/src/Base/Views/BaseView.dart';
 import 'package:app_delivery/src/colors/colors.dart';
-import 'package:app_delivery/src/features/logica/Entidades/Places/place_list_entity.dart';
+import 'package:app_delivery/src/features/logica/Entidades/Places/PlaceList/place_list_entity.dart';
 import 'package:app_delivery/src/features/presentacion/ErrorView/error_view.dart';
 import 'package:app_delivery/src/features/presentacion/search_page/ViewModel/search_page_view_model.dart';
 import 'package:app_delivery/src/features/presentacion/widgets/Carrusel/PlaceListCarrusel/place_list_carrusel.dart';
@@ -80,10 +80,9 @@ class SearchPageSuggestionsListView extends StatelessWidget with BaseView {
               }
 
               if (snapshot.data?.placeList?.isEmpty ?? false) {
-                
                 return Container();
               }
-             
+
               return Column(
                 children: [
                   const SizedBox(height: 20.0),
@@ -92,7 +91,7 @@ class SearchPageSuggestionsListView extends StatelessWidget with BaseView {
                       textAction: textAction,
                       textActionTapped: textActionTapped),
                   RecentSearchCarrouselView(
-                    placeList: snapshot.data?.placeList ?? [])
+                      placeList: snapshot.data?.placeList ?? [])
                 ],
               );
             default:
@@ -154,7 +153,7 @@ class SearchPageSuggestionsPopularPlacesListView extends StatelessWidget
                               textAction: textAction,
                               textActionTapped: textActionTapped),
                           const SizedBox(height: 20.0),
-                          PlaceListCarrusel(
+                          PlaceListCarrousel(
                               placeList: snapshot.data?.placeList ?? [],
                               isShortedVisualization: false,
                               carrouselStyle: PlaceListCarrouselStyle.list)

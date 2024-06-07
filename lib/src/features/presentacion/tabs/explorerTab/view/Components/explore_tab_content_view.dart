@@ -1,6 +1,7 @@
 import 'package:app_delivery/src/features/presentacion/tabs/explorerTab/exploreTabViewModel/explore_tab_view_model.dart';
 import 'package:app_delivery/src/features/presentacion/tabs/explorerTab/view/Components/collections_content_view.dart';
 import 'package:app_delivery/src/features/presentacion/tabs/explorerTab/view/Components/novelty_places_content_view.dart';
+import 'package:app_delivery/src/features/presentacion/tabs/explorerTab/view/Components/popular_places_content_view.dart';
 import 'package:app_delivery/src/features/presentacion/tabs/explorerTab/view/Components/search_top_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -20,8 +21,8 @@ class ExploreTabContentView extends StatelessWidget {
             const SearchTopBar(),
             //
             NoveltyPlacesContentView(noveltyPlaces: viewModel.noveltyPlaces),
-            // PopularPlacesContentView(popularPlaces: viewModel.popularPlaces),
-            
+            PopularPlacesContentView(popularPlaces: viewModel.popularPlaces),
+
             const SizedBox(
               height: 40.0,
             ),
@@ -33,6 +34,3 @@ class ExploreTabContentView extends StatelessWidget {
     ]);
   }
 }
-
-
-

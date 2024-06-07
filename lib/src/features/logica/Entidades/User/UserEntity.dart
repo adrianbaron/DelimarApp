@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:app_delivery/src/features/logica/CasosDeUso/User/SaveUserDataUseCase/SaveUserDataUseCaseParameters.dart';
 
+
 class UserEntity {
   UserEntity(
       {this.localId,

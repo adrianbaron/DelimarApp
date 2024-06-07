@@ -1,15 +1,14 @@
 import 'dart:math';
+import 'dart:core';
 
-enum PaymentMethodsTypes {
-  visa, mastercard, paypal
-}
+enum PaymentMethodsTypes { visa, mastercard, paypal }
 
 class CheckoutHelper {
-
   /// Returns the asset image path for the specified payment method.
   ///
   /// [paymentMethod] should be one of the [PaymentMethods] enum values.
-  static String getPaymentMethodAssetImage({required PaymentMethodsTypes paymentMethod}) {
+  static String getPaymentMethodAssetImage(
+      {required PaymentMethodsTypes paymentMethod}) {
     switch (paymentMethod) {
       case PaymentMethodsTypes.visa:
         return "assets/visa.png";
@@ -24,7 +23,8 @@ class CheckoutHelper {
   ///
   /// [cardNumber] is the credit card number to obfuscate.
   /// [obfuscationChar] is the character used to replace the digits (default is '*').
-  static String obfuscateCardNumber(String cardNumber, {String obfuscationChar = '*'}) {
+  static String obfuscateCardNumber(String cardNumber,
+      {String obfuscationChar = '*'}) {
     int len = cardNumber.length;
     int visibleDigits = 4;
 
@@ -32,7 +32,9 @@ class CheckoutHelper {
       return cardNumber;
     }
 
-    String obfuscated = cardNumber.substring(0, len - visibleDigits).replaceAll(RegExp(r'\d'), obfuscationChar);
+    String obfuscated = cardNumber
+        .substring(0, len - visibleDigits)
+        .replaceAll(RegExp(r'\d'), obfuscationChar);
     String visible = cardNumber.substring(len - visibleDigits);
 
     return obfuscated + visible;
@@ -43,7 +45,8 @@ class CheckoutHelper {
     final random = Random();
 
     String generatePart(int length) {
-      return List.generate(length, (_) => random.nextInt(16).toRadixString(16)).join('');
+      return List.generate(length, (_) => random.nextInt(16).toRadixString(16))
+          .join('');
     }
 
     return '${generatePart(8)}-${generatePart(4)}-4${generatePart(3)}-a${generatePart(3)}-${generatePart(12)}';
@@ -99,7 +102,8 @@ class CheckoutHelper {
     }
 
     // Check if the year is valid (not in the past)
-    int currentYear = DateTime.now().year % 100; // Get the last 2 digits of the current year
+    int currentYear =
+        DateTime.now().year % 100; // Get the last 2 digits of the current year
     if (year < currentYear) {
       return false;
     }
@@ -127,10 +131,15 @@ class CheckoutHelper {
   ///
   /// @param email The email string to be validated.
   /// @return A boolean value indicating whether the email is valid or not.
-  static bool isValidEmail({ required String email })  {
-    String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regExp  = RegExp(pattern);
+  static bool isValidEmail({required String email}) {
+    String pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regExp = RegExp(pattern);
 
     return regExp.hasMatch(email);
+  }
+
+  static String formatPriceInEuros(double price) {
+    return "${price.toStringAsFixed(2)} COP";
   }
 }

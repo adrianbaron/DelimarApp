@@ -1,12 +1,13 @@
 import 'package:app_delivery/src/Base/Views/BaseView.dart';
-import 'package:app_delivery/src/features/logica/Entidades/Places/place_list_entity.dart';
+import 'package:app_delivery/src/features/logica/Entidades/Places/PlaceList/place_list_entity.dart';
 import 'package:app_delivery/src/features/presentacion/widgets/Carrusel/PlaceListCarrusel/place_list_carrusel.dart';
+
 import 'package:app_delivery/src/features/presentacion/widgets/Headers/header_double.dart';
 import 'package:flutter/material.dart';
 
 class SearchPageBuildResultsView extends StatefulWidget {
   // Dependencies
-  List<PlaceListDetailEntity> places = [];
+  List<PlaceDetailEntity> places = [];
 
   SearchPageBuildResultsView({Key? key, required this.places})
       : super(key: key);
@@ -32,7 +33,7 @@ class _SearchPageBuildResultsViewState extends State<SearchPageBuildResultsView>
                   const DoubleTextView(
                       textHeader: 'Resultados', textAction: ''),
                   const SizedBox(height: 20.0),
-                  PlaceListCarrusel(
+                  PlaceListCarrousel(
                       placeList: widget.places,
                       isShortedVisualization: false,
                       carrouselStyle: PlaceListCarrouselStyle.list)

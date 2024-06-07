@@ -33,7 +33,7 @@ class MyAppUserState extends StatelessWidget with BaseView {
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: MainCoordinator.sharedInstance
-            ?.star(), // Aquí se llama al método start()
+            ?.start(context), // Aquí se llama al método start()
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             Provider.of<DefaultUserStateProvider>(context).fetchUserData(

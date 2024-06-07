@@ -8,27 +8,31 @@ import 'package:app_delivery/src/features/data/Interfaces/interfaces.dart';
 import 'package:app_delivery/src/utils/helpers/ResultType/resultType.dart';
 
 abstract class SingInUseCase {
-  Future<Result<SingInEntity, Failure>> execute({ required SignInUseCaseParameters params });
+  Future<Result<SingInEntity, Failure>> execute(
+      {required SignInUseCaseParameters params});
 }
 
 class DefaultSignInUseCase extends SingInUseCase {
-   
   // * Dependencies
   final SingInRepository _signInRepository;
 
-  DefaultSignInUseCase({ SingInRepository? signInRepository }) : _signInRepository = signInRepository ?? DefaultSingInRepository();
+  DefaultSignInUseCase({SingInRepository? signInRepository})
+      : _signInRepository = signInRepository ?? DefaultSingInRepository();
 
   @override
-  Future<Result<SingInEntity, Failure>> execute({ required SignInUseCaseParameters params }) {
+  Future<Result<SingInEntity, Failure>> execute(
+      {required SignInUseCaseParameters params}) {
     return _signInRepository
-        .singIn(params: SingInBodyParameters(email: params.email, password: params.password))
+        .singIn(
+            params: SignInBodyParameters(
+                email: params.email, password: params.password))
         .then((result) {
       switch (result.status) {
         case ResultStatus.success:
           // Null Check
           if (result.value == null) {
-            return Result.failure(
-                Failure.fromMessage(message: AppFailureMessages.unExpectedErrorMessage));
+            return Result.failure(Failure.fromMessage(
+                message: AppFailureMessages.unExpectedErrorMessage));
           }
           return Result.succes(SingInEntity.fromJson(result.value!.toJson()));
         case ResultStatus.error:

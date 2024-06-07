@@ -15,7 +15,7 @@ class DefaultSingInRepository extends SingInRepository {
 
   @override
   Future<Result<SingInDecorable, Failure>> singIn(
-      {required SingInBodyParameters params}) async {
+      {required SignInBodyParameters params}) async {
     try {
       final result =
           await _singInService.signIn(bodyParameters: params.toMap());

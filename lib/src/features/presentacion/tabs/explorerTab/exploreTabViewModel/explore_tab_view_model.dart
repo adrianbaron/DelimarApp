@@ -1,15 +1,15 @@
 import 'package:app_delivery/src/features/logica/CasosDeUso/Collections/collections_use_case.dart';
 import 'package:app_delivery/src/features/logica/CasosDeUso/Places/PlaceList/place_list_use_case.dart';
 import 'package:app_delivery/src/features/logica/Entidades/Collections/collections_entity.dart';
+import 'package:app_delivery/src/features/logica/Entidades/Places/PlaceList/place_list_entity.dart';
 
-import 'package:app_delivery/src/features/logica/Entidades/Places/place_list_entity.dart';
 
 enum ExploreViewModelState { viewLoadedState, errorState }
 
 abstract class ExploreViewModelInput {
   Future<ExploreViewModelState> viewInitState();
-  List<PlaceListDetailEntity> noveltyPlaces = [];
-  List<PlaceListDetailEntity> popularPlaces = [];
+  List<PlaceDetailEntity> noveltyPlaces = [];
+  List<PlaceDetailEntity> popularPlaces = [];
   List<CollectionDetailEntity> collections = [];
 }
 

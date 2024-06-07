@@ -1,21 +1,21 @@
 import 'dart:convert';
 
-class PlaceListDecorable {
-  PlaceListDecorable({
+class PlaceListDecodable {
+  PlaceListDecodable({
     required this.placeList,
   });
-  List<PlaceList>? placeList;
-  factory PlaceListDecorable.fromJson(String str) =>
-      PlaceListDecorable.fromMap(json.decode(str));
+  List<PlaceDetailDecodable>? placeList;
+  factory PlaceListDecodable.fromJson(String str) =>
+      PlaceListDecodable.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory PlaceListDecorable.fromMap(Map<String, dynamic> json) =>
-      PlaceListDecorable(
+  factory PlaceListDecodable.fromMap(Map<String, dynamic> json) =>
+      PlaceListDecodable(
         placeList: json["placeList"] == null
             ? null
-            : List<PlaceList>.from(
-                json["placeList"].map((x) => PlaceList.fromMap(x))),
+            : List<PlaceDetailDecodable>.from(
+                json["placeList"].map((x) => PlaceDetailDecodable.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
@@ -25,124 +25,312 @@ class PlaceListDecorable {
       };
 }
 
-class PlaceList {
-  PlaceList({
-    required this.address,
-    required this.adminId,
-    required this.averagePrice,
-    required this.city,
-    required this.collectionId,
-    required this.country,
-    required this.description,
-    required this.email,
-    required this.favourites,
-    required this.hasAlcohol,
-    required this.imgs,
-    required this.lat,
-    required this.long,
-    required this.phoneNumber,
-    required this.placeId,
-    required this.placeName,
-    required this.ratings,
-    required this.ratingAverage,
-    required this.zipCode,
-    required this.status,
-    required this.isPopularThisWeek,
-    required this.isNovelty,
-    required this.isOpenNow,
-    required this.hasFreeDelivery,
-  });
+class PlaceDetailDecodable {
+  String address;
+  String adminId;
+  String averageDelivery;
+  double averagePrice;
+  List<PlaceCategoryDecodable> categories;
+  String city;
+  int collectionId;
+  String country;
+  String description;
+  String email;
+  List<String> favourites;
+  bool hasAlcohol;
+  bool hasFreeDelivery;
+  List<String> imgs;
+  bool isNovelty;
+  bool isOpenNow;
+  bool isPopularThisWeek;
+  double lat;
+  double long;
+  String phoneNumber;
+  String placeId;
+  String placeName;
+  double ratingAverage;
+  int ratings;
+  String status;
+  String zipCode;
+  List<PlaceRatingDecodable> placeRatings;
 
-  final String address;
-  final String adminId;
-  final double averagePrice;
-  final String city;
-  final int collectionId;
-  final String country;
-  final String description;
-  final String email;
-  final List<String>? favourites;
-  final bool hasAlcohol;
-  final List<String>? imgs;
-  final double lat;
-  final double long;
-  final String phoneNumber;
-  final String placeId;
-  final String placeName;
-  final int ratings;
-  final double ratingAverage;
-  final String zipCode;
-  final String status;
-  final bool isPopularThisWeek;
-  final bool isNovelty;
-  final bool isOpenNow;
-  final bool hasFreeDelivery;
+  PlaceDetailDecodable(
+      {required this.address,
+      required this.adminId,
+      required this.averageDelivery,
+      required this.averagePrice,
+      required this.categories,
+      required this.city,
+      required this.collectionId,
+      required this.country,
+      required this.description,
+      required this.email,
+      required this.favourites,
+      required this.hasAlcohol,
+      required this.hasFreeDelivery,
+      required this.imgs,
+      required this.isNovelty,
+      required this.isOpenNow,
+      required this.isPopularThisWeek,
+      required this.lat,
+      required this.long,
+      required this.phoneNumber,
+      required this.placeId,
+      required this.placeName,
+      required this.ratingAverage,
+      required this.ratings,
+      required this.status,
+      required this.zipCode,
+      required this.placeRatings});
 
-  factory PlaceList.fromJson(String str) => PlaceList.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory PlaceList.fromMap(Map<String, dynamic> json) => PlaceList(
-      address: json["address"] == null ? null : json["address"],
-      adminId: json["adminId"] == null ? null : json["adminId"],
-      averagePrice: json["averagePrice"] == null ? null : json["averagePrice"],
-      city: json["city"] == null ? null : json["city"],
-      collectionId: json["collectionId"] == null ? null : json["collectionId"],
-      country: json["country"] == null ? null : json["country"],
-      description: json["description"] == null ? null : json["description"],
-      email: json["email"] == null ? null : json["email"],
-      favourites: json["favourites"] == null
-          ? null
-          : List<String>.from(json["favourites"].map((x) => x)),
-      hasAlcohol: json["hasAlcohol"] == null ? null : json["hasAlcohol"],
-      imgs: json["imgs"] == null
-          ? null
-          : List<String>.from(json["imgs"].map((x) => x)),
-      lat: json["lat"] == null ? null : json["lat"].toDouble(),
-      long: json["long"] == null ? null : json["long"].toDouble(),
-      phoneNumber: json["phoneNumber"] == null ? null : json["phoneNumber"],
-      placeId: json["placeId"] == null ? null : json["placeId"],
-      placeName: json["placeName"] == null ? null : json["placeName"],
-      ratings: json["ratings"] == null ? null : json["ratings"],
-      ratingAverage: json["ratingAverage"] == null
-          ? null
-          : json["ratingAverage"].toDouble(),
-      zipCode: json["zipCode"] == null ? null : json["zipCode"],
-      status: json["status"] == null ? null : json["status"],
-      isPopularThisWeek:
-          json["isPopularThisWeek"] == null ? null : json["isPopularThisWeek"],
-      isNovelty: json["isNovelty"] == null ? null : json["isNovelty"],
-      isOpenNow: json["isOpenNow"] == null ? null : json["isOpenNow"],
-      hasFreeDelivery:
-          json["hasFreeDelivery"] == null ? null : json["hasFreeDelivery"]);
+  factory PlaceDetailDecodable.fromMap(Map<String, dynamic> json) =>
+      PlaceDetailDecodable(
+          address: json["address"] ?? "",
+          adminId: json["adminId"] ?? "",
+          averageDelivery: json["averageDelivery"] ?? "",
+          averagePrice: json["averagePrice"] ?? 0,
+          categories: json["categories"] == null
+              ? []
+              : List<PlaceCategoryDecodable>.from(json["categories"]!
+                  .map((x) => PlaceCategoryDecodable.fromJson(x))),
+          city: json["city"] ?? "",
+          collectionId: json["collectionId"] ?? 0,
+          country: json["country"] ?? "",
+          description: json["description"] ?? "",
+          email: json["email"] ?? "",
+          favourites: json["favourites"] == null
+              ? []
+              : List<String>.from(json["favourites"].map((x) => x)),
+          hasAlcohol: json["hasAlcohol"] ?? false,
+          hasFreeDelivery: json["hasFreeDelivery"] ?? false,
+          imgs: json["imgs"] == null
+              ? []
+              : List<String>.from(json["imgs"].map((x) => x)),
+          isNovelty: json["isNovelty"] ?? false,
+          isOpenNow: json["isOpenNow"] ?? false,
+          isPopularThisWeek: json["isPopularThisWeek"] ?? false,
+          lat: json["lat"]?.toDouble() ?? 0,
+          long: json["long"]?.toDouble() ?? 0,
+          phoneNumber: json["phoneNumber"] ?? "",
+          placeId: json["placeId"] ?? "",
+          placeName: json["placeName"] ?? "",
+          ratingAverage: json["ratingAverage"]?.toDouble() ?? 0,
+          ratings: json["ratings"] ?? 0,
+          status: json["status"] ?? "",
+          zipCode: json["zipCode"] ?? "",
+          placeRatings: json["placeRatings"] == null
+              ? []
+              : List<PlaceRatingDecodable>.from(json["placeRatings"]!
+                  .map((x) => PlaceRatingDecodable.fromJson(x))));
 
   Map<String, dynamic> toMap() => {
-        "address": address == null ? null : address,
-        "adminId": adminId == null ? null : adminId,
-        "city": city == null ? null : city,
-        "collectionId": collectionId == null ? null : collectionId,
-        "country": country == null ? null : country,
-        "description": description == null ? null : description,
-        "email": email == null ? null : email,
-        "favourites": favourites == null
-            ? null
-            : List<dynamic>.from(favourites!.map((x) => x)),
-        "imgs": imgs == null ? null : List<dynamic>.from(imgs!.map((x) => x)),
-        "lat": lat == null ? null : lat,
-        "long": long == null ? null : long,
-        "phoneNumber": phoneNumber == null ? null : phoneNumber,
-        "placeId": placeId == null ? null : placeId,
-        "placeName": placeName == null ? null : placeName,
-        "ratings": ratings == null ? null : ratings,
-        "ratingAverage": ratingAverage == null ? null : ratingAverage,
-        "zipCode": zipCode == null ? null : zipCode,
-        "status": status == null ? null : status,
-        "isPopularThisWeek":
-            isPopularThisWeek == null ? null : isPopularThisWeek,
-        "isNovelty": isNovelty == null ? null : isNovelty,
-        "hasFreeDelivery": hasFreeDelivery == null ? null : hasFreeDelivery,
-        "hasAlcohol": hasAlcohol == null ? null : hasAlcohol,
-        "isOpenNow": isOpenNow == null ? null : isOpenNow,
-        "averagePrice": averagePrice == null ? null : averagePrice,
+        "address": address,
+        "adminId": adminId,
+        "averageDelivery": averageDelivery,
+        "averagePrice": averagePrice,
+        "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
+        "city": city,
+        "collectionId": collectionId,
+        "country": country,
+        "description": description,
+        "email": email,
+        "favourites": List<dynamic>.from(favourites.map((x) => x)),
+        "hasAlcohol": hasAlcohol,
+        "hasFreeDelivery": hasFreeDelivery,
+        "imgs": List<dynamic>.from(imgs.map((x) => x)),
+        "isNovelty": isNovelty,
+        "isOpenNow": isOpenNow,
+        "isPopularThisWeek": isPopularThisWeek,
+        "lat": lat,
+        "long": long,
+        "phoneNumber": phoneNumber,
+        "placeId": placeId,
+        "placeName": placeName,
+        "ratingAverage": ratingAverage,
+        "ratings": ratings,
+        "status": status,
+        "zipCode": zipCode,
+        "placeRatings": List<dynamic>.from(placeRatings.map((x) => x.toJson())),
+      };
+
+  bool isUserFavourite({required String? userUid}) {
+    return favourites.contains(userUid);
+  }
+}
+
+class PlaceCategoryDecodable {
+  String categoryId;
+  String categoryName;
+  List<PlaceProductDecodable> products;
+
+  PlaceCategoryDecodable({
+    required this.categoryId,
+    required this.categoryName,
+    required this.products,
+  });
+
+  factory PlaceCategoryDecodable.fromJson(Map<String, dynamic> json) =>
+      PlaceCategoryDecodable(
+          categoryId: json["categoryId"],
+          categoryName: json["categoryName"],
+          products: json["products"] == null
+              ? []
+              : List<PlaceProductDecodable>.from(json["products"]!
+                  .map((x) => PlaceProductDecodable.fromJson(x))));
+
+  Map<String, dynamic> toJson() => {
+        "categoryId": categoryId,
+        "categoryName": categoryName,
+        "products": List<dynamic>.from(products.map((x) => x.toJson())),
+      };
+}
+
+class PlaceProductDecodable {
+  int amount;
+  String id;
+  List<String> imgs;
+  String productDescription;
+  String productName;
+  double productPrice;
+  List<PlaceProductExtras>? options;
+
+  PlaceProductDecodable({
+    required this.amount,
+    required this.id,
+    required this.imgs,
+    required this.productDescription,
+    required this.productName,
+    required this.productPrice,
+    this.options,
+  });
+
+  factory PlaceProductDecodable.fromJson(Map<String, dynamic> json) =>
+      PlaceProductDecodable(
+        amount: json["amount"],
+        id: json["id"],
+        imgs: List<String>.from(json["imgs"].map((x) => x)),
+        productDescription: json["productDescription"],
+        productName: json["productName"],
+        productPrice: json["productPrice"],
+        options: json["options"] == null
+            ? []
+            : List<PlaceProductExtras>.from(
+                json["options"]!.map((x) => PlaceProductExtras.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "amount": amount,
+        "id": id,
+        "imgs": List<dynamic>.from(imgs.map((x) => x)),
+        "productDescription": productDescription,
+        "productName": productName,
+        "productPrice": productPrice,
+        "options": options == null
+            ? []
+            : List<dynamic>.from(options!.map((x) => x.toJson())),
+      };
+}
+
+class PlaceProductExtras {
+  String id;
+  List<PlaceProductExtra> extras;
+  bool isRequired;
+  int maxExtras;
+  String title;
+
+  PlaceProductExtras({
+    required this.id,
+    required this.extras,
+    required this.isRequired,
+    required this.maxExtras,
+    required this.title,
+  });
+
+  factory PlaceProductExtras.fromJson(Map<String, dynamic> json) =>
+      PlaceProductExtras(
+        id: json["id"],
+        extras: json["extras"] == null
+            ? []
+            : List<PlaceProductExtra>.from(
+                json["extras"].map((x) => PlaceProductExtra.fromJson(x))),
+        isRequired: json["isRequired"],
+        maxExtras: json["maxExtras"],
+        title: json["title"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "extras": List<dynamic>.from(extras.map((x) => x.toJson())),
+        "isRequired": isRequired,
+        "maxExtras": maxExtras,
+        "title": title,
+      };
+}
+
+class PlaceProductExtra {
+  String id;
+  double price;
+  String title;
+  bool isSelected;
+
+  PlaceProductExtra(
+      {required this.id,
+      required this.price,
+      required this.title,
+      required this.isSelected});
+
+  factory PlaceProductExtra.fromJson(Map<String, dynamic> json) =>
+      PlaceProductExtra(
+          id: json["id"],
+          price: json["price"]?.toDouble(),
+          title: json["title"],
+          isSelected: json["isSelected"] == null ? false : json["isSelected"]);
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "price": price,
+        "title": title,
+        "isSelected": isSelected,
+      };
+}
+
+class PlaceRatingDecodable {
+  String userId;
+  String userName;
+  int userRatingsCount;
+  String userAvatar;
+  String comment;
+  int rating;
+  String ratingId;
+
+  PlaceRatingDecodable({
+    required this.userId,
+    required this.userName,
+    required this.userRatingsCount,
+    required this.userAvatar,
+    required this.comment,
+    required this.rating,
+    required this.ratingId,
+  });
+
+  factory PlaceRatingDecodable.fromJson(Map<String, dynamic> json) =>
+      PlaceRatingDecodable(
+        userId: json["userId"],
+        userName: json["userName"],
+        userRatingsCount: json["userRatingsCount"],
+        userAvatar: json["userAvatar"],
+        comment: json["comment"],
+        rating: json["rating"],
+        ratingId: json["ratingId"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "userId": userId,
+        "userName": userName,
+        "userRatingsCount": userRatingsCount,
+        "userAvatar": userAvatar,
+        "comment": comment,
+        "rating": rating,
+        "ratingId": ratingId,
       };
 }

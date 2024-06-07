@@ -1,6 +1,7 @@
 import 'package:app_delivery/src/Base/Views/BaseView.dart';
 
 import 'package:app_delivery/src/colors/colors.dart';
+import 'package:app_delivery/src/features/presentacion/MainCordinator/MainCordinator.dart';
 import 'package:app_delivery/src/features/presentacion/SingUpPage/ViewModel/SingUpViewModel.dart';
 import 'package:app_delivery/src/features/presentacion/StateProviders/LoadingStatusStateProvider.dart';
 import 'package:app_delivery/src/features/presentacion/widgets/BackBoton/back_button.dart';

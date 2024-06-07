@@ -1,5 +1,5 @@
 import 'package:app_delivery/src/Base/Views/BaseView.dart';
-import 'package:app_delivery/src/features/logica/Entidades/Places/place_list_entity.dart';
+import 'package:app_delivery/src/features/logica/Entidades/Places/PlaceList/place_list_entity.dart';
 import 'package:app_delivery/src/features/presentacion/ErrorView/error_view.dart';
 import 'package:app_delivery/src/features/presentacion/search_page/ViewModel/search_page_view_model.dart';
 import 'package:app_delivery/src/features/presentacion/search_page/view/components/SearchPageResultsView.dart';
