@@ -24,7 +24,7 @@ class _ProductDropdownContentViewState
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.only(top: 16),
+        margin: const EdgeInsets.only(top: 13),
         child: SizedBox(
           width: getScreenWidth(context: context),
           child: Column(
