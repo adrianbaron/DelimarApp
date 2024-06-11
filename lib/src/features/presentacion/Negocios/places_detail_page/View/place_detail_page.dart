@@ -41,7 +41,11 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> with BaseView {
                         'Pedir ${snapshot.data?.products.length} por ${CheckoutHelper.formatPriceInEuros(snapshot.data?.totalAmount ?? 0.0)}',
                     onPressed: () {
                       coordinator.showOrderConfimationPage(
-                          context: context, order: snapshot.data!);
+                          context: context, order: snapshot.data!).then((order) {
+                        if (order!= null && order is OrderEntity) {
+                          widget.viewModel.updateOrder(order: order);
+                        }
+                      });
                     },
                     isHidden: snapshot.data?.products.isEmpty ?? true),
                 body: CustomScrollView(

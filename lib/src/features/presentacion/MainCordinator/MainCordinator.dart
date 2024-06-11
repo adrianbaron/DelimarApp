@@ -16,7 +16,7 @@ import 'package:app_delivery/src/features/presentacion/Filters/FiltersPage/View/
 import 'package:app_delivery/src/features/presentacion/Negocios/PlaceRatingPage/place_rating_page.dart';
 import 'package:app_delivery/src/features/presentacion/Negocios/PopularPlacesListView/popular_places_list_view.dart';
 import 'package:app_delivery/src/features/presentacion/Negocios/places_detail_page/ViewModel/place_detail_view_model.dart';
-import 'package:app_delivery/src/features/presentacion/OrderConfirmationPage/order_confirmation_page.dart';
+import 'package:app_delivery/src/features/presentacion/OrderConfirmationPage/View/order_confirmation.dart';
 
 import 'package:app_delivery/src/features/presentacion/Profile/AddEditCardPage/add_edit_card_page.dart';
 import 'package:app_delivery/src/features/presentacion/Profile/AddEditDeliveryAddressPage/add_edit_delivery_address_page.dart';
@@ -91,8 +91,8 @@ extension AuthNavigation on MainCoordinator {
     Navigator.pushNamed(context, RoutesPaths.signUpPath);
   }
 
-  showTabsPage({required BuildContext context}) {
-    Navigator.pushNamed(context, RoutesPaths.tabsPath);
+  showTabsPage({required BuildContext context, int? selectedTab}) {
+    Navigator.pushNamed(context, RoutesPaths.tabsPath, arguments: selectedTab);
   }
 
   showUpdatePasswordPage({required BuildContext context}) {
@@ -174,8 +174,9 @@ extension PaymentMethodsNavigation on MainCoordinator {
     Navigator.pushNamed(context, RoutesPaths.editEmailPath);
   }
 
-  showChangePaymentsMethodsPage({required BuildContext context}) {
-    Navigator.pushNamed(context, RoutesPaths.changePaymentMethodsPath);
+  Future<T?> showChangePaymentsMethodsPage<T extends Object?>(
+      {required BuildContext context}) {
+    return Navigator.pushNamed(context, RoutesPaths.changePaymentMethodsPath);
   }
 
   showAddEditCardPage(
@@ -208,8 +209,10 @@ extension PaymentMethodsNavigation on MainCoordinator {
 }
 
 extension DeliveryAddressNavigation on MainCoordinator {
-  showChangeDeliveryAddress({required BuildContext context}) {
-    _pushPage(context: context, page: const ChangeDeliveryAddressPage());
+  Future<T?> showChangeDeliveryAddress<T extends Object?>(
+      {required BuildContext context}) {
+    return _pushPageWithFuture(
+        context: context, page: const ChangeDeliveryAddressPage());
   }
 
   showAddEditDeliveryAddress(
@@ -227,11 +230,11 @@ extension DeliveryAddressNavigation on MainCoordinator {
 }
 
 extension OrdersNavigation on MainCoordinator {
-    showOrderConfimationPage({ required BuildContext context, required OrderEntity order }) {
-        _pushPage(
-            context: context,
-            page: OrderConfirmationPage(order: order));
-    }
+  Future<T?> showOrderConfimationPage<T extends Object?>(
+      {required BuildContext context, required OrderEntity order}) {
+    return _pushPageWithFuture(
+        context: context, page: OrderConfirmationPage(order: order));
+  }
 }
 
 extension PrivateMethods on MainCoordinator {
@@ -241,6 +244,15 @@ extension PrivateMethods on MainCoordinator {
             FetchLocalStorageParameters(key: LocalStorageKeys.idToken));
     userUid = idToken;
     return idToken;
+  }
+
+  Future<T?> _pushPageWithFuture<T extends Object?>(
+      {required BuildContext context, required Widget page}) {
+    return Navigator.push(
+        context,
+        PageRouteBuilder(
+            pageBuilder: (_, __, ___) => page,
+            transitionDuration: const Duration(seconds: 0)));
   }
 
   _pushPage({required BuildContext context, required Widget page}) {

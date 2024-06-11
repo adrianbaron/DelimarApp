@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 class ProductDetailView extends StatefulWidget {
   PlaceDetailViewModel viewModel;
   PlaceProductEntity product;
-  
+
   ProductDetailView({Key? key, required this.product, required this.viewModel})
       : super(key: key);
 
@@ -22,10 +22,10 @@ class ProductDetailView extends StatefulWidget {
   State<ProductDetailView> createState() => _ProductDetailViewState();
 }
 
-class _ProductDetailViewState extends State<ProductDetailView> with AddProductsViewDelegate, ExtraSelectionFormViewDelegate {
- 
+class _ProductDetailViewState extends State<ProductDetailView>
+    with AddProductsViewDelegate, ExtraSelectionFormViewDelegate {
   late ProductOrderEntity _productForOrder;
-  double get _totalPrice => _productForOrder.totalPrice * _amount.toDouble();
+  //double get _totalPrice => _productForOrder.totalPrice * _amount.toDouble();
   int _amount = 1;
 
   @override
@@ -36,7 +36,7 @@ class _ProductDetailViewState extends State<ProductDetailView> with AddProductsV
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FABRoundedRectangleView(
           text:
-              'Añadir ${_amount} por ${CheckoutHelper.formatPriceInEuros(_totalPrice)}',
+              'Añadir ${_amount} por ${CheckoutHelper.formatPriceInEuros(_productForOrder.totalPrice)}',
           onPressed: () {
             _updateProductForOrderAmount();
             widget.viewModel.addProductToOrder(product: _productForOrder);
@@ -82,7 +82,7 @@ class _ProductDetailViewState extends State<ProductDetailView> with AddProductsV
   @override
   subtractAmount() {
     setState(() {
-      if(_amount > 1) {
+      if (_amount > 1) {
         _amount = _amount - 1;
       }
     });

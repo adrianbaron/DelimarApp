@@ -12,13 +12,18 @@ import 'package:app_delivery/src/utils/helpers/CheckoutHelper/check_out_helper.d
   "OnTheWay" - The rider is on the way with the order.
   "Completed" - The user have ther order and every body is happy.
   "NotCompleted" - Something bad happened and the order was not delivered to the user by the place.
+
+  Delivery Time can be:
+  "ASAP" - As soon as posible
+  "Date" - Pending feature
 */
 
 class OrderEntity {
   late String orderId;
-  late String placeId;
+  late PlaceDetailEntity place;
   late String userId;
   late double totalAmount;
+  late double totalAmountToPay;
   late double deliveryFee;
   late double fee;
   late bool needCutlery;
@@ -26,44 +31,57 @@ class OrderEntity {
   late DeliveryAddressEntity deliveryAddress;
   late PaymentMethodEntity paymentMethod;
   late List<ProductOrderEntity> products;
+  late String deliveryTime;
+  late String deliveryNotes;
+  late double courierTip;
 
-  OrderEntity({
-    required this.orderId,
-    required this.placeId,
-    required this.userId,
-    required this.totalAmount,
-    required this.deliveryFee,
-    required this.fee,
-    required this.needCutlery,
-    required this.status,
-    required this.deliveryAddress,
-    required this.paymentMethod,
-    required this.products,
-  });
+  OrderEntity(
+      {required this.orderId,
+      required this.place,
+      required this.userId,
+      required this.totalAmount,
+      required this.totalAmountToPay,
+      required this.deliveryFee,
+      required this.fee,
+      required this.needCutlery,
+      required this.status,
+      required this.deliveryAddress,
+      required this.paymentMethod,
+      required this.products,
+      required this.deliveryTime,
+      required this.deliveryNotes,
+      required this.courierTip});
 
-  OrderEntity.fromPlaceId({required String placeId}) {
+  OrderEntity.fromPlace({required this.place}) {
     orderId = CheckoutHelper.generateUuid();
-    placeId = placeId;
     userId = MainCoordinator.sharedInstance?.userUid ?? "";
     totalAmount = 0;
-    deliveryFee = 3.99; // You can set this dynamic from remote config file 😉
+    totalAmountToPay = 0;
+    deliveryFee = 1.99; // You can set this dynamic from remote config file 😉
     fee = 3.99; // You can set this dynamic from remote config file 😉
     needCutlery = false;
     status = "Not Confirmed";
     deliveryAddress = DeliveryAddressEntity.getEmptyDeliveryAddress();
     paymentMethod = PaymentMethodEntity.getEmptyPaymentMethod();
     products = [];
+    deliveryTime = "ASAP";
+    deliveryNotes = "";
+    courierTip = 0.0;
   }
 
   factory OrderEntity.fromJson(Map<String, dynamic> json) => OrderEntity(
       orderId: json["orderId"],
-      placeId: json["placeId"],
+      place: PlaceDetailEntity.fromMap(json["place"]),
       userId: json["userId"],
       totalAmount: json["totalAmount"]?.toDouble(),
+      totalAmountToPay: json["totalAmountToPay"]?.toDouble(),
       deliveryFee: json["deliveryFee"]?.toDouble(),
       fee: json["fee"]?.toDouble(),
       needCutlery: json["needCutlery"],
       status: json["status"],
+      deliveryTime: json["deliveryTime"],
+      deliveryNotes: json["deliveryNotes"],
+      courierTip: json["courierTip"],
       deliveryAddress: DeliveryAddressEntity.fromMap(json["deliveryAddress"]),
       paymentMethod: PaymentMethodEntity.fromMap(json["paymentMethod"]),
       products: json["products"] == null
@@ -73,13 +91,17 @@ class OrderEntity {
 
   Map<String, dynamic> toJson() => {
         "orderId": orderId,
-        "placeId": placeId,
+        "place": place,
         "userId": userId,
         "totalAmount": totalAmount,
+        "totalAmountToPay": totalAmountToPay,
         "deliveryFee": deliveryFee,
         "fee": fee,
         "needCutlery": needCutlery,
         "status": status,
+        "deliveryTime": deliveryTime,
+        "deliveryNotes": deliveryNotes,
+        "courierTip": courierTip,
         "deliveryAddress": deliveryAddress.toMap(),
         "paymentMethod": paymentMethod.toJson(),
         "products": List<dynamic>.from(products.map((x) => x.toJson())),
@@ -89,11 +111,21 @@ class OrderEntity {
     return products.isEmpty;
   }
 
+  bool deliveryTimeIsAsap() {
+    return deliveryTime == "ASAP";
+  }
+
+  bool hasCourierTip() {
+    return courierTip != 0;
+  }
+
   updateTotalPrice() {
     totalAmount = 0;
+    totalAmountToPay = 0;
     products.forEach((product) {
       totalAmount = totalAmount + product.totalPrice;
     });
+    totalAmountToPay = totalAmount + deliveryFee + fee + courierTip;
   }
 }
 

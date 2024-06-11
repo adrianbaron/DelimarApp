@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:app_delivery/src/features/logica/CasosDeUso/Places/FavoritePlacesUseCase/favorite_places_use_case.dart';
@@ -15,7 +14,9 @@ abstract class PlaceDetailViewModelInput {
   removeProductToOrder({required ProductOrderEntity product});
   bool isProductInOrder({required String productId});
   int getAmountOfProductInOrder({required String productId});
-  updateAmountToProductInOrder({required String productId, required int amount});
+  updateAmountToProductInOrder(
+      {required String productId, required int amount});
+  updateOrder({required OrderEntity order});
 }
 
 abstract class PlaceDetailViewModelOutput {
@@ -55,8 +56,8 @@ class DefaultPlaceDetailViewModel extends PlaceDetailViewModel {
 
   late FavouritesPlacesUseCase _favouritesPlacesUseCase;
 
-  DefaultPlaceDetailViewModel({ required this.place, 
-                                FavouritesPlacesUseCase? favouritesPlacesUseCase }) {
+  DefaultPlaceDetailViewModel(
+      {required this.place, FavouritesPlacesUseCase? favouritesPlacesUseCase}) {
     _favouritesPlacesUseCase =
         favouritesPlacesUseCase ?? DefaultFavouritesPlacesUseCase();
     _setEmptyOrder(place: place);
@@ -79,13 +80,14 @@ class DefaultPlaceDetailViewModel extends PlaceDetailViewModel {
   }
 
   @override
-  addProductToOrder({ required ProductOrderEntity product }) async {
+  addProductToOrder({required ProductOrderEntity product}) async {
     _order.products.add(product);
     _updateOrder();
   }
 
   @override
-  updateAmountToProductInOrder({ required String productId, required int amount }) {
+  updateAmountToProductInOrder(
+      {required String productId, required int amount}) {
     List<ProductOrderEntity> products = _order.products.map((product) {
       var newProduct = product;
       if (newProduct.id == productId) {
@@ -118,6 +120,12 @@ class DefaultPlaceDetailViewModel extends PlaceDetailViewModel {
         .first
         .amount;
   }
+
+  updateOrder({required OrderEntity order}) {
+    _order = order;
+    _order.updateTotalPrice();
+    _orderStreamController.add(_order);
+  }
 }
 
 extension PrivateMethods on DefaultPlaceDetailViewModel {
@@ -132,7 +140,7 @@ extension PrivateMethods on DefaultPlaceDetailViewModel {
   }
 
   void _setEmptyOrder({required PlaceDetailEntity place}) {
-    _order = OrderEntity.fromPlaceId(placeId: place.placeId);
+    _order = OrderEntity.fromPlace(place: place);
     _updateOrder();
   }
 
