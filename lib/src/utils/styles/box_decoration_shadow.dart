@@ -10,38 +10,47 @@ const _defectBoxShadowObject = [
       blurRadius: 10.0)
 ];
 
-BorderSide defaultBorderSide = BorderSide(color: orange);
+const BorderSide defaultBorderSide = BorderSide(
+    color: Colors.orange
+);
 
-const BorderSide borderSideTextFieldError = BorderSide(color: Colors.red);
+const BorderSide borderSideTextFieldError = BorderSide(
+    color: Colors.red
+);
 
-Decoration? defaultTextFieldDecoration = BoxDecoration(
+const BorderSide borderSidePaymentCards = BorderSide(
+    color: Colors.grey
+);
+
+const Decoration defaultTextFieldDecoration = BoxDecoration(
     borderRadius: BorderRadius.all(Radius.circular(8)),
-    border: Border(
-        top: defaultBorderSide,
-        left: defaultBorderSide,
-        bottom: defaultBorderSide,
-        right: defaultBorderSide));
+    border: Border(top: defaultBorderSide, left: defaultBorderSide, bottom: defaultBorderSide, right: defaultBorderSide)
+);
 
-const Decoration? borderSideNoneDecoration =
-    BoxDecoration(border: Border(bottom: BorderSide.none));
+const Decoration borderSideNoneDecoration = BoxDecoration(
+    border: Border(bottom: BorderSide.none)
+);
 
-Decoration? borderSideNoneGrayBackgroundDecoration = BoxDecoration(
-    color: bgGrey,
+const Decoration borderSideNoneGrayBackgroundDecoration = BoxDecoration(
+    color: Colors.grey,
     borderRadius: BorderRadius.all(Radius.circular(8)),
-    border: Border(bottom: BorderSide.none));
+    border: Border(bottom: BorderSide.none)
+);
 
-const Decoration? errorTextFieldDecoration = BoxDecoration(
+const Decoration borderGrayDecoration = BoxDecoration(
+    color: Colors.grey,
     borderRadius: BorderRadius.all(Radius.circular(8)),
-    border: Border(
-        top: borderSideTextFieldError,
-        left: borderSideTextFieldError,
-        bottom: borderSideTextFieldError,
-        right: borderSideTextFieldError));
+    border: Border(top:borderSidePaymentCards,left: borderSidePaymentCards, right: borderSidePaymentCards, bottom: borderSidePaymentCards)
+);
 
-BoxDecoration getBoxDecorationWithShadows(
-    {BorderRadiusGeometry borderRadius = _defectBorderRadius,
-    Color containerColor = Colors.white,
-    List<BoxShadow> boxShadows = _defectBoxShadowObject}) {
-  return BoxDecoration(
-      borderRadius: borderRadius, color: containerColor, boxShadow: boxShadows);
+const Decoration errorTextFieldDecoration = BoxDecoration(
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+    border: Border(top: borderSideTextFieldError, left: borderSideTextFieldError, bottom: borderSideTextFieldError, right: borderSideTextFieldError)
+);
+
+BoxDecoration getBoxDecorationWithShadows({ BorderRadiusGeometry borderRadius = _defectBorderRadius,
+                                            Color containerColor = Colors.white,
+                                            List<BoxShadow> boxShadows = _defectBoxShadowObject }) {
+  return BoxDecoration(borderRadius: borderRadius, color: containerColor, boxShadow: boxShadows);
 }
+

@@ -39,6 +39,7 @@ class DeliveryAddressDecodable {
   String cp;
   String notes;
   String alias;
+  bool isMainDeliveryAddress;
 
   DeliveryAddressDecodable({
     required this.id,
@@ -50,6 +51,7 @@ class DeliveryAddressDecodable {
     required this.cp,
     required this.notes,
     required this.alias,
+    required this.isMainDeliveryAddress,
   });
 
   factory DeliveryAddressDecodable.fromMap(Map<String, dynamic> json) =>
@@ -58,11 +60,12 @@ class DeliveryAddressDecodable {
         lat: json["lat"]?.toDouble(),
         long: json["long"]?.toDouble(),
         street: json["street"],
-        floorAndDoor: json["floor and door"],
+        floorAndDoor: json["floorAndDoor"] ?? "",
         city: json["city"],
         cp: json["cp"],
         notes: json["notes"],
         alias: json["alias"],
+        isMainDeliveryAddress: json["isMainDeliveryAddress"] ?? false,
       );
 
   Map<String, dynamic> toMap() => {
@@ -70,10 +73,11 @@ class DeliveryAddressDecodable {
         "lat": lat,
         "long": long,
         "street": street,
-        "floor and door": floorAndDoor,
+        "floorAndDoor": floorAndDoor,
         "city": city,
         "cp": cp,
         "notes": notes,
         "alias": alias,
+        "isMainDeliveryAddress": isMainDeliveryAddress,
       };
 }

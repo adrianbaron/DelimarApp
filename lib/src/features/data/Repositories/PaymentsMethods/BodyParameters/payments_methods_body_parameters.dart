@@ -37,6 +37,7 @@ class PaymentMethodBodyParameters {
   final String type;
   final String email;
   final String id;
+  final bool isMainPaymentMethod;
 
   PaymentMethodBodyParameters(
       {required this.nameInTheCard,
@@ -46,7 +47,8 @@ class PaymentMethodBodyParameters {
       required this.country,
       required this.type,
       required this.email,
-      required this.id});
+      required this.id,
+      required this.isMainPaymentMethod});
 
   factory PaymentMethodBodyParameters.fromMap(Map<String, dynamic> json) {
     return PaymentMethodBodyParameters(
@@ -57,7 +59,8 @@ class PaymentMethodBodyParameters {
         country: json['country'],
         type: json['type'],
         email: json['email'],
-        id: json['id']);
+        id: json['id'],
+        isMainPaymentMethod: json['isMainPaymentMethod']);
   }
 
   String toJson() => json.encode(toMap());
@@ -71,7 +74,8 @@ class PaymentMethodBodyParameters {
       'country': country,
       'type': type,
       'email': email,
-      'id': id
+      'id': id,
+      'isMainPaymentMethod': isMainPaymentMethod
     };
   }
 }

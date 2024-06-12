@@ -146,6 +146,22 @@ extension PaymentMethods on DefaultUserStateProvider {
     }
   }
 
+  Future<PaymentMethodsEntity?> selectMainPaymentMethod({ required PaymentMethodEntity parameter }) async {  
+    var paymentMethods = await getPaymentMethods();
+    if (paymentMethods != null) {
+      paymentMethods.paymentMethods = paymentMethods.paymentMethods.map((paymentMethod) {
+        paymentMethod.isMainPaymentMethod =
+            paymentMethod.id == parameter.id ? true : false;
+        return paymentMethod;
+      }).toList();
+
+    return _savePaymentMethods(parameters: paymentMethods);
+    } else {
+      return Future.error(Failure.fromMessage(
+          message: AppFailureMessages.unExpectedErrorMessage));
+    }
+  }
+
   Future<PaymentMethodsEntity?> _savePaymentMethods(
       {required PaymentMethodsEntity parameters}) {
     return _paymentMethodsUseCase.savePaymentMethods(
@@ -156,8 +172,9 @@ extension PaymentMethods on DefaultUserStateProvider {
 // DeliveryAddress
 extension DeliveryAddress on DefaultUserStateProvider {
   Future<DeliveryAddressListEntity?> getDeliveryAddressList() {
-    return _deliveryAddressUseCase.getDeliveryAddressList(
+    var deliveryAddress = _deliveryAddressUseCase.getDeliveryAddressList(
         localId: userData?.localId ?? "");
+    return deliveryAddress;
   }
 
   Future<DeliveryAddressListEntity?> addDeliveryAddress(
@@ -169,7 +186,7 @@ extension DeliveryAddress on DefaultUserStateProvider {
       return Future.error(Failure.fromMessage(
           message: AppFailureMessages.unExpectedErrorMessage));
     }
-    return _saveDeliveryAddress(parameters: deliveryAddressList);
+    return saveAllDeliveryAddress(parameters: deliveryAddressList);
   }
 
   Future<DeliveryAddressListEntity?> editDeliveryAddress(
@@ -180,7 +197,7 @@ extension DeliveryAddress on DefaultUserStateProvider {
 
     if (idx != -1 && idx != null && deliveryAddressList != null) {
       deliveryAddressList.deliveryAddressList[idx] = deliveryAddressEntity;
-      return _saveDeliveryAddress(parameters: deliveryAddressList);
+      return saveAllDeliveryAddress(parameters: deliveryAddressList);
     } else {
       return Future.error(Failure.fromMessage(
           message: AppFailureMessages.unExpectedErrorMessage));
@@ -194,14 +211,14 @@ extension DeliveryAddress on DefaultUserStateProvider {
         .indexWhere((item) => item.id == deliveryAddressEntity.id);
     if (idx != -1 && idx != null && deliveryAddressList != null) {
       deliveryAddressList.deliveryAddressList.removeAt(idx);
-      return _saveDeliveryAddress(parameters: deliveryAddressList);
+      return saveAllDeliveryAddress(parameters: deliveryAddressList);
     } else {
       return Future.error(Failure.fromMessage(
           message: AppFailureMessages.unExpectedErrorMessage));
     }
   }
 
-  Future<DeliveryAddressListEntity?> _saveDeliveryAddress(
+  Future<DeliveryAddressListEntity?> saveAllDeliveryAddress(
       {required DeliveryAddressListEntity parameters}) {
     return _deliveryAddressUseCase.saveDeliveryAddressList(
         localId: userData?.localId ?? "", parameters: parameters);
@@ -238,6 +255,10 @@ extension DefaultUserStateProviderExtension on BuildContext {
           {required PaymentMethodEntity paymentMethod}) =>
       Provider.of<DefaultUserStateProvider>(this, listen: false)
           .deletePaymentMethod(paymentMethod: paymentMethod);
+  Future<PaymentMethodsEntity?> selectMainPaymentMethod(
+          {required PaymentMethodEntity parameter}) =>
+      Provider.of<DefaultUserStateProvider>(this, listen: false)
+          .selectMainPaymentMethod(parameter: parameter);
 
   // Delivery Address
   Future<DeliveryAddressListEntity?> getDeliveryAddressList() =>
@@ -254,4 +275,8 @@ extension DefaultUserStateProviderExtension on BuildContext {
           {required DeliveryAddressEntity deliveryAddressEntity}) =>
       Provider.of<DefaultUserStateProvider>(this, listen: false)
           .deleteDeliveryAddress(deliveryAddressEntity: deliveryAddressEntity);
+  Future<DeliveryAddressListEntity?> saveAllDeliveryAddress(
+          {required DeliveryAddressListEntity parameters}) =>
+      Provider.of<DefaultUserStateProvider>(this, listen: false)
+          .saveAllDeliveryAddress(parameters: parameters);
 }
