@@ -17,7 +17,7 @@ class DefaultRealtimeDatabaseService extends RealtimeDataBaseService {
   @override
   Future<Map<String, dynamic>> getData({required String path}) async {
     var endpoint = baseUrl + path + endUrl;
-    print(endpoint);
+
     try {
       final result = await _apiService.getDataFromGetRequest(url: endpoint);
       return result;

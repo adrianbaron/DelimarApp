@@ -24,6 +24,8 @@ class TabsPage extends StatefulWidget {
 class _TabsPageState extends State<TabsPage> with BaseView {
   // Dependencies
   final TabsViewModel _viewModel;
+  bool isSelectedTabShowed = false;
+
   _TabsPageState({TabsViewModel? tabsViewModel})
       : _viewModel = tabsViewModel ?? DefaultTabsViewModel();
 
@@ -46,18 +48,21 @@ class _TabsPageState extends State<TabsPage> with BaseView {
   }
 
   List<Widget> widgetOptions = [
-    ExploreTab(),
+    const ExploreTab(),
     const MyOrderTab(),
     const FavoriteTab(),
     const ProfileTab()
   ];
 
   int _selectedIndex = 0;
+ 
 
   @override
   Widget build(BuildContext context) {
     _viewModel.initState(
         loadingState: Provider.of<LoadingStateProvider>(context));
+    _setSelectedTabFromNavigation(context);
+
     return _viewModel.loadingStatusState.isLoading
         ? loadingView
         : Scaffold(
@@ -117,6 +122,17 @@ extension PrivateMethods on _TabsPageState {
   _closeAlertDialog(BuildContext context) {
     _viewModel.loadingStatusState.setLoadingState(isLoading: false);
     Navigator.pop(context);
+  }
+
+  _setSelectedTabFromNavigation(BuildContext context) {
+    if (!isSelectedTabShowed) {
+      final selectedTab = ModalRoute.of(context)!.settings.arguments as int?;
+      if (selectedTab == null) {
+        return;
+      }
+      _selectedIndex = selectedTab;
+      isSelectedTabShowed = true;
+    }
   }
 }
 

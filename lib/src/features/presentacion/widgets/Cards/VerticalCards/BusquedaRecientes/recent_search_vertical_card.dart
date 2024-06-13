@@ -68,9 +68,9 @@ class RecentSearchVerticalCardView extends StatelessWidget with BaseView {
                               fontWeight: FontWeight.w500,
                               fontSize: 13.0)),
                       const SizedBox(width: 5),
-                      Text("(${placeListDetailEntity.ratings} ratings)",
+                      Text("(${placeListDetailEntity.ratings} Reseñas)",
                           style: const TextStyle(
-                              color: Colors.grey,
+                              color: Colors.black,
                               fontWeight: FontWeight.w500,
                               fontSize: 13.0))
                     ],

@@ -48,15 +48,16 @@ class _AddEditDeliveryAddressPageState extends State<AddEditDeliveryAddressPage>
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FABRoundedRectangleView(
-          text: 'Delete Delivery Address',
+          text: 'Eliminar direccion',
           backgroundColor: Colors.red,
           onPressed: () {
             _showAlertDeleteDeliveryAddress(context);
           },
           isHidden: !_isEditing()),
       appBar: createAppBarDone(
-          title:
-              _isEditing() ? "Edit Delivery Address" : "Add Delivery Address",
+          title: _isEditing()
+              ? "Editar dirección de entrega"
+              : "Agregar dirección de entrega",
           actionText: _actionText,
           onTap: () {
             _editAddDeliveryAddress(context);
@@ -74,7 +75,7 @@ class _AddEditDeliveryAddressPageState extends State<AddEditDeliveryAddressPage>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("STREET AND NUMBER",
+                  const Text("CALLE Y NÚMERO",
                       style: TextStyle(
                           fontSize: 14,
                           color: Colors.orange,
@@ -86,7 +87,7 @@ class _AddEditDeliveryAddressPageState extends State<AddEditDeliveryAddressPage>
                       decoration: _streetAndNumberDecoration,
                       initialValue: widget.deliveryAddressEntity?.street),
                   const SizedBox(height: 16),
-                  const Text("FLOOR AND DOOR",
+                  const Text("PISO Y PUERTA",
                       style: TextStyle(
                           fontSize: 14,
                           color: Colors.orange,
@@ -98,7 +99,7 @@ class _AddEditDeliveryAddressPageState extends State<AddEditDeliveryAddressPage>
                       decoration: _floorAndDoorDecoration,
                       initialValue: widget.deliveryAddressEntity?.floorAndDoor),
                   const SizedBox(height: 16),
-                  const Text("CITY",
+                  const Text("CIUDAD",
                       style: TextStyle(
                           fontSize: 14,
                           color: Colors.orange,
@@ -122,7 +123,7 @@ class _AddEditDeliveryAddressPageState extends State<AddEditDeliveryAddressPage>
                       decoration: _cpDecoration,
                       initialValue: widget.deliveryAddressEntity?.cp),
                   const SizedBox(height: 16),
-                  const Text("Notes",
+                  const Text("Notas",
                       style: TextStyle(
                           fontSize: 14,
                           color: Colors.orange,
@@ -134,7 +135,7 @@ class _AddEditDeliveryAddressPageState extends State<AddEditDeliveryAddressPage>
                       decoration: defaultTextFieldDecoration,
                       initialValue: widget.deliveryAddressEntity?.notes),
                   const SizedBox(height: 16),
-                  const Text("ADDRESS ALIAS",
+                  const Text("ALIAS DE DIRECCIÓN",
                       style: TextStyle(
                           fontSize: 14,
                           color: Colors.orange,

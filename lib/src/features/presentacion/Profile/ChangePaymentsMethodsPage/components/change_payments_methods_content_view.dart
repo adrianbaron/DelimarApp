@@ -2,6 +2,7 @@ import 'package:app_delivery/src/Base/Views/BaseView.dart';
 import 'package:app_delivery/src/features/logica/Entidades/PaymentsMethods/payments_methods_entity.dart';
 import 'package:app_delivery/src/features/presentacion/MainCordinator/MainCordinator.dart';
 import 'package:app_delivery/src/features/presentacion/Profile/ChangePaymentsMethodsPage/components/payments_methods_card.dart';
+import 'package:app_delivery/src/features/presentacion/StateProviders/user_state_provider.dart';
 import 'package:app_delivery/src/utils/extensions/screem_size.dart';
 import 'package:app_delivery/src/utils/helpers/CheckoutHelper/check_out_helper.dart';
 import 'package:app_delivery/src/utils/styles/box_decoration_shadow.dart';
@@ -93,5 +94,17 @@ class PaymentCardsView extends StatelessWidget
       default:
         break;
     }
+  }
+
+  @override
+  selectMainPaymentMethodTapped(
+      {required BuildContext context,
+      required PaymentMethodEntity? paymentMethod}) {
+    if (paymentMethod == null) {
+      return;
+    }
+    (context)
+        .selectMainPaymentMethod(parameter: paymentMethod)
+        .then((_) => delegate?.onChange());
   }
 }

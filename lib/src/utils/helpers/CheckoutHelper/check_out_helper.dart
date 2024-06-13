@@ -1,6 +1,10 @@
 import 'dart:math';
 import 'dart:core';
 
+import 'package:app_delivery/src/features/logica/Entidades/DeliveryAddress/delivery_address_entity.dart';
+import 'package:app_delivery/src/features/logica/Entidades/PaymentsMethods/payments_methods_entity.dart';
+import 'package:app_delivery/src/utils/extensions/iterable_extensions.dart';
+
 enum PaymentMethodsTypes { visa, mastercard, paypal }
 
 class CheckoutHelper {
@@ -140,6 +144,38 @@ class CheckoutHelper {
   }
 
   static String formatPriceInEuros(double price) {
-    return "${price.toStringAsFixed(2)} COP";
+    return "${price.toStringAsFixed(3)} COP";
+  }
+
+  static DeliveryAddressListEntity getMainDeliveryAddress(
+      {required DeliveryAddressListEntity entity}) {
+    var newEntity = entity;
+    newEntity.deliveryAddressList = entity.deliveryAddressList
+        .map((address) {
+          if (address.isMainDeliveryAddress) {
+            return address;
+          } else {
+            return null;
+          }
+        })
+        .compactMap()
+        .toList();
+    return newEntity;
+  }
+
+  static PaymentMethodsEntity getMainPaymentMethods(
+      {required PaymentMethodsEntity entity}) {
+    var newEntity = entity;
+    newEntity.paymentMethods = entity.paymentMethods
+        .map((address) {
+          if (address.isMainPaymentMethod) {
+            return address;
+          } else {
+            return null;
+          }
+        })
+        .compactMap()
+        .toList();
+    return newEntity;
   }
 }

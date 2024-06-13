@@ -37,6 +37,8 @@ class CustomTextFormField extends StatelessWidget {
   final Widget? _icon;
   final String? _labelValue;
   final bool? _enabled;
+  final bool? _isTextArea;
+  final int? _minLines;
 
   CustomTextFormField(
       {required this.delegate,
@@ -47,74 +49,83 @@ class CustomTextFormField extends StatelessWidget {
       String? initialValue,
       String? labelValue,
       bool? enabled,
-      Widget? icon})
+      Widget? icon,
+      bool? isTextArea,
+      int? minLines})
       : _controller = controller,
         _decoration = decoration,
         _initialValue = initialValue,
         _labelValue = labelValue,
         _enabled = enabled,
-        _icon = icon;
+        _icon = icon,
+        _isTextArea = isTextArea,
+        _minLines = minLines;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.only(top: 10.0),
+        margin: const EdgeInsets.only(top: 8.0),
         decoration: _decoration ??
             BoxDecoration(
                 color: bgInputs, borderRadius: BorderRadius.circular(40.0)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _labelValue != null
-                ? Transform.translate(
-                    offset: const Offset(10, 10),
-                    child: Text(_labelValue ?? "",
-                        style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.orange,
-                            fontWeight: FontWeight.w600)),
-                  )
-                : Container(),
-            TextFormField(
-              enabled: _enabled ?? true,
-              initialValue: _initialValue,
-              controller: _controller,
-              keyboardType:
-                  getKeyboardType(textFormFieldType: textFormFieldType),
-              obscureText: textFormFieldType == CustomTextFormFieldType.password
-                  ? true
-                  : false,
-              decoration: InputDecoration(
-                  icon: _icon,
-                  hintText: hintext,
-                  border:
-                      const OutlineInputBorder(borderSide: BorderSide.none)),
-              onChanged: (newValue) => delegate.onChanged(
-                  newValue: newValue,
-                  customTextFormFieldType: textFormFieldType),
-              validator: (value) {
-                switch (textFormFieldType) {
-                  case CustomTextFormFieldType.email:
-                    return EmailFormValidator.validateEmail(email: value ?? '');
-                  case CustomTextFormFieldType.password:
-                    return PasswordFormValidator.validatePassword(
-                        password: value ?? '');
-                  case CustomTextFormFieldType.username:
-                    return DefaultFormValidator.validateIsNotEmpty(
-                        value: value ?? '');
-                  case CustomTextFormFieldType.phone:
-                    return DefaultFormValidator.validateIsNotEmpty(
-                        value: value ?? '');
-                  default:
-                    return null;
-                }
-              },
-            ),
-          ],
-        ));
+        child: _getLabelAndTextFieldView());
   }
 
-  TextInputType? getKeyboardType(
+  Widget _getLabelAndTextFieldView() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _labelValue != null
+            ? Transform.translate(
+                offset: const Offset(10, 12),
+                child: Text(_labelValue ?? "",
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: orange,
+                        fontWeight: FontWeight.w600)),
+              )
+            : Container(),
+        TextFormField(
+          enabled: _enabled ?? true,
+          initialValue: _initialValue,
+          controller: _controller,
+          minLines: _minLines,
+          maxLines: _isTextArea ?? false ? null : 1,
+          keyboardType: _isTextArea ?? false
+              ? TextInputType.multiline
+              : _getKeyboardType(textFormFieldType: textFormFieldType),
+          obscureText: textFormFieldType == CustomTextFormFieldType.password
+              ? true
+              : false,
+          decoration: InputDecoration(
+              icon: _icon,
+              hintText: hintext,
+              border: const OutlineInputBorder(borderSide: BorderSide.none)),
+          onChanged: (newValue) => delegate.onChanged(
+              newValue: newValue, customTextFormFieldType: textFormFieldType),
+          validator: (value) {
+            switch (textFormFieldType) {
+              case CustomTextFormFieldType.email:
+                return EmailFormValidator.validateEmail(email: value ?? '');
+              case CustomTextFormFieldType.password:
+                return PasswordFormValidator.validatePassword(
+                    password: value ?? '');
+              case CustomTextFormFieldType.username:
+                return DefaultFormValidator.validateIsNotEmpty(
+                    value: value ?? '');
+              case CustomTextFormFieldType.phone:
+                return DefaultFormValidator.validateIsNotEmpty(
+                    value: value ?? '');
+              default:
+                return null;
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  TextInputType? _getKeyboardType(
       {required CustomTextFormFieldType textFormFieldType}) {
     switch (textFormFieldType) {
       case CustomTextFormFieldType.email:

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:app_delivery/src/Base/APIservice/AppError.dart';
+import 'package:app_delivery/src/utils/helpers/Logger/logger.dart';
 import 'package:http/http.dart' as http;
 
 abstract class _Exceptions {
@@ -28,14 +29,18 @@ class DefaultApiService extends ApiService {
       {required String url, Map<String, String>? headers}) async {
     var _url = Uri.parse(url);
     var response = await http.get(_url, headers: headers);
+
+    Logger.printRequest(url: url, method: Method.get, headers: headers);
+
     try {
+      Logger.printRespone(
+          url: url, method: Method.get, response: response, headers: headers);
+
       if (response.statusCode.toString().contains('20')) {
         var jsonData = jsonDecode(response.body);
-        //print("Api Service");
-        // print(jsonData);
         // Null Check
         if (jsonData == null) {
-          throw Failure.fromMessage(message: _Exceptions.formatException);
+          throw Failure.fromMessage(message: _Exceptions.httpException);
         } else {
           return jsonData;
         }
@@ -60,12 +65,21 @@ class DefaultApiService extends ApiService {
     var body = json.encode(bodyParameters);
     var response = await http.post(_url, headers: headers, body: body);
 
+    Logger.printRequest(
+        url: url,
+        method: Method.post,
+        bodyParameters: bodyParameters,
+        headers: headers);
+
     try {
+      Logger.printRespone(
+          url: url, method: Method.post, response: response, headers: headers, bodyParameters: bodyParameters);
+
       if (response.statusCode.toString().contains('20')) {
         var jsonData = jsonDecode(response.body);
         // Null Check
         if (jsonData == null) {
-          throw Failure.fromMessage(message: _Exceptions.formatException);
+          throw Failure.fromMessage(message: _Exceptions.httpException);
         } else {
           return jsonData;
         }
@@ -90,7 +104,16 @@ class DefaultApiService extends ApiService {
     var body = json.encode(bodyParameters);
     var response = await http.put(_url, headers: headers, body: body);
 
+    Logger.printRequest(
+        url: url,
+        method: Method.get,
+        bodyParameters: bodyParameters,
+        headers: headers);
+        
     try {
+      Logger.printRespone(
+          url: url, method: Method.put, response: response, headers: headers, bodyParameters: bodyParameters);
+
       if (response.statusCode.toString().contains('20')) {
         var jsonData = jsonDecode(response.body);
         // Null Check
@@ -111,3 +134,4 @@ class DefaultApiService extends ApiService {
     }
   }
 }
+

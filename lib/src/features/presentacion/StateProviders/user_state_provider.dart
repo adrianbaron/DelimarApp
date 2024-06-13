@@ -151,7 +151,7 @@ extension PaymentMethods on DefaultUserStateProvider {
     if (paymentMethods != null) {
       paymentMethods.paymentMethods = paymentMethods.paymentMethods.map((paymentMethod) {
         paymentMethod.isMainPaymentMethod =
-            paymentMethod.id == parameter.id ? true : false;
+            paymentMethod.id == parameter.id;
         return paymentMethod;
       }).toList();
 

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 class PaymentMethodsDecodable {
-
   final List<PaymentMethodDecodable> paymentMethods;
 
   PaymentMethodsDecodable({
@@ -18,7 +17,8 @@ class PaymentMethodsDecodable {
 
   factory PaymentMethodsDecodable.fromMap(Map<String, dynamic> json) {
     return PaymentMethodsDecodable(
-      paymentMethods: List<PaymentMethodDecodable>.from(json['paymentMethods'].map((card) => PaymentMethodDecodable.fromMap(card))),
+      paymentMethods: List<PaymentMethodDecodable>.from(json['paymentMethods']
+          .map((card) => PaymentMethodDecodable.fromMap(card))),
     );
   }
 
@@ -36,29 +36,30 @@ class PaymentMethodDecodable {
   final String type;
   final String email;
   final String id;
+  final bool isMainPaymentMethod;
 
-  PaymentMethodDecodable({
-    required this.nameInTheCard,
-    required this.cardNumber,
-    required this.monthAndYear,
-    required this.cvc,
-    required this.country,
-    required this.type,
-    required this.email,
-    required this.id
-  });
+  PaymentMethodDecodable(
+      {required this.nameInTheCard,
+      required this.cardNumber,
+      required this.monthAndYear,
+      required this.cvc,
+      required this.country,
+      required this.type,
+      required this.email,
+      required this.id,
+      required this.isMainPaymentMethod});
 
   factory PaymentMethodDecodable.fromMap(Map<String, dynamic> json) {
     return PaymentMethodDecodable(
-      nameInTheCard: json['nameInTheCard'],
-      cardNumber: json['cardNumber'],
-      monthAndYear: json['monthAndYear'],
-      cvc: json['cvc'],
-      country: json['country'],
-      type: json['type'],
-      email: json['email'],
-      id: json['id']
-    );
+        nameInTheCard: json['nameInTheCard'],
+        cardNumber: json['cardNumber'],
+        monthAndYear: json['monthAndYear'],
+        cvc: json['cvc'],
+        country: json['country'],
+        type: json['type'],
+        email: json['email'],
+        id: json['id'],
+        isMainPaymentMethod: json['isMainPaymentMethod'] ?? false);
   }
 
   String toJson() => json.encode(toMap());
@@ -72,7 +73,8 @@ class PaymentMethodDecodable {
       'country': country,
       'type': type,
       'email': email,
-      'id': id
+      'id': id,
+      'isMainPaymentMethod': isMainPaymentMethod
     };
   }
 }

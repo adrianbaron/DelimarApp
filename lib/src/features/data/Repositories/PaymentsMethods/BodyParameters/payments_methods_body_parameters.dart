@@ -17,9 +17,7 @@ class PaymentMethodsBodyParameters {
 
   factory PaymentMethodsBodyParameters.fromMap(Map<String, dynamic> json) {
     return PaymentMethodsBodyParameters(
-      paymentMethods: List<PaymentMethodBodyParameters>.from(
-          json['paymentMethods']
-              .map((card) => PaymentMethodBodyParameters.fromMap(card))),
+      paymentMethods: List<PaymentMethodBodyParameters>.from(json['paymentMethods'].map((card) => PaymentMethodBodyParameters.fromMap(card))),
     );
   }
 
@@ -39,28 +37,30 @@ class PaymentMethodBodyParameters {
   final String id;
   final bool isMainPaymentMethod;
 
-  PaymentMethodBodyParameters(
-      {required this.nameInTheCard,
-      required this.cardNumber,
-      required this.monthAndYear,
-      required this.cvc,
-      required this.country,
-      required this.type,
-      required this.email,
-      required this.id,
-      required this.isMainPaymentMethod});
+  PaymentMethodBodyParameters({
+    required this.nameInTheCard,
+    required this.cardNumber,
+    required this.monthAndYear,
+    required this.cvc,
+    required this.country,
+    required this.type,
+    required this.email,
+    required this.id,
+    required this.isMainPaymentMethod
+  });
 
   factory PaymentMethodBodyParameters.fromMap(Map<String, dynamic> json) {
     return PaymentMethodBodyParameters(
-        nameInTheCard: json['nameInTheCard'],
-        cardNumber: json['cardNumber'],
-        monthAndYear: json['monthAndYear'],
-        cvc: json['cvc'],
-        country: json['country'],
-        type: json['type'],
-        email: json['email'],
-        id: json['id'],
-        isMainPaymentMethod: json['isMainPaymentMethod']);
+      nameInTheCard: json['nameInTheCard'],
+      cardNumber: json['cardNumber'],
+      monthAndYear: json['monthAndYear'],
+      cvc: json['cvc'],
+      country: json['country'],
+      type: json['type'],
+      email: json['email'],
+      id: json['id'],
+      isMainPaymentMethod: json['isMainPaymentMethod']
+    );
   }
 
   String toJson() => json.encode(toMap());
@@ -79,3 +79,4 @@ class PaymentMethodBodyParameters {
     };
   }
 }
+

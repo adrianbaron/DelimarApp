@@ -126,4 +126,7 @@ class FooterView extends StatelessWidget
         break;
     }
   }
+  
+  @override
+  selectMainPaymentMethodTapped({required BuildContext context, required PaymentMethodEntity? paymentMethod}) { }
 }

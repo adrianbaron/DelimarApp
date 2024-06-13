@@ -2,14 +2,15 @@ import 'package:app_delivery/src/features/logica/Entidades/PaymentsMethods/payme
 import 'package:app_delivery/src/utils/helpers/CheckoutHelper/check_out_helper.dart';
 import 'package:app_delivery/src/utils/styles/box_decoration_shadow.dart';
 import 'package:flutter/material.dart';
-class PaymentMethodCardsView extends StatelessWidget {
+import 'package:flutter/widgets.dart';
 
+class PaymentMethodCardsView extends StatelessWidget {
   final PaymentMethodsEntity? paymentMethods;
   final PaymentMethodCardViewDelegate? delegate;
 
-  const PaymentMethodCardsView({ Key? key,
-                                 required this.paymentMethods,
-                                 this.delegate }) : super(key: key);
+  const PaymentMethodCardsView(
+      {Key? key, required this.paymentMethods, this.delegate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,46 +20,56 @@ class PaymentMethodCardsView extends StatelessWidget {
   }
 
   List<Widget> getPaymentMethodsCard() {
-    if (paymentMethods == null) { return []; }
+    if (paymentMethods == null) {
+      return [];
+    }
 
-    return paymentMethods?.paymentMethods.map( (paymentMethod) {
-      return PaymentMethodCardView(paymentMethod: paymentMethod,
-                                   delegate: delegate,
-                                   defaultPaymentMethod: PaymentMethodsTypes.values.byName(paymentMethod.type));
-    }).toList() ?? [];
+    return paymentMethods?.paymentMethods.map((paymentMethod) {
+          return PaymentMethodCardView(
+              paymentMethod: paymentMethod,
+              delegate: delegate,
+              defaultPaymentMethod:
+                  PaymentMethodsTypes.values.byName(paymentMethod.type));
+        }).toList() ??
+        [];
   }
 }
 
 mixin PaymentMethodCardViewDelegate {
-  paymentMethodTapped({ required BuildContext context,
-                        required PaymentMethodEntity? paymentMethod,
-                        required PaymentMethodsTypes type });
+  paymentMethodTapped(
+      {required BuildContext context,
+      required PaymentMethodEntity? paymentMethod,
+      required PaymentMethodsTypes type});
+  selectMainPaymentMethodTapped(
+      {required BuildContext context,
+      required PaymentMethodEntity? paymentMethod});
 }
 
 class PaymentMethodCardView extends StatelessWidget {
-
   String? defaultTitle;
   PaymentMethodsTypes defaultPaymentMethod;
   PaymentMethodEntity? paymentMethod;
-  bool isMainPaymentMethod;
+
   Decoration? decoration;
   PaymentMethodCardViewDelegate? delegate;
 
-  PaymentMethodCardView({ Key? key,
-                          required this.defaultPaymentMethod,
-                          this.paymentMethod,
-                          this.defaultTitle,
-                          this.isMainPaymentMethod = false,
-                          this.decoration,
-                          this.delegate }) : super(key: key);
+  PaymentMethodCardView(
+      {Key? key,
+      required this.defaultPaymentMethod,
+      this.paymentMethod,
+      this.defaultTitle,
+      this.decoration,
+      this.delegate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        delegate?.paymentMethodTapped(paymentMethod: paymentMethod,
-                                      context: context,
-                                      type: defaultPaymentMethod);
+        delegate?.paymentMethodTapped(
+            paymentMethod: paymentMethod,
+            context: context,
+            type: defaultPaymentMethod);
       },
       child: Container(
         decoration: decoration ?? borderSideNoneGrayBackgroundDecoration,
@@ -67,17 +78,25 @@ class PaymentMethodCardView extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image(image: AssetImage(getAssetImageName()),
-                  width: 26,
-                  height: 26),
-            Text(getCardTitle(),
-                 style: const TextStyle(
-                  fontSize: 17
-                 )),
-            isMainPaymentMethod ?
-                const Image(image: AssetImage("assets/check_order_fill.png"),
-                      width: 26,
-                      height: 26)
+            Image(
+                image: AssetImage(getAssetImageName()), width: 26, height: 26),
+            Text(getCardTitle(), style: const TextStyle(fontSize: 17)),
+            defaultTitle == null
+                ? GestureDetector(
+                    onTap: () {
+                      if (paymentMethod?.isMainPaymentMethod == false) {
+                        delegate?.selectMainPaymentMethodTapped(
+                            context: context, paymentMethod: paymentMethod);
+                      }
+                    },
+                    child: Image(
+                        image: AssetImage(
+                            paymentMethod?.isMainPaymentMethod ?? false
+                                ? "assets/check_order_fill.png"
+                                : "assets/inactivo.png"),
+                        width: 26,
+                        height: 26),
+                  )
                 : Container()
           ],
         ),
@@ -87,14 +106,16 @@ class PaymentMethodCardView extends StatelessWidget {
 
   String getCardTitle() {
     if (defaultTitle == null) {
-      return paymentMethod?.type == PaymentMethodsTypes.paypal.name ? paymentMethod?.email ?? ""
-            : CheckoutHelper.obfuscateCardNumber(paymentMethod?.cardNumber ?? "");
+      return paymentMethod?.type == PaymentMethodsTypes.paypal.name
+          ? paymentMethod?.email ?? ""
+          : CheckoutHelper.obfuscateCardNumber(paymentMethod?.cardNumber ?? "");
     } else {
       return defaultTitle ?? "";
     }
   }
 
   String getAssetImageName() {
-    return CheckoutHelper.getPaymentMethodAssetImage(paymentMethod: defaultPaymentMethod);
+    return CheckoutHelper.getPaymentMethodAssetImage(
+        paymentMethod: defaultPaymentMethod);
   }
 }
