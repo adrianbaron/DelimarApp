@@ -1,6 +1,5 @@
 import 'package:app_delivery/src/Base/APIservice/AppError.dart';
 import 'package:app_delivery/src/Base/Constants/ErrorMessage.dart';
-import 'package:app_delivery/src/features/data/Interfaces/interfaces.dart';
 import 'package:app_delivery/src/features/data/Repositories/DeliveryAddress/delivery_address_repository.dart';
 import 'package:app_delivery/src/features/logica/Entidades/DeliveryAddress/delivery_address_entity.dart';
 

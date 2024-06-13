@@ -121,3 +121,4 @@ class DeliveryAddressEntity {
         "isMainDeliveryAddress": isMainDeliveryAddress
       };
 }
+

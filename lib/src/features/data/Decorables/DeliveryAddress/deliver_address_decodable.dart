@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 class DeliveryAddressListDecodable {
+
   final List<DeliveryAddressDecodable> deliveryAddressList;
 
   DeliveryAddressListDecodable({
@@ -11,16 +12,13 @@ class DeliveryAddressListDecodable {
 
   Map<String, dynamic> toMap() {
     return {
-      'deliveryAddressList':
-          deliveryAddressList.map((address) => address.toMap()).toList(),
+      'deliveryAddressList': deliveryAddressList.map((address) => address.toMap()).toList(),
     };
   }
 
   factory DeliveryAddressListDecodable.fromMap(Map<String, dynamic> json) {
     return DeliveryAddressListDecodable(
-      deliveryAddressList: List<DeliveryAddressDecodable>.from(
-          json['deliveryAddressList']
-              .map((address) => DeliveryAddressDecodable.fromMap(address))),
+      deliveryAddressList: List<DeliveryAddressDecodable>.from(json['deliveryAddressList'].map((address) => DeliveryAddressDecodable.fromMap(address))),
     );
   }
 
@@ -54,30 +52,30 @@ class DeliveryAddressDecodable {
     required this.isMainDeliveryAddress,
   });
 
-  factory DeliveryAddressDecodable.fromMap(Map<String, dynamic> json) =>
-      DeliveryAddressDecodable(
-        id: json["id"],
-        lat: json["lat"]?.toDouble(),
-        long: json["long"]?.toDouble(),
-        street: json["street"],
-        floorAndDoor: json["floorAndDoor"] ?? "",
-        city: json["city"],
-        cp: json["cp"],
-        notes: json["notes"],
-        alias: json["alias"],
-        isMainDeliveryAddress: json["isMainDeliveryAddress"] ?? false,
-      );
+  factory DeliveryAddressDecodable.fromMap(Map<String, dynamic> json) => DeliveryAddressDecodable(
+    id: json["id"],
+    lat: json["lat"]?.toDouble(),
+    long: json["long"]?.toDouble(),
+    street: json["street"],
+    floorAndDoor: json["floorAndDoor"] ?? "",
+    city: json["city"],
+    cp: json["cp"],
+    notes: json["notes"],
+    alias: json["alias"],
+    isMainDeliveryAddress: json["isMainDeliveryAddress"] ?? false,
+  );
 
   Map<String, dynamic> toMap() => {
-        "id": id,
-        "lat": lat,
-        "long": long,
-        "street": street,
-        "floorAndDoor": floorAndDoor,
-        "city": city,
-        "cp": cp,
-        "notes": notes,
-        "alias": alias,
-        "isMainDeliveryAddress": isMainDeliveryAddress,
-      };
+    "id": id,
+    "lat": lat,
+    "long": long,
+    "street": street,
+    "floorAndDoor": floorAndDoor,
+    "city": city,
+    "cp": cp,
+    "notes": notes,
+    "alias": alias,
+    "isMainDeliveryAddress": isMainDeliveryAddress,
+  };
 }
+
