@@ -3,8 +3,9 @@ import 'package:app_delivery/src/features/presentacion/widgets/Carrusel/Vertical
 import 'package:app_delivery/src/features/presentacion/widgets/Headers/header_text.dart';
 import 'package:flutter/material.dart';
 
+// Widget que muestra las nuevas ofertas de los lugares
 class NoveltyPlacesContentView extends StatelessWidget {
-  //
+  
   List<PlaceDetailEntity> noveltyPlaces = [];
 
   NoveltyPlacesContentView({super.key, required this.noveltyPlaces});

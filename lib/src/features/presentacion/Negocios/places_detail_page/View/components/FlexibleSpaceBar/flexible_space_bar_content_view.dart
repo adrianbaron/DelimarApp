@@ -16,11 +16,14 @@ class FlexibleSpaceBarContentView extends StatelessWidget {
     return FlexibleSpaceBar(
       background: Stack(
         children: [
-          Image(
-              width: double.infinity,
-              height: getScreenHeight(context: context, multiplier: 0.48),
-              fit: BoxFit.fill,
-              image: NetworkImage(viewModel.place.imgs.first)),
+           AnimatedContainer(
+            duration: const Duration(milliseconds: 10),
+            child: Image(
+                width: double.infinity,
+                height: getScreenHeight(context: context, multiplier: 0.48),
+                fit: BoxFit.fill,
+                image: NetworkImage(viewModel.place.imgs.first)),
+          ),
           Container(
               decoration: const BoxDecoration(color: Colors.black45),
               width: double.infinity,

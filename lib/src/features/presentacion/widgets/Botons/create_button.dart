@@ -12,18 +12,20 @@ Widget createButton({
   required Color color,
   OutlinedBorder shape = const StadiumBorder(),
   required VoidCallback func,
+  Key? key, // Parámetro adicional para la clave
 }) {
   return Container(
     width: width,
     height: height,
     margin: const EdgeInsets.only(top: 20.0),
     child: isWithIcon
-        ? _buttonWithIcon(radius, icon!, labelButton, color, shape, func)
-        : _buttonNotIcon(radius, labelButton, color, shape, func),
+        ? _buttonWithIcon(key, radius, icon!, labelButton, color, shape, func)
+        : _buttonNotIcon(key, radius, labelButton, color, shape, func),
   );
 }
 
 Widget _buttonWithIcon(
+  Key? key, // Clave para el botón
   double radius,
   ImageProvider<Object> icon,
   String labelButton,
@@ -32,6 +34,7 @@ Widget _buttonWithIcon(
   VoidCallback func,
 ) {
   return ElevatedButton(
+    key: key, // Asignar clave
     onPressed: func,
     style: ElevatedButton.styleFrom(
       shape: shape,
@@ -65,6 +68,7 @@ Widget _buttonWithIcon(
 }
 
 Widget _buttonNotIcon(
+  Key? key, // Clave para el botón
   double radius,
   String labelButton,
   Color color,
@@ -72,6 +76,7 @@ Widget _buttonNotIcon(
   VoidCallback func,
 ) {
   return ElevatedButton(
+    key: key, // Asignar clave
     onPressed: func,
     style: ElevatedButton.styleFrom(
       shape: shape,

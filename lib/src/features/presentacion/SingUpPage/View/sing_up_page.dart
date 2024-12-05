@@ -49,7 +49,7 @@ class SignUpPage extends StatelessWidget with BaseView {
                         child: Column(
                           children: [
                             const TextView(
-                                texto: 'Create an account',
+                                texto: 'Crear una cuenta',
                                 color: Colors.orange,
                                 fontSize: 30.0),
                             CustomTextFormField(
@@ -91,7 +91,7 @@ class SignUpPage extends StatelessWidget with BaseView {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20.0, vertical: 40.0),
                                 child: const Text(
-                                    'By clicking Sign up you agree to the following Terms and Conditions without reservation',
+                                    'Al hacer clic en Registrarse aceptas los siguientes Términos y Condiciones sin reservas',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Colors.black,

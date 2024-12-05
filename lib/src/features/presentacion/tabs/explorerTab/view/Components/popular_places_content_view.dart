@@ -22,7 +22,7 @@ class PopularPlacesContentView extends StatelessWidget with BaseView {
               GestureDetector(
                   onTap: () => coordinator.showPlaceListPage(
                       context: context, popularPlaces: popularPlaces),
-                  child: HeaderView(
+                  child: const HeaderView(
                       textHeader: "Restaurantes de la semana",
                       textAction: "Ver todos")),
               const SizedBox(

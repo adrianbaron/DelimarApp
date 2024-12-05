@@ -1,3 +1,5 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 
 class FABRoundedRectangleView extends StatelessWidget {
@@ -19,16 +21,18 @@ class FABRoundedRectangleView extends StatelessWidget {
   Widget build(BuildContext context) {
     return isHidden
         ? Container()
-        : FloatingActionButton.extended(
-            onPressed: onPressed,
-            backgroundColor: backgroundColor,
-            shape: shape,
-            label: Text(
-              text,
-              style:const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16),
-            ));
+        : ElasticIn(
+          child: FloatingActionButton.extended(
+              onPressed: onPressed,
+              backgroundColor: backgroundColor,
+              shape: shape,
+              label: Text(
+                text,
+                style:const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
+              )),
+        );
   }
 }

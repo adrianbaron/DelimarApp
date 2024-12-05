@@ -18,32 +18,32 @@ class TabsPage extends StatefulWidget {
   const TabsPage({super.key});
 
   @override
-  State<TabsPage> createState() => _TabsPageState();
+  State<TabsPage> createState() => TabsPageState();
 }
 
-class _TabsPageState extends State<TabsPage> with BaseView {
+class TabsPageState extends State<TabsPage> with BaseView {
   // Dependencies
-  final TabsViewModel _viewModel;
+  final TabsViewModel viewModel;
   bool isSelectedTabShowed = false;
 
-  _TabsPageState({TabsViewModel? tabsViewModel})
-      : _viewModel = tabsViewModel ?? DefaultTabsViewModel();
+  TabsPageState({TabsViewModel? tabsViewModel})
+      : viewModel = tabsViewModel ?? DefaultTabsViewModel();
 
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      _viewModel.loadingStatusState.setLoadingState(isLoading: true);
+      viewModel.loadingStatusState.setLoadingState(isLoading: true);
       final LocationPermissionStatus currentStatus =
-          await _viewModel.getPermissionStatus();
+          await viewModel.getPermissionStatus();
       switch (currentStatus) {
         case LocationPermissionStatus.denied:
-          _getCurrentPosition(context);
+          getCurrentPosition(context);
         default:
-          _viewModel.loadingStatusState.setLoadingState(isLoading: false);
+          viewModel.loadingStatusState.setLoadingState(isLoading: false);
           break;
       }
-      _getCurrentPosition(context);
+      getCurrentPosition(context);
     });
   }
 
@@ -59,11 +59,11 @@ class _TabsPageState extends State<TabsPage> with BaseView {
 
   @override
   Widget build(BuildContext context) {
-    _viewModel.initState(
+    viewModel.initState(
         loadingState: Provider.of<LoadingStateProvider>(context));
-    _setSelectedTabFromNavigation(context);
+    setSelectedTabFromNavigation(context);
 
-    return _viewModel.loadingStatusState.isLoading
+    return viewModel.loadingStatusState.isLoading
         ? loadingView
         : Scaffold(
             body: widgetOptions.elementAt(_selectedIndex),
@@ -72,7 +72,7 @@ class _TabsPageState extends State<TabsPage> with BaseView {
   }
 }
 
-extension PrivateMethods on _TabsPageState {
+extension PrivateMethods on TabsPageState {
   Widget _bottonNavigationBar(BuildContext context) {
     return BottomNavigationBar(
       iconSize: 30.0,
@@ -91,40 +91,25 @@ extension PrivateMethods on _TabsPageState {
     );
   }
 
-  Future _getCurrentPosition(BuildContext context) async {
-    //ErrorAlertView.showErrorAlertDialog(context: context, subtitle: "prueba");
-    showAlertDialog(
-        context,
-        const AssetImage("assets/mapa.png"),
-        "Habilitar ubicacion",
-        "Necistamos usar su ubucacion",
-        createButton(
-            context: context,
-            labelButton: "Activar ubicacion",
-            color: orange,
-            func: () {
-              //_closeAlertDialog(context);
-              _viewModel.getCurrentPosition().then((result) {
-                switch (result.status) {
-                  case ResultStatus.success:
-                    _closeAlertDialog(context);
-                    _viewModel.loadingStatusState
-                        .setLoadingState(isLoading: false);
-                  case ResultStatus.error:
-                    _closeAlertDialog(context);
-                    errorStateProvider.setFailure(
-                        context: context, value: result.error!);
-                }
-              });
-            }));
+Future getCurrentPosition(BuildContext context) async {
+  final result = await viewModel.getCurrentPosition();
+  switch (result.status) {
+    case ResultStatus.success:
+      viewModel.loadingStatusState.setLoadingState(isLoading: false);
+      break;
+    case ResultStatus.error:
+      errorStateProvider.setFailure(context: context, value: result.error!);
+      break;
   }
+}
 
-  _closeAlertDialog(BuildContext context) {
-    _viewModel.loadingStatusState.setLoadingState(isLoading: false);
+
+  closeAlertDialog(BuildContext context) {
+    viewModel.loadingStatusState.setLoadingState(isLoading: false);
     Navigator.pop(context);
   }
 
-  _setSelectedTabFromNavigation(BuildContext context) {
+  setSelectedTabFromNavigation(BuildContext context) {
     if (!isSelectedTabShowed) {
       final selectedTab = ModalRoute.of(context)!.settings.arguments as int?;
       if (selectedTab == null) {
@@ -136,7 +121,7 @@ extension PrivateMethods on _TabsPageState {
   }
 }
 
-extension UserActions on _TabsPageState {
+extension UserActions on TabsPageState {
   void _changeTab(int index) {
     setState(() {
       _selectedIndex = index;

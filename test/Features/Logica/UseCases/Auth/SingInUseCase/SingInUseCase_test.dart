@@ -8,10 +8,11 @@ import 'package:app_delivery/src/utils/helpers/ResultType/resultType.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 abstract class _Constants {
-  static String correctEmail = "adrianbaron17@gmail.com";
+  static String correctEmail = "adrian@gmail.com";
   static String correctPass = "123456";
-  static String wrongEmail = "adrianbarohjghjgn12@gmail.com";
-  static String wrongPass = "12345HGgfh678";
+  static String wrongEmail = "adrian@@gmail.com";
+  static String wrongPass = "123456";
+  static String nullPass = "";
 }
 
 void main() {
@@ -54,10 +55,10 @@ void main() {
       }
     });
 
-    test("Contraseña no valida", () async {
+    test("Contraseña nula", () async {
       //GIVEN
       final SignInUseCaseParameters _params = SignInUseCaseParameters(
-          email: _Constants.correctEmail, password: _Constants.wrongPass);
+          email: _Constants.correctEmail, password: _Constants.nullPass);
 
       try {
         final _ = await sut.execute(params: _params);

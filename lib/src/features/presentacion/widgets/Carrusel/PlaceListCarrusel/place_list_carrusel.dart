@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:app_delivery/src/Base/Views/BaseView.dart';
 import 'package:app_delivery/src/features/logica/Entidades/Places/PlaceList/place_list_entity.dart';
 import 'package:app_delivery/src/features/presentacion/MainCordinator/MainCordinator.dart';
@@ -29,27 +30,30 @@ class PlaceListCarrousel extends StatelessWidget with BaseView {
     int dynamicHeight =
         isShortedVisualization ? 120 * itemCount : 210 * placeList.length;
 
-    return Container(
-        alignment: Alignment.topCenter,
-        width: getScreenWidth(context: context),
-        height: dynamicHeight.toDouble(),
-        child: ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: isShortedVisualization ? itemCount : placeList.length,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (BuildContext context, int index) {
-              switch (carrouselStyle) {
-                case PlaceListCarrouselStyle.list:
-                  return PlaceListCardView(
-                      hasFreeDelivery: placeList[index].hasFreeDelivery,
-                      placeListDetailEntity: placeList[index]);
-                case PlaceListCarrouselStyle.listCards:
-                  return FavouritesCardView(
-                      isFavourite: placeList[index].isUserFavourite(
-                          userUid: MainCoordinator.sharedInstance?.userUid),
-                      placeListDetailEntity: placeList[index],
-                      delegate: Provider.of<DefaultUserStateProvider>(context));
-              }
-            }));
+    return FadeInRight(
+      delay: const Duration(seconds: 1),
+      child: Container(
+          alignment: Alignment.topCenter,
+          width: getScreenWidth(context: context),
+          height: dynamicHeight.toDouble(),
+          child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: isShortedVisualization ? itemCount : placeList.length,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (BuildContext context, int index) {
+                switch (carrouselStyle) {
+                  case PlaceListCarrouselStyle.list:
+                    return PlaceListCardView(
+                        hasFreeDelivery: placeList[index].hasFreeDelivery,
+                        placeListDetailEntity: placeList[index]);
+                  case PlaceListCarrouselStyle.listCards:
+                    return FavouritesCardView(
+                        isFavourite: placeList[index].isUserFavourite(
+                            userUid: MainCoordinator.sharedInstance?.userUid),
+                        placeListDetailEntity: placeList[index],
+                        delegate: Provider.of<DefaultUserStateProvider>(context));
+                }
+              })),
+    );
   }
 }

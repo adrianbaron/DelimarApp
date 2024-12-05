@@ -2,6 +2,7 @@ import 'package:app_delivery/src/features/logica/Entidades/Places/PlaceList/plac
 import 'package:app_delivery/src/features/presentacion/Negocios/places_detail_page/ViewModel/place_detail_view_model.dart';
 import 'package:app_delivery/src/utils/extensions/screem_size.dart';
 import 'package:app_delivery/src/utils/helpers/CheckoutHelper/check_out_helper.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 
 class ProductSelectedRowView extends StatefulWidget {
@@ -80,8 +81,8 @@ class SecondRow extends StatelessWidget {
         Text(productName,
             style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15,
-                color: Colors.black)),
+                fontSize: 16,
+                color: Colors.orange)),
         extras.isEmpty
             ? Container()
             : Container(
@@ -115,23 +116,26 @@ class ThirdRow extends StatelessWidget {
         IconButton(
             icon: const Icon(
               Icons.remove_circle,
-              color: Colors.orange,
+              color: Colors.red,
               size: 24,
             ),
             onPressed: () {
               viewModel.updateAmountToProductInOrder(
                   productId: product.id, amount: -1);
             }),
-        IconButton(
-            icon: const Icon(
-              Icons.add_circle,
-              color: Colors.orange,
-              size: 24,
-            ),
-            onPressed: () {
-              viewModel.updateAmountToProductInOrder(
-                  productId: product.id, amount: 1);
-            })
+        AvatarGlow(
+          glowColor: Colors.orange,
+          child: IconButton(
+              icon: const Icon(
+                Icons.add_circle,
+                color: Colors.orange,
+                size: 24,
+              ),
+              onPressed: () {
+                viewModel.updateAmountToProductInOrder(
+                    productId: product.id, amount: 1);
+              }),
+        )
       ],
     );
   }

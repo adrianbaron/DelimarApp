@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:app_delivery/src/colors/colors.dart';
 import 'package:app_delivery/src/features/presentacion/Negocios/places_detail_page/ViewModel/place_detail_view_model.dart';
 import 'package:app_delivery/src/features/presentacion/widgets/Headers/text_view.dart';
@@ -11,42 +12,46 @@ class PlaceDetailStatsInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 26.0),
-      padding: const EdgeInsets.symmetric(horizontal: 40.0),
-      height: 70.0,
-      decoration: const BoxDecoration(
-          border: Border(
-              top: BorderSide(color: Colors.white),
-              bottom: BorderSide(color: Colors.white))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          VerticalStatsView(
-              title: "${viewModel.place.ratingAverage}",
-              subtitle: "${viewModel.place.ratings} Ratings",
-              icon: Icons.star),
-          Container(
-            height: 40,
-            decoration: const BoxDecoration(
-                border: Border(right: BorderSide(color: Colors.white))),
-          ),
-          VerticalStatsView(
-              title: _getFavouritesCount(),
-              subtitle: "Favourites",
-              icon: Icons.bookmark),
-          Container(
-            height: 40,
-            decoration: const BoxDecoration(
-                border: Border(right: BorderSide(color: Colors.white))),
-          ),
-          VerticalStatsView(
-              title: viewModel.place.averageDelivery.isEmpty
-                  ? "20-30'"
-                  : "${viewModel.place.averageDelivery}'",
-              subtitle: "Delivery",
-              icon: Icons.punch_clock)
-        ],
+    // widget para mostrar lineas de separacion
+    return ElasticIn(
+      delay: const Duration(seconds: 2),
+      child: Container(
+        margin: const EdgeInsets.only(top: 26.0),
+        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+        height: 80.0,
+        decoration: const BoxDecoration(
+            border: Border(
+                top: BorderSide(color: Colors.red),
+                bottom: BorderSide(color: Colors.red))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            VerticalStatsView(
+                title: "${viewModel.place.ratingAverage}",
+                subtitle: "${viewModel.place.ratings} Calificacion",
+                icon: Icons.star),
+            Container(
+              height: 40,
+              decoration: const BoxDecoration(
+                  border: Border(right: BorderSide(color: Colors.white))),
+            ),
+            VerticalStatsView(
+                title: _getFavouritesCount(),
+                subtitle: "Favourites",
+                icon: Icons.bookmark),
+            Container(
+              height: 40,
+              decoration: const BoxDecoration(
+                  border: Border(right: BorderSide(color: Colors.white))),
+            ),
+            VerticalStatsView(
+                title: viewModel.place.averageDelivery.isEmpty
+                    ? "25-30'"
+                    : "${viewModel.place.averageDelivery}'",
+                subtitle: "Domicilio",
+                icon: Icons.punch_clock)
+          ],
+        ),
       ),
     );
   }
@@ -94,7 +99,7 @@ class VerticalStatsView extends StatelessWidget {
         ]),
         TextView(
             texto: "${subtitle}",
-            color: gris,
+            color: Colors.white,
             fontWeight: FontWeight.w500,
             fontSize: 15.0)
       ],

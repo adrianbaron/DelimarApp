@@ -17,7 +17,7 @@ class ExploreTabContentView extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 4),
           child: Column(children: [
-            //
+            // Top bar
             const SearchTopBar(),
             //
             NoveltyPlacesContentView(noveltyPlaces: viewModel.noveltyPlaces),

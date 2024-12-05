@@ -67,7 +67,7 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> with BaseView {
                                       widget.viewModel.place.placeRatings);
                             }),
                       ),
-                      const SizedBox(height: 10.0),
+                      const SizedBox(height: 15.0),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: RatingsView(

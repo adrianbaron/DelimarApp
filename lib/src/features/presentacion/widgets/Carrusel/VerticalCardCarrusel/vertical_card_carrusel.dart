@@ -12,7 +12,7 @@ class VerticalCardCarrousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 350.0,
+        height: 330.0,
         child: ListView.builder(
             itemCount: placeList.length,
             scrollDirection: Axis.horizontal,

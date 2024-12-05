@@ -19,7 +19,7 @@ class AppBarView extends StatelessWidget {
       expandedHeight: getScreenHeight(context: context, multiplier: 0.41),
       flexibleSpace: FlexibleSpaceBarContentView(viewModel: viewModel),
       leading: Builder(builder: (BuildContext context) {
-        return const BackButtonView(color: Colors.white);
+        return const BackButtonView(color: Colors.blue);
       }),
       actions: [
         ShareIconView(viewModel: viewModel),

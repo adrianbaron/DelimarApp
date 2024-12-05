@@ -9,6 +9,7 @@ showAlertDialog(BuildContext context, ImageProvider<Object> imagePath,
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
+          
           backgroundColor: Colors.white,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),

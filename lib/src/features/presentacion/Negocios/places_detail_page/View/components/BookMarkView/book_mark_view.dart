@@ -17,7 +17,7 @@ class BookMarkView extends StatelessWidget {
           return IconButton(
               icon: Icon(
                 isUserFavourite ? Icons.bookmark : Icons.bookmark_border,
-                color: isUserFavourite ? rosa : Colors.white,
+                color: isUserFavourite ? rosa : Colors.red,
                 size: 30,
               ),
               onPressed: () {

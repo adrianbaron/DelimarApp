@@ -4,6 +4,7 @@ import 'package:app_delivery/src/features/presentacion/Negocios/places_detail_pa
 import 'package:app_delivery/src/features/presentacion/widgets/Headers/text_view.dart';
 import 'package:app_delivery/src/utils/extensions/screem_size.dart';
 import 'package:app_delivery/src/utils/helpers/CheckoutHelper/check_out_helper.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 
 class ProductUnSelectedRowView extends StatefulWidget {
@@ -26,46 +27,53 @@ class _ProductUnSelectedRowViewState extends State<ProductUnSelectedRowView> {
       onTap: () => _showProductDetailView(),
       child: Column(
         children: [
-          Row(
-              children: [
-                Container(
-                  width: getScreenWidth(context: context, multiplier: 0.75),
-                  margin: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    widget.product.productName,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          AvatarGlow(
+            glowColor: Colors.orange,
+            child: Row(
+                children: [
+                  Container(
+                    width: getScreenWidth(context: context, multiplier: 0.75),
+                    margin: const EdgeInsets.only(top: 10),
+                    child: Text(
+                      widget.product.productName,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
                   ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  child: TextView(
-                      texto: CheckoutHelper.formatPriceInEuros(widget.product.productPrice),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14.0,
-                      color: Colors.black),
-                )
-              ],
-            ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: TextView(
+                        texto: CheckoutHelper.formatPriceInEuros(widget.product.productPrice),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14.0,
+                        color: Colors.black),
+                  )
+                ],
+              ),
+          ),
             Row(
               children: [
                 SizedBox(
                   width: getScreenWidth(context: context, multiplier: 0.79),
                   child: Text(
                     widget.product.productDescription,
+                    
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
-                    style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+                    style: const TextStyle(fontWeight: FontWeight.w500, 
+                    fontSize: 15,color: Colors.orange),
                   ),
                 ),
-                IconButton(
-                    icon: const Icon(
-                      Icons.add_circle,
-                      color:  Colors.orange,
-                      size: 24,
-                    ),
-                    onPressed: () {})
+                /* IconButton(
+                      icon: const Icon(
+                        Icons.add_circle,
+                        color:  Colors.orange,
+                        size: 24,
+                      ),
+                      onPressed: () {}),
+                      */
+                
               ],
             )
         ],
